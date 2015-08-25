@@ -4,8 +4,14 @@
   
 
 <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
 
 
 
@@ -13,7 +19,9 @@
   <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
     <meta name="description" content="bxbxbai Android Notes" />
@@ -28,85 +36,138 @@
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
+<meta name="description" content="bxbxbai Android Notes">
+<meta property="og:type" content="website">
+<meta property="og:title" content="知其所以然">
+<meta property="og:url" content="http://bxbxbai.gitcafe.io/index.html">
+<meta property="og:site_name" content="知其所以然">
+<meta property="og:description" content="bxbxbai Android Notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="知其所以然">
+<meta name="twitter:description" content="bxbxbai Android Notes">
 
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
 
   <title> 知其所以然 </title>
 </head>
 
-<body>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-51089251-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
   <div class="container one-column 
    page-home 
 ">
     <div class="headband"></div>
 
-    <div id="header" class="header">
-      <div class="header-inner">
-        <h1 class="site-meta">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/" class="brand" rel="start">
       <span class="logo">
-        <i class="icon-logo"></i>
+        <i class="icon-next-logo"></i>
       </span>
       <span class="site-title">知其所以然</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
 
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
 
-  <ul id="menu" class="menu">
-     
-    
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
       
-      <li class="menu-item menu-item-home">
-        <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
-          首页
-        </a>
-      </li>
-    
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
       
-      <li class="menu-item menu-item-archives">
-        <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
-          归档
-        </a>
-      </li>
-    
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
       
-      <li class="menu-item menu-item-about">
-        <a href="/about">
-          <i class="menu-item-icon icon-about"></i> <br />
-          关于
-        </a>
-      </li>
-    
-  </ul>
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
 
+      
+      
+    </ul>
+  
 
-      </div>
-    </div>
+  
+</nav>
 
-    <div id="main" class="main">
+ </div>
+    </header>
+
+    <main id="main" class="main">
       <div class="main-inner">
-        <div id="content" class="content">
-          
-  <div id="posts" class="posts-expand">
+        <div id="content" class="content"> 
+  <section id="posts" class="posts-expand">
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/08/16/talk-about-bybird-app/">
+              <a class="post-title-link" href="/2015/08/16/talk-about-bybird-app/" itemprop="url">
                 谈谈App混合开发
               </a>
             
@@ -116,7 +177,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-08-16
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-16T16:07:11+08:00" content="Aug 16 2015">
+            Aug 16 2015
+          </time>
         </span>
 
         
@@ -124,15 +188,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/08/16/talk-about-bybird-app/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/16/talk-about-bybird-app/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/08/16/talk-about-bybird-app/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/16/talk-about-bybird-app/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -144,7 +208,7 @@
           <p>混合开发的App（Hybrid App）就是在一个App中内嵌一个轻量级的浏览器，一部分原生的功能改为Html 5来开发，这部分功能不仅能够在不升级App的情况下动态更新，而且可以在Android或iOS的App上同时运行，让用户的体验更好又可以节省开发的资源。</p>
 <p>下面来谈谈Hybrid App开发中的技术问题。iOS方面的我不太了解，我就主要谈谈Android开发中的，其中可能会有很多说错的，请大家轻喷</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/08/16/talk-about-bybird-app/#more">
+            <a class="btn" href="/2015/08/16/talk-about-bybird-app/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -152,13 +216,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -167,23 +225,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/05/05/a-serializable-test/">
+              <a class="post-title-link" href="/2015/05/05/a-serializable-test/" itemprop="url">
                 关于Android开发中Java对象序列化的一次测试
               </a>
             
@@ -193,7 +251,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-05-05
+          发表于
+          <time itemprop="dateCreated" datetime="2015-05-05T19:29:24+08:00" content="May 5 2015">
+            May 5 2015
+          </time>
         </span>
 
         
@@ -201,15 +262,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/05/05/a-serializable-test/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/05/a-serializable-test/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/05/05/a-serializable-test/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/05/a-serializable-test/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -222,7 +283,7 @@
 <p>对象序列化可以有好多种方法，一般最简单的就是实现<code>Serializable</code>接口，通过<code>ObjectOutputStream</code>写到SD卡中；还有可以将Java对象序列化到数据库中；还可以将Java对象转成一个字符串，把这个字符串写到SD卡中，反序列化时读取这个字符串，并且转成一个Java对象。</p>
 <p>如果只保存一个Java对象，你应该不会把它写到数据库中的，一般会使用另外两种方法，但是那种方法好呢？</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/05/05/a-serializable-test/#more">
+            <a class="btn" href="/2015/05/05/a-serializable-test/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -230,15 +291,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/技术/"> #技术 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -247,23 +300,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/04/07/swipe-playbar/">
+              <a class="post-title-link" href="/2015/04/07/swipe-playbar/" itemprop="url">
                 可以滑动切歌的播放控制条（模仿QQ音乐）
               </a>
             
@@ -273,7 +326,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-04-07
+          发表于
+          <time itemprop="dateCreated" datetime="2015-04-07T19:59:09+08:00" content="Apr 7 2015">
+            Apr 7 2015
+          </time>
         </span>
 
         
@@ -281,15 +337,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/07/swipe-playbar/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/07/swipe-playbar/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/04/07/swipe-playbar/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/07/swipe-playbar/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -303,7 +359,7 @@
 <p>下载地址：<a href="http://vdisk.weibo.com/s/GGofvp4_QVU/1428410542">http://vdisk.weibo.com/s/GGofvp4_QVU/1428410542</a></p>
 <p>底部播放条的歌曲信息可以滑动切换，并且专辑图会转动</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/07/swipe-playbar/#more">
+            <a class="btn" href="/2015/04/07/swipe-playbar/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -311,13 +367,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -326,23 +376,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/03/26/zhuanlan/">
+              <a class="post-title-link" href="/2015/03/26/zhuanlan/" itemprop="url">
                 知乎专栏App
               </a>
             
@@ -352,7 +402,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-03-26
+          发表于
+          <time itemprop="dateCreated" datetime="2015-03-26T19:55:31+08:00" content="Mar 26 2015">
+            Mar 26 2015
+          </time>
         </span>
 
         
@@ -360,15 +413,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/26/zhuanlan/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/26/zhuanlan/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/03/26/zhuanlan/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/26/zhuanlan/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -380,7 +433,7 @@
           <p>最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）</p>
 <p>项目地址：<a href="https://github.com/bxbxbai/ZhuanLan">https://github.com/bxbxbai/ZhuanLan</a></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/26/zhuanlan/#more">
+            <a class="btn" href="/2015/03/26/zhuanlan/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -388,15 +441,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/开源/"> #开源 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -405,23 +450,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/02/08/android-develop-notes-0/">
+              <a class="post-title-link" href="/2015/02/08/android-develop-notes-0/" itemprop="url">
                 Android开发笔记0
               </a>
             
@@ -431,7 +476,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-02-08
+          发表于
+          <time itemprop="dateCreated" datetime="2015-02-08T11:13:56+08:00" content="Feb 8 2015">
+            Feb 8 2015
+          </time>
         </span>
 
         
@@ -439,15 +487,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/02/08/android-develop-notes-0/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/08/android-develop-notes-0/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/02/08/android-develop-notes-0/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/08/android-develop-notes-0/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -458,7 +506,7 @@
         
           <p>记录一些好用的开发技巧</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/02/08/android-develop-notes-0/#more">
+            <a class="btn" href="/2015/02/08/android-develop-notes-0/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -466,17 +514,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/Note/"> #Note </a>
-          
-            <a href="/tags/开发经验/"> #开发经验 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -485,23 +523,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2015/01/13/my-2014/">
+              <a class="post-title-link" href="/2015/01/13/my-2014/" itemprop="url">
                 我的2014
               </a>
             
@@ -511,7 +549,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-01-13
+          发表于
+          <time itemprop="dateCreated" datetime="2015-01-13T20:56:20+08:00" content="Jan 13 2015">
+            Jan 13 2015
+          </time>
         </span>
 
         
@@ -519,15 +560,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/01/13/my-2014/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/13/my-2014/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2015/01/13/my-2014/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/13/my-2014/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -539,7 +580,7 @@
           <p>###<strong>2014，对我来说是非常重要的一年。</strong></p>
 <p>因为这一年我研究生毕业，然后在上海工作了。2014年春节过完我就来公司报道了，话说我也在公司待了将近一年了。学到了很多，总结了很多，并且也收获了很多</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/01/13/my-2014/#more">
+            <a class="btn" href="/2015/01/13/my-2014/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -547,13 +588,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/2014/"> #2014 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -562,23 +597,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2014/12/24/read-volley-source-code/">
+              <a class="post-title-link" href="/2014/12/24/read-volley-source-code/" itemprop="url">
                 Volley源码分析
               </a>
             
@@ -588,7 +623,10 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-12-24
+          发表于
+          <time itemprop="dateCreated" datetime="2014-12-24T15:50:22+08:00" content="Dec 24 2014">
+            Dec 24 2014
+          </time>
         </span>
 
         
@@ -596,15 +634,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/12/24/read-volley-source-code/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/24/read-volley-source-code/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2014/12/24/read-volley-source-code/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/24/read-volley-source-code/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -617,7 +655,7 @@
 <p>前段时间用了一下Volley，发现非常好用，就很好奇Volley是怎么实现的，因为它是Google的人开发的，也好奇大牛们写的代码都是怎么样的？抱着学习的心态来分析一下Volley的源码，也可以为我以后的工作中积累一些好用的解决方案。以后我也会看一下<a href="http://loopj.com/android-async-http/">Android-async-http-client</a>是如何来处理发送http请求这类问题的</p>
 <p>Volley的使用可以看这篇博客：<a href="http://bxbxbai.github.io/2014/09/14/android-working-with-volley/">Volley库的使用介绍</a> ，你可以在这篇博客中找到更多关于Volley的学习资料：<a href="http://bxbxbai.github.io/2014/10/07/android-develop-resource/">Android开发资源</a></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/12/24/read-volley-source-code/#more">
+            <a class="btn" href="/2014/12/24/read-volley-source-code/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -625,13 +663,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Volley-源码分析/"> #Volley 源码分析 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -640,23 +672,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2014/11/19/make-sense-of-layoutinflater/">
+              <a class="post-title-link" href="/2014/11/19/make-sense-of-layoutinflater/" itemprop="url">
                 LayoutInflater.inflate方法解析
               </a>
             
@@ -666,14 +698,21 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-11-19
+          发表于
+          <time itemprop="dateCreated" datetime="2014-11-19T12:58:40+08:00" content="Nov 19 2014">
+            Nov 19 2014
+          </time>
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/技术/">技术</a>
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术/" itemprop="url" rel="index">
+                  <span itemprop="name">技术</span>
+                </a>
+              </span>
 
               
               
@@ -685,15 +724,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/11/19/make-sense-of-layoutinflater/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/19/make-sense-of-layoutinflater/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2014/11/19/make-sense-of-layoutinflater/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/19/make-sense-of-layoutinflater/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -705,7 +744,7 @@
           <p><code>LayoutInflater.inflate</code>方法应该是Android程序员最常使用的方法之一了，但是如果使用不当，你会碰见很多的坑。。。今天我就碰到了一个，我找到了解决方法，也打算把它记下来。。。</p>
 <p>事情是这样的，我有一个<code>LineaLayout</code>，然后在代码中会<code>inflate</code>若干个<code>View</code>添加到这个<code>LineaLayout</code>中，但是坑出现了。。。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/19/make-sense-of-layoutinflater/#more">
+            <a class="btn" href="/2014/11/19/make-sense-of-layoutinflater/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -713,17 +752,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/开发技巧/"> #开发技巧 </a>
-          
-            <a href="/tags/经验/"> #经验 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -732,23 +761,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2014/10/25/use-trace-view/">
+              <a class="post-title-link" href="/2014/10/25/use-trace-view/" itemprop="url">
                 正确使用Android性能分析工具——TraceView
               </a>
             
@@ -758,14 +787,21 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-10-25
+          发表于
+          <time itemprop="dateCreated" datetime="2014-10-25T10:09:36+08:00" content="Oct 25 2014">
+            Oct 25 2014
+          </time>
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/技术/">技术</a>
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术/" itemprop="url" rel="index">
+                  <span itemprop="name">技术</span>
+                </a>
+              </span>
 
               
               
@@ -777,15 +813,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/25/use-trace-view/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/25/use-trace-view/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2014/10/25/use-trace-view/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/25/use-trace-view/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -798,7 +834,7 @@
 <p>网上可以找了很多博客来介绍这个工具的使用方法，很多都是讲解了一些一些就会的方法，讲一个大概，包括StackOverFlow上我也没有找到很好的讲解TraceView各个数据指标代码什么意思的回答</p>
 <p>因为我要解决列表滑动的卡顿问题，就必须要找到导致卡顿现象的原因，我就在StackOverFlow上找着别人零散的回答慢慢琢磨这个工具的使用方法。现在我学会了，至少能看懂每个指标什么意思，<strong>最后发现这个工具实在太强大了！！！</strong></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/25/use-trace-view/#more">
+            <a class="btn" href="/2014/10/25/use-trace-view/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -806,17 +842,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/开发技巧/"> #开发技巧 </a>
-          
-            <a href="/tags/经验/"> #经验 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -825,23 +851,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
       
       
-        <h1 class="post-title">
+        <h1 class="post-title" itemprop="name headline">
           
           
             
-              <a class="post-title-link" href="/2014/10/07/android-develop-resource/">
+              <a class="post-title-link" href="/2014/10/07/android-develop-resource/" itemprop="url">
                 整理一些比较好的Android开发教程
               </a>
             
@@ -851,14 +877,21 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-10-07
+          发表于
+          <time itemprop="dateCreated" datetime="2014-10-07T23:08:32+08:00" content="Oct 7 2014">
+            Oct 7 2014
+          </time>
         </span>
 
         
-          <span class="post-category">
+          <span class="post-category" >
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/技术/">技术</a>
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术/" itemprop="url" rel="index">
+                  <span itemprop="name">技术</span>
+                </a>
+              </span>
 
               
               
@@ -870,15 +903,15 @@
         
           
             <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2014/10/07/android-develop-resource/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/07/android-develop-resource/"></span>
-            </a>
-          </span>
+              &nbsp; | &nbsp;
+              <a href="/2014/10/07/android-develop-resource/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/07/android-develop-resource/" itemprop="commentsCount"></span>
+              </a>
+            </span>
           
         
       </div>
-    </div>
+    </header>
 
     <div class="post-body">
 
@@ -903,7 +936,7 @@
 </li>
 </ol>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/07/android-develop-resource/#more">
+            <a class="btn" href="/2014/10/07/android-develop-resource/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -911,15 +944,7 @@
       
     </div>
 
-    <div class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android/"> #Android </a>
-          
-            <a href="/tags/开发资源/"> #开发资源 </a>
-          
-        </div>
+    <footer class="post-footer">
       
 
       
@@ -928,20 +953,23 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
-  </div>
+  </section>
 
   
-  <div class="pagination">
+  <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&raquo;</a>
-  </div>
+  </nav>
 
+ </div>
 
-        </div>
+        
+
+        
       </div>
 
       
@@ -954,18 +982,18 @@
     </div>
   </div>
 
-  <div id="sidebar" class="sidebar">
+  <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
       
 
-      <div class="site-overview">
-        <div class="site-author motion-element">
-          <img class="site-author-image" src="http://i2.tietuku.com/2a1f0cd8b58ec63d.jpg" alt="bxbxbai" />
-          <p class="site-author-name">bxbxbai</p>
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://i2.tietuku.com/2a1f0cd8b58ec63d.jpg" alt="bxbxbai" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">bxbxbai</p>
         </div>
-        <p class="site-description motion-element">bxbxbai Android Notes</p>
-        <div class="site-state motion-element">
+        <p class="site-description motion-element" itemprop="description">bxbxbai Android Notes</p>
+        <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">18</span>
@@ -987,12 +1015,12 @@
               
           </div>
 
-        </div>
+        </nav>
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
-              <i class="menu-item-icon icon-feed"></i>
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
               RSS
             </a>
           </div>
@@ -1002,49 +1030,52 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/bxbxbai" target="_blank">GitHub</a>
-            </span>
+                <a href="https://github.com/bxbxbai" target="_blank">GitHub</a>
+              </span>
             
               <span class="links-of-author-item">
-              <a href="http://www.zhihu.com/people/bxbxbai" target="_blank">ZhiHu</a>
-            </span>
+                <a href="http://www.zhihu.com/people/bxbxbai" target="_blank">ZhiHu</a>
+              </span>
             
               <span class="links-of-author-item">
-              <a href="https://instagram.com/bxbxbai" target="_blank">Instagram</a>
-            </span>
+                <a href="https://instagram.com/bxbxbai" target="_blank">Instagram</a>
+              </span>
             
           
         </div>
 
         
         
-          <div class="cc-license motion-element">
+          <div class="cc-license motion-element" itemprop="license">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
               <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 
-      </div>
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
 
       
 
     </div>
-  </div>
+  </aside>
 
 
-    </div>
+    </main>
 
-    <div id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp;  2014 - 
-  2015
+  <span itemprop="copyrightYear">2015</span>
   <span class="with-love">
-    <i class="icon-heart"></i>
+    <i class="icon-next-heart"></i>
   </span>
-  <span class="author">bxbxbai</span>
+  <span class="author" itemprop="copyrightHolder">bxbxbai</span>
 </div>
 
 <div class="powered-by">
@@ -1059,9 +1090,8 @@
 </div>
 
 
-
-      </div>
-    </div>
+ </div>
+    </footer>
 
     <div class="back-to-top"></div>
   </div>
@@ -1070,199 +1100,8 @@
 
   
   
-
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.content img').each(function () {
-        var $image = $(this);
-        var $imageWrapLink = $image.parent('a');
-
-        if ($imageWrapLink.size() < 1) {
-          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
-        }
-        $imageWrapLink.addClass('fancybox');
-      });
-    });
-    $('.fancybox').fancybox({
-      helpers: {
-        overlay: {
-          locked: false
-        }
-      }
-    });
-  </script>
-
-
-  <script type="text/javascript">
-  function hasMobileUA () {
-    var nav = window.navigator;
-    var ua = nav.userAgent;
-    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
-
-    return pa.test(ua);
-  }
-
-  function isDesktop () {
-    return screen.width > 991 && !hasMobileUA();
-  }
-
-  function isTablet () {
-    return screen.width < 992 && screen.width > 767 && hasMobileUA();
-  }
-
-  function isMobile () {
-    return screen.width < 767 && hasMobileUA();
-  }
-
-  function escapeSelector (selector) {
-    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
-  }
-</script>
-
-  
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" id="motion.global">
-  $(document).ready(function () {
-    var body = $('body');
-    var isSidebarVisible = false;
-    var sidebarToggle = $('.sidebar-toggle');
-    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
-    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
-    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
-    var sidebar = $('.sidebar');
-
-    var SIDEBAR_WIDTH = '320px';
-    var SIDEBAR_DISPLAY_DURATION = 300;
-
-    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
-
-    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
-    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
-
-    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
-    var sidebarToogleLine2ndStatusClose = {opacity: 0};
-
-    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
-    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
-
-    LogoAndMenuMotion();
-    sidebatToggleMotion();
-    postsListMotion();
-    backToTopMotion();
-
-
-    $(document)
-      .on('sidebar.isShowing', function () {
-        isDesktop() && body.velocity(
-          {paddingRight: SIDEBAR_WIDTH},
-          SIDEBAR_DISPLAY_DURATION
-        );
-        sidebarContentMotion();
-      })
-      .on('sidebar.isHiding', function () {});
-
-    function LogoAndMenuMotion() {
-      $.Velocity.RunSequence([
-        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
-        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
-        
-        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
-        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
-        
-        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
-      ]);
-      $('.menu-item').velocity('transition.slideDownIn', {display: null});
-    }
-
-
-    function backToTopMotion () {
-      var b2top = $('.back-to-top');
-      b2top.on('click', function () {
-        body.velocity('scroll');
-      });
-    }
-
-    function sidebarShowMotion () {
-
-      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
-      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
-      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
-
-      sidebar.velocity({width: SIDEBAR_WIDTH}, {
-        display: 'block',
-        duration: SIDEBAR_DISPLAY_DURATION,
-        complete: function () {
-          sidebar.addClass('sidebar-active');
-          sidebar.trigger('sidebar.didShow');
-        }
-      });
-      sidebar.trigger('sidebar.isShowing');
-    }
-
-    function sidebarHideMotion () {
-      isDesktop() && body.velocity({paddingRight: 0});
-      sidebar.velocity('reverse');
-
-      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
-      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
-      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
-
-      sidebar.removeClass('sidebar-active');
-      sidebar.trigger('sidebar.isHiding');
-    };
-
-    function sidebarContentMotion () {
-      $('.sidebar .motion-element').velocity(
-        'transition.slideRightIn',
-        {stagger: 50, drag: true}
-      );
-    }
-
-    function postsListMotion () {
-      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
-      $('.post').velocity('transition.slideDownIn', postMotionOptions);
-    }
-
-    function sidebatToggleMotion () {
-      sidebarToggle.on('click', function () {
-        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
-        isSidebarVisible = !isSidebarVisible;
-      });
-
-      sidebarToggle.hover(function () {
-        if (isSidebarVisible) {return}
-        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
-        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
-        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
-      }, function () {
-        if (isSidebarVisible) {return}
-        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
-        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
-        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
-      });
-    }
-  });
-
-</script>
-
-
-
-
-
-  
-
-  
-
-  
-  
+    
 
   
     
@@ -1279,19 +1118,60 @@
       || document.getElementsByTagName('body')[0]).appendChild(ds);
     })();
   </script>
+    
+     
+  	<script src="/js/ua-parser.min.js"></script>
+  	<script src="/js/hook-duoshuo.js"></script>
+  
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
   
 
-
-  
   <script type="text/javascript">
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-51089251-1');ga('send','pageview');
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
   </script>
 
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
 </body>
 </html>
