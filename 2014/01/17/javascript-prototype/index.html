@@ -1,0 +1,1107 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="bxbxbai Android Notes" />
+
+
+
+  <meta name="keywords" content="js," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知其所以然" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+
+  <title> JavaScript 原型继承 // 知其所以然 </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">知其所以然</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              JavaScript 原型继承
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-01-16
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/技术/">技术</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/01/17/javascript-prototype/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/17/javascript-prototype/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>原文：<a href="http://javascript.info/tutorial/inheritance" target="_blank" rel="external">JavaSccript Prototype</a></p>
+<pre><code><span class="bullet">1. </span>Inheritance, the <span class="strong">__proto__</span>
+<span class="bullet">2. </span>Object.create, Object.getPrototypeOf
+<span class="bullet">3. </span>The prototype
+<span class="bullet">4. </span>Crossbrowser Object.create(proto)
+<span class="bullet">5. </span>hasOwnProperty
+<span class="bullet">6. </span>Looping with/without inherited properties
+<span class="bullet">7. </span>Summary
+</code></pre><blockquote>
+<p>在JavaScript中，“一切都是对象，函数是第一型”，Function和Object都是函数的实例。其实整个Javascript的核心体系结构都是围绕着这两个构造函数来构建的。</p>
+</blockquote>
+<a id="more"></a>
+<p>大多数编程语言中，都有类和对象，一个类可以继承其他类。<br>在JavaScript中，继承是基于原型的（prototype-based），这意味着JavaScript中没有类，取而代之的是一个对象继承另一个对象。：）</p>
+<p><strong>1. 继承, the <strong>proto</strong></strong></p>
+<p>在JavaScript中，当一个对象rabbit继承另一了对象<code>animal</code>时，这意味着<code>rabbit</code>对象中将会有一个特殊的属性：<code>rabbit.__proto__ = animal;</code></p>
+<p>当访问<code>rabbit</code>对象时，如果解释器在<code>rabbit</code>中不能找到属性，那么它会顺着<code>__proto__</code>链往上在<code>animal</code>对象中寻找<br>栗子中的<code>__proto__</code>属性仅在Chrome和FireFox中可以访问，请看一个栗子：</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+var rabbit = { jumps: true }
+
+rabbit.__proto__ = <span class="keyword">animal</span>  // inherit
+
+alert(rabbit.eats) // true
+</code></pre><p><code>eats</code>属性是从<code>animal</code>对象中访问的。</p>
+<p>如果在rabbit对象中已经发现了属性，那么就不会去检查<strong>proto</strong>属性啦。</p>
+<p>再来一个栗子，当子类中也有<code>eats</code>属性时，父类中的就不会访问了。</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+var fedUpRabbit = { eats: false}
+
+fedUpRabbit.__proto__ = <span class="keyword">animal</span> 
+
+alert(fedUpRabbit.eats) // false
+</code></pre><p>你也可以在<code>animal</code>中添加一个函数，那么在<code>rabbit</code>中也可以访问了。</p>
+<pre><code>var <span class="keyword">animal</span> = {
+  eat: function() {
+    alert( <span class="string">"I'm full"</span> )
+    this.full = true
+  }
+}
+
+
+var rabbit = {
+  jump: function() { /* something */ }
+}
+
+rabbit.__proto__ = <span class="keyword">animal</span> 
+
+rabbit.eat() 
+</code></pre><p><code>rabbit.eat()</code>函数以如下两步执行：</p>
+<ol>
+<li><p>首先，解释器查找<code>rabbit.eat</code>，<code>rabbit</code>中没有<code>eat</code>函数，那么它就顺着<code>rabbit.__proto__</code>往上找，在<code>animal</code>中找到了。</p>
+</li>
+<li><p>函数以<code>this = rabbit</code>运行。<code>this</code>值与<code>__proto__</code>属性完全无关。</p>
+</li>
+</ol>
+<p>因此，<code>this.full = true</code>在<code>rabbit</code>中：</p>
+<p>看看这里我们有什么新发现，一个对象调用了父类函数，但是this还是指向对象本身，这就是继承。</p>
+<p>被<code>__proto__</code>引用的对象称作是原型（<code>prototype</code>），<code>animal</code>是<code>rabbit</code>的原型（译者注：这就是<code>rabbit</code>的<code>__proto__</code>属性引用了<code>animal</code> 的<code>prototype</code>属性）</p>
+<p>读时查找，不是写时<br>当读取一个对象时，比如<code>this.prop</code>，解释器会在它的原型中查找属性。<br>当设置一个属性值时，比如<code>this.prop = value</code>，那么就没有理由去查找了，这个属性（prop）会被直接添加到这个对象中（这里是this）。<code>delete obj.prop</code>也类似，它只删除对象本身的属性，原型中的属性保持原封不动。</p>
+<p>关于<strong>proto</strong><br>如果你在阅读指南，这里我们叫的<code>__proto__</code>，在指南中表示为[[Prototype]]。双方括号是很重要的，因为有另一个属性叫做<code>prototype</code></p>
+<p><strong>2. Object.create, Object.getPrototypeOf</strong></p>
+<p><code>__proto__</code>是一个非标准的属性，由Chrome/FireFox提供访问，在其他的浏览器中保持不可见。</p>
+<p>所有的现代浏览器除了Opera（IE &gt; 9）支持两个标准的函数来处理原型问题：</p>
+<p>Object.ceate(prop[,props])<br>用给定了<strong>proto</strong>创建一个空对象：</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+
+rabbit = Object.create(<span class="keyword">animal</span>)
+
+alert(rabbit.eats) // true
+</code></pre><p>上面代码创建了一个空<code>rabbit</code>对象，并且原型设置为<code>animal</code></p>
+<p><code>rabbit</code>对象创建好以后，我们可以往里添加属性了：</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+
+rabbit = Object.create(<span class="keyword">animal</span>)
+rabbit.jumps = true
+</code></pre><p><code>Object.creat</code>函数的第二个参数<code>props</code>是可选的，它允许像新对象设置属性。这里就省略了，因为我们关系的继承。</p>
+<p><strong>Object.getPrototypeOf(obj)</strong><br>返回<code>obj.__proto__</code>的值。这个函数是标准的，可以在不能直接访问<code>__proto__</code>属性的浏览器中使用了。</p>
+<pre><code>var <span class="keyword">animal</span> = {
+  eats: true
+}
+
+rabbit = Object.create(<span class="keyword">animal</span>)
+
+alert( Object.getPrototypeOf(rabbit) === <span class="keyword">animal</span> ) // true
+</code></pre><p>现代浏览器允许读取<code>__proto__</code>属性值，但是不能设置。</p>
+<p><strong>3. The prototype</strong><br>有一些好的跨浏览器的方式设置<code>__proto__</code>属性，这将会使用构造器函数（constructor functions）。记住！任何函数创建一个对象都是通过<code>new</code>关键字的。</p>
+<p>一个栗子：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
+  <span class="keyword">this</span>.name = name
+}
+
+<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+
+alert(rabbit.name) <span class="comment">// John</span>
+</code></pre><p><code>new</code>操作将原型的属性设置到<code>rabbit</code>对象的的<code>__proto__</code>属性中了。<br>让我们来看看它的原理，例如，<code>new Rabbit</code> 对象，而<code>Rabbit</code>是继承<code>animal</code> 的。</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+
+function Rabbit(name) {
+  this.name = name
+}
+
+Rabbit.prototype = <span class="keyword">animal</span>
+
+var rabbit = new Rabbit('John')
+
+alert( rabbit.eats ) // true, because rabbit.__proto__ == <span class="keyword">animal</span>
+</code></pre><p><code>Rabbit.prototype = animal</code> 字面量意味着：对所有由<code>new Rabbit</code>创建的对象设<code>__proto__ = animal</code> </p>
+<p><strong>4。 跨浏览器 <code>Object.create(proto)</code></strong><br><code>Object.create(prop)</code>函数功能的强大的，因为它允许从给定的对象直接继承。它可以由如下代码模拟：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
+  <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}
+  F.prototype = proto
+  <span class="keyword">return</span> <span class="keyword">new</span> F
+}
+</code></pre><p><code>inherit(animal</code>) 与<code>Object.create(animal)</code>是完全等同的，返回一个空的对象，并且<code>object.__proto__ = animal</code>。</p>
+<p>一个栗子：</p>
+<pre><code>var <span class="keyword">animal</span> = { eats: true }
+
+var rabbit = inherit(<span class="keyword">animal</span>)
+
+alert(rabbit.eats) // true
+alert(rabbit.hasOwnProperty('eats')) // false, from prototype
+</code></pre><p>来看一下它的原理是什么：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">proto</span>) </span>{
+  <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>{}     <span class="comment">// (1)</span>
+  F.prototype = proto <span class="comment">// (2)</span>
+  <span class="keyword">return</span> <span class="keyword">new</span> F()      <span class="comment">// (3)</span>
+}
+
+<span class="number">1.</span> 创建了一个新函数，函数没有向<span class="keyword">this</span>设置任何属性，以此<span class="string">`new F`</span> 会创建一个空对象。
+<span class="number">2.</span> <span class="string">`F.prototype`</span>被设置为proto
+<span class="number">3.</span> <span class="string">`new`</span> F创建了一个空对象，对象的<span class="string">`__proto__ = F.prototype`</span> 
+<span class="number">4.</span> Bingo! 我们得到了一个继承<span class="string">`proto`</span>的空对象
+</code></pre><p> 这个函数广泛适用于各种库和框架之中。</p>
+<p>你的函数接受了一个带有options 的对象</p>
+<pre><code><span class="comment">/* options contains menu settings: width, height etc */</span>
+<span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
+  <span class="comment">// ...</span>
+}
+</code></pre><p>你想设置某些options</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
+  options.width = options.width || <span class="number">300</span> <span class="comment">// set default value</span>
+  <span class="comment">// ...</span>
+}
+</code></pre><p>。。。但是改变参数值可能会产生一些错误的结果，因为options可能会在外部代码中使用。一个解决办法就是克隆options对象，复制所有的属性到一个新的对象中，在新对象中修改，</p>
+<p>怎样用继承来解决这个问题呢？ P.S. options可以添加设设置，但是不能被删除。</p>
+<p>Solution<br>你可以继承options，并且在它的子类的中修改或者添加新的属性。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
+  <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}
+  F.prototype = proto
+  <span class="keyword">return</span> <span class="keyword">new</span> F
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
+  <span class="keyword">var</span> opts = inherit(options)
+  opts.width = opts.width || <span class="number">300</span>
+  <span class="comment">// ...</span>
+}
+</code></pre><p>所有的操作只在子对象中有效，当Menu方法结束时，外部代码仍然可以使用没有修改的过的options对象。<code>delete</code>操作在这里非常重要，如果width是一个prototype中的属性，<code>delete opts.width</code>不会产生任何作用</p>
+<p><strong>5. hasOwnProperty</strong></p>
+<p>所有的对象都有<code>hasOwnProperty</code>函数，它可以用来检测一个属性是否对象自身还是属于原型</p>
+<p>一个栗子：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
+  <span class="keyword">this</span>.name = name
+}
+
+Rabbit.prototype = { eats: <span class="literal">true</span> }
+
+<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+
+alert( rabbit.hasOwnProperty(<span class="string">'eats'</span>) ) <span class="comment">// false, in prototype</span>
+
+alert( rabbit.hasOwnProperty(<span class="string">'name'</span>) ) <span class="comment">// true, in object</span>
+</code></pre><p><strong>6. Looping with/without inherited properties</strong></p>
+<p><code>for..in</code>循环输出一个对象的所有属性，包括自身的和原型的。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
+  <span class="keyword">this</span>.name = name
+}
+
+Rabbit.prototype = { eats: <span class="literal">true</span> }
+
+<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+
+<span class="keyword">for</span>(<span class="keyword">var</span> p <span class="keyword">in</span> rabbit) {
+  alert (p + <span class="string">" = "</span> + rabbit[p]) <span class="comment">// outputs both "name" and "eats"</span>
+}
+</code></pre><p>用<code>hasOwnProperty</code>可以过滤得到属于对象自己的属性：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
+  <span class="keyword">this</span>.name = name
+}
+
+Rabbit.prototype = { eats: <span class="literal">true</span> }
+
+<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+
+<span class="keyword">for</span>(<span class="keyword">var</span> p <span class="keyword">in</span> rabbit) {
+  <span class="keyword">if</span> (!rabbit.hasOwnProperty(p)) <span class="keyword">continue</span> <span class="comment">// filter out "eats"</span>
+  alert (p + <span class="string">" = "</span> + rabbit[p]) <span class="comment">// outputs only "name"</span>
+}
+</code></pre><p><strong>7. Summary</strong></p>
+<p><strong>JavaScript是通过一个特殊的属性<strong>proto</strong>来实现继承的</strong></p>
+<ul>
+<li>当访问一个对象的属性时，如果解释器不能在对象中找到，它就会去对象的原型中继续寻找 对函数属性来说，<code>this</code>指向这个对象，而不是它的原型。<br>赋值<code>obj.prop = value</code>， 删除<code>delete obj.prop</code></li>
+</ul>
+<p><strong>管理<strong>proto</strong>:</strong></p>
+<ul>
+<li>Chrome和FireFox可以直接访问对象的<code>__proto__</code>属性，大多数现代浏览器支持用<code>Object.getPrototypeOf(obj)</code>只读访问。<br><code>Object.create(proto)</code> 可以用给定的<code>proto</code>生成空的子对象，或者通过如下代码达到相同的功能：</li>
+</ul>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
+     <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}     
+     F.prototype = proto
+     <span class="keyword">return</span> <span class="keyword">new</span> F()    
+   }
+</code></pre><p><strong>其他方法：</strong></p>
+<ul>
+<li>for..in循环输出一个对象的所有属性（包括自身的和原型的）和对象的原型链。<br>如果一个属性prop属于对象<code>ob</code>j那么<code>obj.hasOwnProperty(prop)</code>返回true，否则返回false。</li>
+</ul>
+<p>参考：<br><a href="http://www.benben.cc/blog/?p=320" target="_blank" rel="external">http://www.benben.cc/blog/?p=320</a><br><a href="http://www.douban.com/note/184109636/" target="_blank" rel="external">http://www.douban.com/note/184109636/</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/"> #js </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/05/22/android-wifi-connection/">Android应用程序创建热点以及自动链接Wifi，我遇到的问题以及我是怎么解决的</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014/01/17/javascript-prototype/"
+               data-title="JavaScript 原型继承" data-url="http://bxbxbai.gitcafe.io/2014/01/17/javascript-prototype/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://i2.tietuku.com/2a1f0cd8b58ec63d.jpg" alt="bxbxbai" />
+          <p class="site-author-name">bxbxbai</p>
+        </div>
+        <p class="site-description motion-element">bxbxbai Android Notes</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              
+          </div>
+
+        </div>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/bxbxbai" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/bxbxbai" target="_blank">ZhiHu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://instagram.com/bxbxbai" target="_blank">Instagram</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2014 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">bxbxbai</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bxbxbai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  <script type="text/javascript">
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-51089251-1');ga('send','pageview');
+  </script>
+
+</body>
+</html>

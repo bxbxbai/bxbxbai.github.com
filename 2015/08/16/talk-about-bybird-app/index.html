@@ -1,0 +1,1296 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="bxbxbai Android Notes" />
+
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知其所以然" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+
+  <title> 谈谈App混合开发 // 知其所以然 </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">知其所以然</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              谈谈App混合开发
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-08-16
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/08/16/talk-about-bybird-app/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/16/talk-about-bybird-app/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>混合开发的App（Hybrid App）就是在一个App中内嵌一个轻量级的浏览器，一部分原生的功能改为Html 5来开发，这部分功能不仅能够在不升级App的情况下动态更新，而且可以在Android或iOS的App上同时运行，让用户的体验更好又可以节省开发的资源。</p>
+<p>下面来谈谈Hybrid App开发中的技术问题。iOS方面的我不太了解，我就主要谈谈Android开发中的，其中可能会有很多说错的，请大家轻喷</p>
+<a id="more"></a>
+<h1 id="Hybrid开发中关键问题是什么">Hybrid开发中关键问题是什么</h1><p>想要在一个App中显示一个Html 5网页的功能，其实很简单，只要一个WebView就可以了。你可以点击链接来跳转网页。像这样的功能就能叫做Hybrid 开发了嘛？显然不是的。</p>
+<p><strong>我觉得一个Hybrid开发的App中必须要要有的功能就是Html 5页面和Native App怎么进行交互</strong>。比如，我点了一个Html 5页面上的一个按钮或链接，我能不能够跳转到Native App的某个页面；比如我点了Html 5页面上的分享按钮，我能不能调用Native App的分享功能；比如Html加载的时候能不能获取Native App的用户信息等等。</p>
+<p>看下图，在网易云音乐中进入这个Html 5页面时，你点击<strong>作者：空虚小编</strong>你会进入他的主页，这个主页是Native页面，而你点击上面那个播放按钮时，云音乐会启动Native的播放界面播放音乐，你点击评论时，你会进入Native的评论页</p>
+<p><img src="http://i1.tietuku.com/5575cfa4108a1f0e.png" alt="此处输入图片的描述"></p>
+<h1 id="Html_5和Native的交互">Html 5和Native的交互</h1><p><code>WebView</code>本来就支持js和Java相互调用，你只需要开启<code>WebView</code>的JavaScript脚本执行，然后通过代码<code>mWebView.addJavascriptInterface(new JsBridge(), &quot;bxbxbai&quot;);</code>向Html 5页面时注入一个Java对象，然后就可以在Html 5页面中调用Native的功能了</p>
+<h2 id="微信怎么做的">微信怎么做的</h2><p>微信应该是Hybrid 开发做的最好的App之一，它是怎么做交互的呢？</p>
+<p>答案就是<code>微信JS-SDK</code>，去微信开发者文档中可以看到，微信JS-SDK封装了各种微信的功能，比如分享到朋友圈，图像接口，音频接口，支付接口地理位置接口等等。开发者只需要调用微信JS-SDK中的函数，然后统一由JS-SDK来调用微信中的功能，这样好处就是我写了一个Html 5的应用或网页，在Android和iOS的微信中都可以正常运行了</p>
+<p>下面会详细讲到</p>
+<h2 id="网易云音乐怎么做的">网易云音乐怎么做的</h2><p>那么网易云音乐是怎么做的呢？我用黑科技知道了上图云音乐的界面Activity是<code>CommonSubjectActivity</code>（名字好奇怪，如果要我从代码里找，我肯定找不到，因为还有一个类叫做<code>EmbedBrowserActivity</code>），我就在反编译后的云音乐代码中找相应的功能实现代码，实在没找到。不过我拿到了那个Html 5页面的地址：<a href="http://music.163.com/m/topic/194001" target="_blank" rel="external">http://music.163.com/m/topic/194001</a></p>
+<p>用Chrome打开后发现和App中显示的不一样，然后我用Charles截了进入那个Html 5的请求，发现云音乐加载的地址是<a href="http://music.163.com/m/topic/194001?type=android" target="_blank" rel="external">http://music.163.com/m/topic/194001?type=android</a> ，就是加了手机系统类型</p>
+<p>然后在我自己的App中加载这个Html 5页面就可以看到下图，<strong>@小比比说</strong>这样的文字是可以点击跳转到个人，点击播放按钮是可以播放音乐的</p>
+<p><img src="http://i3.tietuku.com/b00f74ef47f9ee0d.png" alt="此处输入图片的描述"></p>
+<p>从Html源代码中可以看到如下信息：</p>
+<p><img src="http://i3.tietuku.com/0197b3a47d0c2f1a.png" alt="此处输入图片的描述"></p>
+<p>也就是说，当我点击一个用户名的时候就请求跳转到<code>orpheus://user/30868859</code>，因为WebView可以拦截跳转的url，所以App在拦截每一个url，如果host是<code>orpheus</code>的话就启动用户首页</p>
+<p>反编译代码后，在云音乐的代码中找到了<code>this.mWebView.setWebViewClient(new cf(this));</code>这么一句代码，进入<code>cf</code>类，发现下面代码：</p>
+<pre><code>public boolean shouldOverrideUrlLoading<span class="params">(WebView webView, String url)</span> {
+    <span class="keyword">if</span> <span class="params">(url.startsWith<span class="params">(<span class="string">"orpheus://"</span>)</span>)</span> {
+        RedirectActivity.a<span class="params">(this.activity, url)</span>;
+        return <span class="literal">true</span>;
+    }
+    <span class="keyword">if</span> <span class="params">(<span class="params">(url.toLowerCase<span class="params">()</span>.startsWith<span class="params">(<span class="string">"http://"</span>)</span>)</span> || <span class="params">(url.toLowerCase<span class="params">()</span>.startsWith<span class="params">(<span class="string">"https://"</span>)</span>)</span>)</span> {
+        return <span class="literal">false</span>;
+    }
+    try {
+        this.activity.startActivity<span class="params">(new Intent<span class="params">(<span class="string">"android.intent.action.VIEW"</span>, Uri.parse<span class="params">(url)</span>)</span>)</span>;
+        return <span class="literal">true</span>;
+    } catch <span class="params">(ActivityNotFoundException localActivityNotFoundException)</span> {
+        localActivityNotFoundException.printStackTrace<span class="params">()</span>;
+    }
+    return <span class="literal">true</span>;
+}
+</code></pre><p>果然如此，再进入<code>RedirectActivity</code>，这是一个没有任何界面的Activity，专门用于处理页面跳转信息，它会调用一个方法<code>NeteaseMusicUtils.redirect(this, getIntent().getData().toString(), false)</code>来处理url，<code>redirect</code>方法的名字是我自己写的，部分代码如下：</p>
+<p><img src="http://i3.tietuku.com/99edcdc0195316cf.png" alt="此处输入图片的描述"></p>
+<p>可以看到<code>orpheus://user/30868859</code>中的用户id被传入了<code>ProfileAcvitiy</code>，因此启动了用户首页显示了用户信息</p>
+<p>然后我自己写了代码拦截Html 5的跳转，打印出的Log如下：</p>
+<p><img src="http://i3.tietuku.com/68f3abf5eb92745c.png" alt="此处输入图片的描述"></p>
+<p>可以看到Html 5页面可以跳转到各种页面，比如用户首页、播放音乐、MV界面、评论页、电台节目等等</p>
+<h2 id="总结">总结</h2><p>一般来讲，也是我目前知道的两种主流的方式就是</p>
+<ol>
+<li>js调用Native中的代码</li>
+<li>Schema：WebView拦截页面跳转</li>
+</ol>
+<p>第2种方式实现起来很简单，但是一个致命的问题就是这种交互方式是单向的，Html 5无法实现回调。像云音乐App中这种点击跳转到具体页面的功能，Schema的方式确实可以简单实现，而且也非常适合。如果需求变得复杂，假如Html 5需要获取Native App中的用户信息，那么最好使用js调用的方式。</p>
+<h1 id="js和Native进行交互">js和Native进行交互</h1><p>上面讲到WebViewbe本身就是支持js调用Native代码的，不过WebView的这个功能在Android 4.2（API 17）一下存在高危的漏洞。这个漏洞的原理就是Android系统通过<code>WebView.addJavascriptInterface(Object o, String interface)</code>方法注册可供js调用的Java对象，但是系统并没有对注册的Java对象方法调用做限制。导致攻击者可以利用反射调用未注册的其他任何Java对象，攻击者可以根据客户端的能力做任何事情。<a href="http://jaq.alibaba.com/blog.htm?id=48" target="_blank" rel="external">这篇文章</a>详细的介绍了这个漏洞</p>
+<p>出于安全考虑，Android 4.2以后的系统规定允许被js调用的Java方法必须以<code>@JavascriptInterface</code>进行注解</p>
+<h2 id="Cordova的解决方案">Cordova的解决方案</h2><p>Cordova是一个广泛使用的Hybrid开发框架，它提供了一套js和Native交互规范</p>
+<p>在Cordova的<code>SystemWebViewEngine</code>类中可以看到</p>
+<pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">exposeJsInterface</span><span class="params">(WebView webView, CordovaBridge bridge)</span> </span>{
+    <span class="keyword">if</span> ((Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+        Log.i(TAG, <span class="string">"Disabled addJavascriptInterface() bridge since Android version is old."</span>);
+        <span class="comment">// Bug being that Java Strings do not get converted to JS strings automatically.</span>
+        <span class="comment">// This isn't hard to work-around on the JS side, but it's easier to just</span>
+        <span class="comment">// use the prompt bridge instead.</span>
+        <span class="keyword">return</span>;
+    }
+    webView.addJavascriptInterface(<span class="keyword">new</span> SystemExposedJsApi(bridge), <span class="string">"_cordovaNative"</span>);
+}
+</code></pre><p>因此当Android系统高于4.2时，Cordova还是使用<code>addJavascriptInterface</code>这种方式，因为这个方法在高版本上安全而且简单，低于4.2的时候，用什么方法呢？</p>
+<p><strong>答案是<code>WebChromeClient.onJsPrompt</code>方法</strong></p>
+<p>WebView可以设置一个<code>WebChromeClient</code>对象，它可以处理js的3个方法</p>
+<ul>
+<li><code>onJsAlert</code></li>
+<li><code>onJsConfirm</code></li>
+<li><code>onJsPrompt</code></li>
+</ul>
+<p>这3个方法分别对应js的<code>alert</code>、<code>confirm</code>、<code>prompt</code>方法，因为只有<code>prompt</code>接收返回值，所以js调用一个Native方法后可以等待Native返回一个参数。下面是<code>cordova.js</code>中的一段代码：</p>
+<pre><code><span class="comment">/**
+* Implements the API of ExposedJsApi.java, but uses prompt() to communicate.
+* This is used pre-JellyBean, where addJavascriptInterface() is disabled.
+*/</span>
+<span class="built_in">module</span>.exports = {
+    exec: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, service, action, callbackId, argsJson</span>) </span>{
+        <span class="keyword">return</span> prompt(argsJson, <span class="string">'gap:'</span>+<span class="built_in">JSON</span>.stringify([bridgeSecret, service, action, callbackId]));
+    },
+    setNativeToJsBridgeMode: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, value</span>) </span>{
+        prompt(value, <span class="string">'gap_bridge_mode:'</span> + bridgeSecret);
+    },
+    retrieveJsMessages: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, fromOnlineEvent</span>) </span>{
+        <span class="keyword">return</span> prompt(+fromOnlineEvent, <span class="string">'gap_poll:'</span> + bridgeSecret);
+    }
+};
+</code></pre><p>然后只要在<code>onJsPrompt</code>方法中使用<code>CordovaBridge</code>来处理js的prompt调用</p>
+<pre><code>/**
+ * <span class="type">Tell</span> the client to display a prompt dialog to the user. <span class="type">If</span> the client returns <span class="literal">true</span>, <span class="type">WebView</span> will assume that the client will handle the prompt dialog <span class="keyword">and</span> call the appropriate <span class="type">JsPromptResult</span> <span class="keyword">method</span>.
+ * &lt;p/&gt;
+ * <span class="type">Since</span> we are hacking prompts <span class="keyword">for</span> our own purposes, we should <span class="keyword">not</span> be <span class="keyword">using</span> them <span class="keyword">for</span> this purpose, perhaps we should hack console.log to <span class="keyword">do</span> this instead!
+ */
+@<span class="type">Override</span>
+public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="type">String</span> origin, <span class="type">String</span> message, <span class="type">String</span> defaultValue, final <span class="type">JsPromptResult</span> <span class="literal">result</span>) {
+    // <span class="type">Unlike</span> the @<span class="type">JavascriptInterface</span> bridge, this <span class="keyword">method</span> <span class="keyword">is</span> always called on the <span class="type">UI</span> thread.
+    <span class="type">String</span> handledRet = parentEngine.bridge.promptOnJsPrompt(origin, message, defaultValue);
+    <span class="keyword">if</span> (handledRet != null) {
+        <span class="literal">result</span>.confirm(handledRet);
+    } <span class="keyword">else</span> {
+        dialogsHelper.showPrompt(message, defaultValue, new <span class="type">CordovaDialogsHelper</span>.<span class="type">Result</span>() {
+            @<span class="type">Override</span>
+            public <span class="type">void</span> gotResult(boolean success, <span class="type">String</span> value) {
+                <span class="keyword">if</span> (success) {
+                    <span class="literal">result</span>.confirm(value);
+                } <span class="keyword">else</span> {
+                    <span class="literal">result</span>.cancel();
+                }
+            }
+        });
+    }
+    <span class="keyword">return</span> <span class="literal">true</span>;
+}
+</code></pre><h2 id="一种开源的解决方案">一种开源的解决方案</h2><p>Cordova是Apache的一个开源解决方案，不过它需要xml配置<code>CordovaPlugin</code>信息，使用会比较麻烦，而且这个框架很重，具体请自行搜索Cordova使用教程</p>
+<p>下面这个开源项目是我个人觉得比较合理的解决方案，也比较轻量级，下图就是一个Demo</p>
+<p><a href="https://github.com/pedant/safe-java-js-webview-bridge" target="_blank" rel="external">https://github.com/pedant/safe-java-js-webview-bridge</a></p>
+<p><img src="http://i3.tietuku.com/14cc4af678f56eaf.png" alt="此处输入图片的描述"></p>
+<p>这个项目的原理就是使用<code>WebChromeClient.onJsPrompt</code>方法来进行交互，本质上都是js调用<code>prompt</code>函数，传输一些参数，<code>onJsPrompt</code>方法拦截到prompt动作，然后解析数据，最后调用相应的Native方法</p>
+<p><strong>HostJsScope</strong>类中定义了所有可以被js调用的方法，这些方法都必须是静态方法，并且所有的方法第一个参数必须是WebView</p>
+<pre><code><span class="comment">/**
+* HostJsScope中需要被JS调用的函数，必须定义成public static，且必须包含WebView这个参数
+*/</span>
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HostJsScope</span> </span>{
+    <span class="comment">/**
+    * 短暂气泡提醒
+    * <span class="doctag">@param</span> webView 浏览器
+    * <span class="doctag">@param</span> message 提示信息
+    * */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">toast</span><span class="params">(WebView webView, String message)</span> </span>{
+        Toast.makeText(webView.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    <span class="comment">/**
+    * 系统弹出提示框
+    * <span class="doctag">@param</span> webView 浏览器
+    * <span class="doctag">@param</span> message 提示信息
+    * */</span>
+    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">alert</span><span class="params">(WebView webView, String message)</span> </span>{
+        <span class="comment">// 构建一个Builder来显示网页中的alert对话框</span>
+        AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(webView.getContext());
+        builder.setPositiveButton(android.R.string.ok, <span class="keyword">new</span> AlertDialog.OnClickListener() {
+            <span class="annotation">@Override</span>
+            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>{
+                dialog.dismiss();
+            }
+        });
+        builder.setTitle(<span class="string">"Hello world"</span>)
+            .setMessage(message)
+            .setCancelable(<span class="keyword">false</span>)
+            .create()
+            .show();
+    }
+
+    <span class="comment">// 其他代码</span>
+
+}
+</code></pre><p>上面代码列举了最基本的点击Html 5按钮弹出对话框的功能</p>
+<p>这个库中一个最关键的叫做<code>JsCallJava</code>，这个实现的就是js来调用Java方法的功能，这个类只用于<code>InjectedWebChromeClient</code>类</p>
+<pre><code>public class <span class="type">InjectedChromeClient</span> extends <span class="type">WebChromeClient</span> {
+
+    private <span class="type">JsCallJava</span> mJsCallJava;
+    private boolean mIsInjectedJS;
+
+    public <span class="type">InjectedChromeClient</span>(<span class="type">String</span> injectedName, <span class="type">Class</span> injectedCls) {
+        this(new <span class="type">JsCallJava</span>(injectedName, injectedCls));
+    }
+
+    public <span class="type">InjectedChromeClient</span>(<span class="type">JsCallJava</span> jsCallJava) {
+        mJsCallJava = jsCallJava;
+    }
+
+    // 处理<span class="type">Alert</span>事件
+    @<span class="type">Override</span>
+    public boolean onJsAlert(<span class="type">WebView</span> view, <span class="type">String</span> url, <span class="type">String</span> message, final <span class="type">JsResult</span> <span class="literal">result</span>) {
+        <span class="literal">result</span>.confirm();
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+
+    @<span class="type">Override</span>
+    public <span class="type">void</span> onProgressChanged(<span class="type">WebView</span> view, <span class="type">int</span> newProgress) {
+        //为什么要在这里注入<span class="type">JS</span>
+        //<span class="number">1</span> <span class="type">OnPageStarted</span>中注入有可能全局注入不成功，导致页面脚本上所有接口任何时候都不可用
+        //<span class="number">2</span> <span class="type">OnPageFinished</span>中注入，虽然最后都会全局注入成功，但是完成时间有可能太晚，当页面在初始化调用接口函数时会等待时间过长
+        //<span class="number">3</span> 在进度变化时注入，刚好可以在上面两个问题中得到一个折中处理
+        //为什么是进度大于<span class="number">25</span>%才进行注入，因为从测试看来只有进度大于这个数字页面才真正得到框架刷新加载，保证<span class="number">100</span>%注入成功
+        <span class="keyword">if</span> (newProgress &lt;= <span class="number">25</span>) {
+            mIsInjectedJS = <span class="literal">false</span>;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (!mIsInjectedJS) {
+            view.loadUrl(mJsCallJava.getPreloadInterfaceJS());
+            mIsInjectedJS = <span class="literal">true</span>;
+            <span class="type">StopWatch</span>.log(<span class="string">" inject js interface completely on progress "</span> + newProgress);
+        }
+        super.onProgressChanged(view, newProgress);
+    }
+
+    @<span class="type">Override</span>
+    public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="type">String</span> url, <span class="type">String</span> message, <span class="type">String</span> defaultValue, <span class="type">JsPromptResult</span> <span class="literal">result</span>) {
+        <span class="literal">result</span>.confirm(mJsCallJava.call(view, message));
+        <span class="type">StopWatch</span>.log(<span class="string">"onJsPrompt: "</span> + view.toString() +<span class="string">", "</span> + url +<span class="string">", "</span> + message +<span class="string">", "</span> + defaultValue + <span class="string">", "</span> + <span class="literal">result</span>) ;
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+}   
+</code></pre><p>这个<code>InjectedWebChromeClient</code>是设给WebView的，这里一个非常重要的细节需要注意一下，在<code>onProgressChange</code>方法中，向WebView注入了一段js代码，这段js代码如下：</p>
+<pre><code>javascript: (function(b) {
+    console.<span class="literal">log</span>(<span class="string">"HostApp initialization begin"</span>);
+    <span class="keyword">var</span> a = {
+        queue: [],
+        callback: function() {
+            <span class="keyword">var</span> <span class="keyword">d</span> = Array.prototype.slice.call(arguments, 0);
+            <span class="keyword">var</span> c = <span class="keyword">d</span>.shift();
+            <span class="keyword">var</span> <span class="keyword">e</span> = <span class="keyword">d</span>.shift();
+            this.queue[c].apply(this, <span class="keyword">d</span>);
+            <span class="keyword">if</span> (!<span class="keyword">e</span>) {
+                delete this.queue[c]
+            }
+        }
+    };
+    a.alert = a.alert = a.alert = a.delayJsCallBack = a.getIMSI = a.getOsSdk = a.goBack = a.overloadMethod = a.overloadMethod 
+        = a.passJson2Java = a.passLongType = a.retBackPassJson = a.retJavaObject = a.testLossTime = a.toast = a.toast = function() {
+        <span class="keyword">var</span> f = Array.prototype.slice.call(arguments, 0);
+        <span class="keyword">if</span> (f.length &lt; 1) {
+            throw <span class="string">"HostApp call error, message:miss method name"</span>
+        }
+        <span class="keyword">var</span> <span class="keyword">e</span> = [];
+        <span class="keyword">for</span> (<span class="keyword">var</span> <span class="keyword">h</span> = 1; <span class="keyword">h</span> &lt; f.length; <span class="keyword">h</span>++) {
+            <span class="keyword">var</span> c = f[<span class="keyword">h</span>];
+            <span class="keyword">var</span> j = <span class="keyword">typeof</span> c;
+            <span class="keyword">e</span>[<span class="keyword">e</span>.length] = j;
+            <span class="keyword">if</span> (j == <span class="string">"function"</span>) {
+                <span class="keyword">var</span> <span class="keyword">d</span> = a.queue.length;
+                a.queue[<span class="keyword">d</span>] = c;
+                f[<span class="keyword">h</span>] = <span class="literal">d</span>
+            }
+        }
+        <span class="keyword">var</span> <span class="keyword">g</span> = JSON.<span class="keyword">parse</span>(prompt(JSON.stringify({
+            method: f.shift(),
+            types: <span class="keyword">e</span>,
+            <span class="keyword">args</span>: <span class="literal">f</span>
+        })));
+        <span class="keyword">if</span> (<span class="keyword">g</span>.code != 200) {
+            throw <span class="string">"HostApp call error, code:"</span> + <span class="keyword">g</span>.code + <span class="string">", message:"</span> + <span class="keyword">g</span>.result
+        }
+        <span class="keyword">return</span> <span class="keyword">g</span>.result
+    };
+    <span class="comment">//有时候，我们希望在该方法执行前插入一些其他的行为用来检查当前状态或是监测</span>
+    <span class="comment">//代码行为，这就要用到拦截（Interception）或者叫注入（Injection）技术了</span>
+    <span class="comment">/**
+     * Object.getOwnPropertyName 返回一个数组，内容是指定对象的所有属性
+     *
+     * 其后遍历这个数组，分别做以下处理：
+     * 1. 备份原始属性；
+     * 2. 检查属性是否为 function（即方法）；
+     * 3. 若是重新定义该方法，做你需要做的事情，之后 apply 原来的方法体。
+     */</span>
+    Object.getOwnPropertyNames(a).<span class="keyword">forEach</span>(function(<span class="keyword">d</span>) {
+        <span class="keyword">var</span> c = a[<span class="keyword">d</span>];
+        <span class="keyword">if</span> (<span class="keyword">typeof</span> c === <span class="string">"function"</span> &amp;&amp; <span class="keyword">d</span> !== <span class="string">"callback"</span>) {
+            a[<span class="keyword">d</span>] = function() {
+                <span class="keyword">return</span> c.apply(a, [<span class="keyword">d</span>].concat(Array.prototype.slice.call(arguments, 0)))
+            }
+        }
+    });
+    b.HostApp = a;
+    console.<span class="literal">log</span>(<span class="string">"HostApp initialization end"</span>)
+})(<span class="keyword">window</span>);
+</code></pre><p>那么这段js代码是如何生成的呢？答案就在<code>JsCallJava</code>类的构造函数方法中，这个构造方法做的事情就是解析<code>HostJsScope</code>类中的方法，把每一个方法的签名都保持到<code>private Map&lt;String, Method&gt; mMethodsMap</code>中，再看上面那段js代码中</p>
+<blockquote>
+<p>a.alert = a.alert = a.alert = a.delayJsCallBack = a.getIMSI = a.getOsSdk = a.goBack = a.overloadMethod = a.overloadMethod<br>            = a.passJson2Java = a.passLongType = a.retBackPassJson = a.retJavaObject = a.testLossTime = a.toast = a.toast = function()</p>
+</blockquote>
+<p>这些都是<code>HostJsScope</code>类中定义的方法名</p>
+<p>那么这个库的整个执行流程是这样的：</p>
+<ol>
+<li><code>JsCallJava</code>类解析了<code>HostJsScope</code>类中所有的静态方法，将它们放到一个Map中，并且生成一段js代码</li>
+<li>向WebView设置<code>InjectedChromeClient</code>，在<code>onProgressChanged</code>方法中将那段js代码注入到Html5页面中，这个过程通俗点讲就是，<strong>Native告诉Html 5页面，我开放了什么功能给你，你就来调用我</strong></li>
+<li>这样js就可以调用Native提供的这些方法，那段js代码还会将js执行的方法转换成一段json字符串，通过js的prompt方法传到<code>onJsPrompt</code>方法中，<code>JsCallJava</code>调用<code>call(WebView view, String msg)</code>解析json字符串，包括要执行的<strong>方法名字</strong>，<strong>参数类型</strong>和<strong>方法参数</strong>，其中还会验证json中的方法参数类型和<code>HostJsScope</code>中同名方法参数类型是否一致等等。</li>
+<li>最后，如果方法正确执行，<code>call</code>方法就返回一个json字符串code=200，否则就传code=500，这个信息会通过<code>prompt</code>方法的返回值传给js，这样Html 5 代码就能知道有没有正确执行了</li>
+</ol>
+<p>以上就是这个开源库的整个原理，我个人觉得非常适合用于Hybrid开发，这个解决方案中js可以收到Native的返回值，而且没有使用<code>addJavascriptInterface</code>方法，在低版本手机上也不会有安全问题，这个方法比Cordova的实现和配置简单</p>
+<p>那么当我点击Html 5页面上的一个按钮，比如弹出对话框，这个过程的整体流程是怎么样的呢</p>
+<h2 id="微信的解决方案？">微信的解决方案？</h2><p>什么？你问我微信是怎么解决的？我也反编译了微信的代码，想研究一下他们是解决的，其实我非常好奇微信的这种js 调用Native，并且又返回的调用方法</p>
+<p>首先，我去微信的js sdk官网看了一下js sdk提供的功能，提供了各种强大的功能，各位可以自己去看一下。那么问题来了，微信是怎么做到js 调用Native并且能够成功返回的呢？</p>
+<p>带着疑问我反编译了微信Android客户端，在assers/jsapi中看到了<code>wxjs.js</code>文件，我想这个就是微信js sdk的源码了吧。。。</p>
+<p>我首先说一下，我不太懂js的代码， 我只能连蒙带猜的看微信的js代码，<code>如果有js大神对这方面也感兴趣，希望可以一起(jian)探(fei)讨(zao)</code></p>
+<p>在<code>wxjs.js</code>中看到了一下代码，我猜微信就是用这个<code>__WeixinJSBridge</code>当时js和Native进行通信的数据结构吧？</p>
+<pre><code>var __WeixinJSBridge = {
+    // public
+    invoke:_call,
+    call:_call,
+    on:_onfor3rd,
+    env:_env,
+    <span class="built_in">log</span>:_<span class="built_in">log</span>,
+    // private
+    // _<span class="built_in">test</span>_start:_<span class="built_in">test</span>_start,
+    _fetchQueue: _fetchQueue,
+    _handleMessageFromWeixin: _handleMessageFromWeixin,
+    _hasInit: <span class="literal">false</span>,
+    _<span class="built_in">continue</span>SetResult: _<span class="built_in">continue</span>SetResult
+};
+</code></pre><p>然后我又看到了下面的代码，我想应该是提供分享内容到朋友圈功能的吧</p>
+<pre><code>// share timeline
+_on<span class="list">(<span class="quoted">'menu</span><span class="keyword">:share</span><span class="keyword">:timeline</span>',function<span class="list">(<span class="keyword">argv</span>)</span>{
+  _log<span class="list">(<span class="quoted">'share</span> timeline')</span><span class="comment">;</span>
+
+  var data<span class="comment">;</span>
+  if <span class="list">(<span class="keyword">typeof</span> argv.title === <span class="quoted">'string</span>')</span> {
+    data = argv<span class="comment">;</span>
+    _call<span class="list">(<span class="quoted">'shareTimeline</span>',data)</span><span class="comment">;</span>
+  }else{
+    data = {
+        // <span class="string">"img_url"</span>: <span class="string">""</span>,
+        // <span class="string">"img_width"</span>: <span class="string">""</span>,
+        // <span class="string">"img_height"</span>: <span class="string">""</span>,
+        <span class="string">"link"</span>: document.documentURI || _session_data.init_url,
+        <span class="string">"desc"</span>: document.documentURI || _session_data.init_url,
+        <span class="string">"title"</span>: document.title
+    }<span class="comment">;</span>
+
+    var shareFunc = function<span class="list">(<span class="keyword">_img</span>)</span>{          
+      if <span class="list">(<span class="keyword">_img</span>)</span> {
+          data[<span class="quoted">'img_url</span>'] = _img.src<span class="comment">;</span>
+          data[<span class="quoted">'img_width</span>'] = _img.width<span class="comment">;</span>
+          data[<span class="quoted">'img_height</span>'] = _img.height<span class="comment">;                        </span>
+      }
+
+      _call<span class="list">(<span class="quoted">'shareTimeline</span>',data)</span><span class="comment">;</span>
+    }<span class="comment">;</span>
+
+    getSharePreviewImage<span class="list">(<span class="keyword">shareFunc</span>)</span><span class="comment">;</span>
+  }
+})</span><span class="comment">;</span>
+</code></pre><p>请注意最后这句：<code>_call(&#39;shareTimeline&#39;,data);</code>，在看看<code>__WeixinJSBridge</code>中的<code>call</code>属性，接着我找到了<code>_call</code>方法。</p>
+<pre><code>function _call(func,<span class="keyword">params</span>,callback) {
+    <span class="keyword">var</span> curFuncIdentifier = __WeixinJSBridge.call;
+    <span class="keyword">if</span> (curFuncIdentifier !== _callIdentifier) {
+        <span class="keyword">return</span>;
+    }
+    <span class="keyword">if</span> (!func || <span class="keyword">typeof</span> func !== <span class="string">'string'</span>) {
+        <span class="keyword">return</span>;
+    };
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">params</span> !== <span class="string">'object'</span>) {
+        <span class="keyword">params</span> = {};
+    };
+
+    <span class="keyword">var</span> callbackID = (_callback_count++).toString();
+
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> callback === <span class="string">'function'</span>) {
+      _callback_map[callbackID] = callback;
+    };
+
+    <span class="keyword">var</span> msgObj = {<span class="string">'func'</span>:func,<span class="string">'params'</span>:<span class="keyword">params</span>};
+    msgObj[_MESSAGE_TYPE] = <span class="string">'call'</span>;        
+    msgObj[_CALLBACK_ID] = callbackID;
+
+    _sendMessage(JSON.stringify(msgObj));
+}
+</code></pre><p>大致意思应该就是：就是将这个东西<code>_call(&#39;shareTimeline&#39;,data);</code>转换成一个json字符串吧，从这里看到微信的做法和上面那个开源库非常类似，简单并且安全。<code>_call</code>方法最后调用<code>_sendMessage</code>方法发送消息</p>
+<pre><code><span class="comment">//将消息添加到发送队列，iframe的准备队列为weixin://dispatch_message/</span>
+<span class="function"><span class="keyword">function</span> <span class="title">_sendMessage</span><span class="params">(message)</span> {</span>
+    _sendMessageQueue.push<span class="params">(message)</span>;
+    _readyMessageIframe.src = _CUSTOM_PROTOCOL_SCHEME + ':<span class="comment">//' + _QUEUE_HAS_MESSAGE;</span>
+
+    <span class="comment">// var ifm = _WXJS('iframe#__WeixinJSBridgeIframe')[0];</span>
+    <span class="comment">// if (!ifm) {</span>
+    <span class="comment">//   ifm = _createQueueReadyIframe(document);</span>
+    <span class="comment">// }</span>
+    <span class="comment">// ifm.src = _CUSTOM_PROTOCOL_SCHEME + '://' + _QUEUE_HAS_MESSAGE;</span>
+};
+</code></pre><p>从上面代码可以看到微信的js sdk也是将js的方法调用换成一个类似<code>weixin://dispatch_message/</code>这样的url，上面说的json封装的数据。那么我猜测微信的做法是类似网易云音乐的拦截url吗？如果真的是这样的话，就非常不安全了，随便一个Html 5页面可以伪造一个类似：<code>weixin://dispatch_message/</code>这样的url来调用微信的功能了，不过好在微信对每个js调用都必须带上appid。</p>
+<p>在反编译后的微信代码，我看到了下面代码：</p>
+<p><img src="http://i1.tietuku.com/003b8cf9f3012d19.png" alt="image"></p>
+<p>我想这写就是微信想Html 5开放的接口吧？不过对比了一下微信js sdk的官网，我看到好多App提供的功能在js sdk中并没有找到，这样也没有太大关系，以为微信只要升级js sdk就可以使用其他功能了，因为Native已经开放了嘛~</p>
+<p>从上面<code>__WeixinJSBridge</code>可以看到有一个熟悉<code>_handleMessageFromWeixin</code>，这个就是js来处理Native的回调接口，我用这个字符串在微信代码中搜索，结果如下：</p>
+<p><img src="http://i3.tietuku.com/e0b5b487f20e50ac.png" alt="image"></p>
+<p>因此，我大致猜测，微信中的js调Native功能是用拦截url的方式，而Native回调的话是使用<code>evaluateJavascript</code>方法</p>
+<p>我也在js sdk中找到了相应的函数：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">_handleMessageFromWeixin</span>(<span class="params">message</span>) </span>{
+    <span class="keyword">var</span> curFuncIdentifier = __WeixinJSBridge._handleMessageFromWeixin;
+    <span class="keyword">if</span> (curFuncIdentifier !== _handleMessageIdentifier) {
+        <span class="keyword">return</span> <span class="string">'{}'</span>;
+    }
+
+    <span class="keyword">var</span> ret;
+    <span class="keyword">var</span> msgWrap
+    <span class="keyword">if</span> (_isUseMd5 === <span class="string">'yes'</span>) {
+      <span class="keyword">var</span> realMessage = message[_JSON_MESSAGE];
+      <span class="keyword">var</span> shaStr = message[_SHA_KEY];
+      <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>;
+      arr[<span class="number">0</span>] = <span class="built_in">JSON</span>.stringify(realMessage);
+      arr[<span class="number">1</span>] = _xxyy;
+      <span class="keyword">var</span> str = arr.join(<span class="string">""</span>);
+      <span class="keyword">var</span> msgSha = <span class="string">''</span>;
+        <span class="keyword">var</span> shaObj = CryptoJS.SHA1(str);
+        msgSha = shaObj.toString();
+        <span class="keyword">if</span> (msgSha !== shaStr) {
+            _log(<span class="string">'_handleMessageFromWeixin , shaStr : '</span> + shaStr + <span class="string">' , str : '</span> + str + <span class="string">' , msgSha : '</span> + msgSha);
+            <span class="keyword">return</span> <span class="string">'{}'</span>;
+
+        }
+        msgWrap = realMessage;
+    }
+    <span class="comment">//省略很多代码</span>
+</code></pre><p>微信的做法应该说非常基础，使用了原生的功能，但是安全，由于微信客户端对每一个js调用都有验证（appid），因此这也增加了一定的安全性</p>
+<p>以上说的都是建立在我的分析正确的情况下。</p>
+<h1 id="一些个人的想法">一些个人的想法</h1><p>现在各种新的技术也在想办法解决Native开发的效率问题，想用技术来解决一套代码运行在Android和iOS客户端，我相信随着技术的发展这些问题都会解决。我也好期待Facebook即将推出的<a href="http://www.reactnativeandroid.com/" target="_blank" rel="external">React Native Android</a></p>
+<h2 id="Hybrid开发适用于哪些功能">Hybrid开发适用于哪些功能</h2><p>本文讲的Hybrid开发就是Native客户端中嵌入了Html App的功能，这方面微信应该是做的最好的，由于Html 5的效率以及耗电问题，我个人觉得用户是不能满足Web App的体验的，Hybrid App也只适用于某些场景。一些基础的功能，比如调用手机的摄像头，获取地理位置，登录注册功能等等，做成Native的功能，让Html 5来调用更好，这样的体验也更好。</p>
+<p>如果你把一个登录和注册功能也做成Html 5，在弱网络环境下，这个体验应该会非常的差，或许你等半天还没加载出页面。你可能会说，我可以预先加载Html 5的代码，打开App时直接加载，那么我说你在给自己找麻烦，如果要这样的话，Native开发或许更快一点。</p>
+<p>那么什么情况适合Html 5开发呢？像一些活动页面，比如秒杀、团购等适合做Html 5，因为这些页面可能涉及的非常炫而且复杂，Html 5开发或许会简单点，关键是这些页面时效性短，更新更快，因为一个活动说不定就一周时间，下周换活动，如果这样的话，你还做Native是肯定不行的</p>
+<h1 id="总结-1">总结</h1><p>有那么一句<a href="http://mindhacks.cn/2009/01/16/hammers-and-nails/" target="_blank" rel="external">古老的箴言</a>：</p>
+<blockquote>
+<p>如果你手里有一把锤子，所有东西看上去都想钉子</p>
+</blockquote>
+<p>千万不要以为Hybrid开发能够夸平台运行，就使用Hybrid开发任何功能。其实Facebook早期也是这么想的，后来就是因为WebView渲染效率底下，把整个应用改为Native开发，请看<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-rebuilding-facebook-for-android/10151189598933920" target="_blank" rel="external">这里</a></p>
+<p>引用Facebook的一段话：</p>
+<blockquote>
+<p>Today, we’re releasing a new version of Facebook for Android that’s been rebuilt in native code to improve speed and performance. To support the unique complexity of Facebook stories across devices, we’re moving from a hybrid native/webview to pure native code, allowing us to optimize the Facebook experience for faster loading, new user interfaces, disk cache, and so on.</p>
+</blockquote>
+<p>本文主要还是从技术上谈谈Hybrid开发中js和Native交互的技术实现原理。抛砖引玉，写的估计也有很多错的，希望技术大牛指出。</p>
+<p>最后，我觉得那个开源的库是一个非常不错的解决方案，解决办法巧妙、简单而且安全。当时我debug了半天弄明白其中的原理后，我一拍大腿，这办法真好啊！！网易云音乐的解决办法适用于它的场景，不需要回调，Native只需要处理相应的信息，然后来实现页面跳转、播放音乐、播放MV等功能，这个方法也简单好用。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/"> #Android </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/05/05/a-serializable-test/">关于Android开发中Java对象序列化的一次测试</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/08/16/talk-about-bybird-app/"
+               data-title="谈谈App混合开发" data-url="http://bxbxbai.gitcafe.io/2015/08/16/talk-about-bybird-app/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://i2.tietuku.com/2a1f0cd8b58ec63d.jpg" alt="bxbxbai" />
+          <p class="site-author-name">bxbxbai</p>
+        </div>
+        <p class="site-description motion-element">bxbxbai Android Notes</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              
+          </div>
+
+        </div>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/bxbxbai" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/bxbxbai" target="_blank">ZhiHu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://instagram.com/bxbxbai" target="_blank">Instagram</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hybrid开发中关键问题是什么"><span class="nav-number">1.</span> <span class="nav-text">Hybrid开发中关键问题是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Html_5和Native的交互"><span class="nav-number">2.</span> <span class="nav-text">Html 5和Native的交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#微信怎么做的"><span class="nav-number">2.1.</span> <span class="nav-text">微信怎么做的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网易云音乐怎么做的"><span class="nav-number">2.2.</span> <span class="nav-text">网易云音乐怎么做的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#js和Native进行交互"><span class="nav-number">3.</span> <span class="nav-text">js和Native进行交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cordova的解决方案"><span class="nav-number">3.1.</span> <span class="nav-text">Cordova的解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一种开源的解决方案"><span class="nav-number">3.2.</span> <span class="nav-text">一种开源的解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微信的解决方案？"><span class="nav-number">3.3.</span> <span class="nav-text">微信的解决方案？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些个人的想法"><span class="nav-number">4.</span> <span class="nav-text">一些个人的想法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hybrid开发适用于哪些功能"><span class="nav-number">4.1.</span> <span class="nav-text">Hybrid开发适用于哪些功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结-1"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2014 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">bxbxbai</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bxbxbai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  <script type="text/javascript">
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-51089251-1');ga('send','pageview');
+  </script>
+
+</body>
+</html>

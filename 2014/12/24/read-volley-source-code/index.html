@@ -1,0 +1,1174 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+
+
+    <meta name="description" content="bxbxbai Android Notes" />
+
+
+
+  <meta name="keywords" content="Volley 源码分析," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知其所以然" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+
+
+
+
+  <title> Volley源码分析 // 知其所以然 </title>
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">知其所以然</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+
+  <ul id="menu" class="menu">
+     
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-about">
+        <a href="/about">
+          <i class="menu-item-icon icon-about"></i> <br />
+          关于
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              Volley源码分析
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-12-24
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2014/12/24/read-volley-source-code/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/24/read-volley-source-code/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>Volley是一个可以让你在Android应用中以非常简单的方式来发送http请求并且处理服务器返回的数据，这样你就可以花更多的时间关心你的业务实现了</p>
+<p>前段时间用了一下Volley，发现非常好用，就很好奇Volley是怎么实现的，因为它是Google的人开发的，也好奇大牛们写的代码都是怎么样的？抱着学习的心态来分析一下Volley的源码，也可以为我以后的工作中积累一些好用的解决方案。以后我也会看一下<a href="http://loopj.com/android-async-http/" target="_blank" rel="external">Android-async-http-client</a>是如何来处理发送http请求这类问题的</p>
+<p>Volley的使用可以看这篇博客：<a href="http://bxbxbai.github.io/2014/09/14/android-working-with-volley/" target="_blank" rel="external">Volley库的使用介绍</a> ，你可以在这篇博客中找到更多关于Volley的学习资料：<a href="http://bxbxbai.github.io/2014/10/07/android-develop-resource/" target="_blank" rel="external">Android开发资源</a></p>
+<a id="more"></a>
+<p><strong>首先说明一下，在Volley中每发送一个请求都需要创建一个<code>Request</code>对象，然后将这个<code>Request</code>放入一个<code>RequestQueue</code>中，然后Volley会自动帮你处理这个<code>Request</code></strong>，你只需要处理返回的结果即可</p>
+<p>从Volley的源码中可以看出，Volley就是实现了一个生产者消费者问题（<a href="http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem" target="_blank" rel="external">Producer–consumer problem</a>）。从源码里看，一个消费者（<code>CacheDispatcher</code>）也可以是下一个消费者（<code>NetworkDispatcher</code>）的生产者</p>
+<p>##0x0 Volley架构<br>总的来说Volley库的架构非常清晰，源代码也非常好理解，Volley的架构可以用下面这张图来说明：</p>
+<p><img src="http://bxbxbai.github.io/img/volley.png" alt="volley"></p>
+<p>这张图是Google I/O 2013 大会上演讲的图，我是从Youtube的视频上截下来的。</p>
+<p>从这张图上可以很清晰的看见，一个Request被放到RequestQueue中后，马上被<code>CacheDispatcher</code>处理，从名字就可以看出来这是检查Cache的，如果Cache中有数据并且没过期的话Volley就直接将数据返回了</p>
+<p>如果<code>CacheDispatcher</code>中没有数据或，数据已经过期了，那么Volley就通过<code>NetworkDispatcher</code>发送一个http请求来获取最新的数据，从图中可以看出有多个线程来发送http请求，也就是说Volley可以同时发送多个http请求</p>
+<p>##0x1<br>上面将了Volley处理一个<code>Request</code>的大致流程，那么从源码角度来看Volley是怎么处理的呢？</p>
+<p>###0x10 Request<t>类<br>首先来看一下Volley的<code>Request</code>类的签名：</t></p>
+<pre><code>public abstract <span class="class"><span class="keyword">class</span> <span class="title">Request</span><span class="inheritance">&lt;<span class="parent">T</span></span>&gt; <span class="title">implements</span> <span class="title">Comparable</span><span class="inheritance">&lt;<span class="parent">Request</span></span><span class="inheritance">&lt;<span class="parent">T</span></span>&gt;&gt;</span>
+</code></pre><p><code>Request</code>是一个范型，其中<code>T</code>表示这个<code>Request</code>返回的数据类型，并且这个<code>Request</code>是可以相互比较的（实现<code>Comparable</code>接口），<code>Request</code>类实现的<code>Comparable</code>接口就是比较两个<code>Request</code>的priority</p>
+<p>Volley自带的<code>Request</code>包含了一下几个：</p>
+<ul>
+<li><code>ImageRequest</code></li>
+<li><code>JsonArrayRequest</code></li>
+<li><code>JsonObjectRequest</code></li>
+<li><code>JsonRequest</code></li>
+<li><code>StringRequest</code></li>
+<li><code>ClearCacheRequest</code></li>
+</ul>
+<p>从字面上可以基本看出每个Request是用来干什么的。</p>
+<p>你也可以自定义一个<code>Request&lt;T&gt;</code>，比如说你可以定义一个<code>GsonRequest&lt;T&gt;</code>，当Volley发送一个请求后返回的是一个Java对象（通过Gson将json字符串自动转换成一个Java对象），这样的话写代码就非常方便了</p>
+<p>自定义一个<code>Request&lt;T&gt;</code>需要实现<code>Request</code>类的两个抽象方法：</p>
+<ul>
+<li><code>Response&lt;T&gt; parseNetworkResponse(NetworkResponse response)</code></li>
+<li><code>void deliverResponse(T response)</code></li>
+</ul>
+<p>第一个方法用来说明如何解析这个Response，说白了就是将<code>NetworkResponse</code>转换成<code>Response</code>对象。比如<code>ImageRequest</code>类就是需要将reponse数据转换成一个Bitmap对象</p>
+<p>第二个方法是用来告诉Volley如何传递这个解析以后的结果，一般是用一个<code>Response.Listener&lt;T&gt;</code>回调接口来传递这个结果</p>
+<p>##0x2 RequestQueue<br>上面讲了如何使用<code>Request</code>类，现在讲讲<code>RequestQueue</code></p>
+<p>创建一个<code>RequestQueue</code>，需要4个参数</p>
+<ul>
+<li><strong>Cache</strong>：Volley使用的缓存，默认是<code>DiskBasedCache</code>（这个Cache为了减少gc，自己实现了一个简单的序列化方法）</li>
+<li><strong>Network</strong> ： 这个是<code>RequestQueue</code>用来发送http请求的工具，后面会详细讲</li>
+<li><strong>发送http请求的线程数</strong>（默认是4个）：<code>NetworkDispatcher</code> 线程数量</li>
+<li><strong>ResponseDelivery</strong> ：用于传递Response，一般是被<code>CacheDispatcher</code>和<code>NetworkDispatcher</code>用于传递从Cache中拿到的或Network返回的HTTP Response</li>
+</ul>
+<p>####RequestQueue包含的其他东西<br>上面讲的是Volley的<code>RequestQueue</code>可以传入的参数，一个<code>RequestQueue</code>还需要以下东西才能正常运行：</p>
+<p><code>AtomicInteger mSequenceGenerator</code> 是一个序列号生成器，它为每一个加入到队列中的Request打上一个序列号</p>
+<p><code>PriorityBlockingQueue&lt;Request&lt;?&gt;&gt; mCacheQueue</code> 表示在Cache队列中的Request，从最上面的图中可以看到，一个<code>Request</code>被加到队列中后，它首先就进入<code>mCacheQueue</code></p>
+<p><code>PriorityBlockingQueue&lt;Request&lt;?&gt;&gt; mNetworkQueue</code> 表示等待通过<code>Network</code>发送HTTP请求的<code>Request</code>队列。这个和上面的<code>mCacheQueue</code>都是一个优先队列，每一个加入到优先队列中的<code>Request</code>都会按照它的优先级进行排序（如果优先级一样的话，就通过<code>mSequenceGenerator</code>生成的序号进行排序，这部分代码在<code>Request.compareTo</code>中可以看到）</p>
+<p><code>Set&lt;Request&lt;?&gt;&gt; mCurrentRequests</code> 是<code>RequestQueue</code>当前正在执行或正在等待的<code>Request</code>，在<code>mCacheQueue</code>或<code>mNetworkQueue</code>中的<code>Request</code>都会被存放到<code>mCurrentRequests</code>列表中。这个列表中的<code>Request</code>可以用来执行<code>RequestQueue.cancelAll</code>操作</p>
+<p><code>Map&lt;String, Queue&lt;Request&lt;?&gt;&gt;&gt; mWaitingRequests</code> 这个对象也很有意思，这个map的key是<code>Request</code>的cacheKay，value是一个对应这个cacheKey所有的<code>Request</code></p>
+<p>###0x20 创建一个RequestQueue</p>
+<p>一般创建一个<code>RequestQueue</code>的方法就是通过下面这句代码：</p>
+<pre><code>RequestQueue <span class="built_in">queue</span> = Volley.newRequestQueue(Context);
+</code></pre><p>当然，如果你需要自定义的话，就可以通过<code>RequestQueue</code>的构造函数自己new一个<code>RequestQueue</code>。一般来说，一个app中有一个<code>RequestQueue</code>就够了，没必要生成多个队列，生成多个队列会浪费系统的线程资源</p>
+<p>在创建一个<code>RequestQueue</code>的时候，Volley已经充分帮我们考虑了一些事情</p>
+<p>Android中用来发送HTTP请求的类有<code>HttpUrlConnection</code>和<code>AndroidHttpClient</code>，一般会使用前者，因为Google对它做了很多优化，但是在Android Gingerbread（Android 2.3，API LEVEL = 9）以前，<code>HttpUrlConnection</code>会有一些bug，那么应该使用后者。那为什么不直接使用后者呢？因为Google对前者做了很多优化…=。=</p>
+<p>Volley对此也做了相应的判断，Android 2.3以前使用<code>AndroidHttpClient</code>，Android 3.0之后使用<code>HttpUrlConnection</code>，这样就会有相对更好的性能，更节省流量(<a href="http://android-developers.blogspot.com/2011/09/androids-http-clients.html" target="_blank" rel="external">看这里</a>)</p>
+<p><code>Network</code>接口对他们进行了封装，对<code>RequestQueue</code>而言只有<code>Network</code>接口，但是真正发送请求的地方在<code>HurlStack.performRequest</code>或<code>HttpClientStack.performRequest</code>方法中，前者使用<code>HttpUrlConnection</code>，后者使用<code>AndroidHttpClient</code></p>
+<p>####好处<br><code>RequestQueue</code>只依赖于<code>Network</code>接口，而不依赖于实现，它不必关心<code>Network.performRequest</code>具体的实现方式</p>
+<p>###0x21 启动和停止RequestQueue</p>
+<p>在<code>RequestQueue</code>生成以后就需要调用<code>RequestQueue.start</code>方法启动</p>
+<p><code>RequestQueue.start</code>方法就是启动每一个Dispatcher（每一个Dispatcher就是一个线程）</p>
+<pre><code><span class="comment">/**
+ * Starts the dispatchers in this queue.
+ */</span>
+<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>{
+    stop();  <span class="comment">// Make sure any currently running dispatchers are stopped.</span>
+    <span class="comment">// Create the cache dispatcher and start it.</span>
+    mCacheDispatcher = <span class="keyword">new</span> CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
+    mCacheDispatcher.start();
+
+    <span class="comment">// Create network dispatchers (and corresponding threads) up to the pool size.</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mDispatchers.length; i++) {
+        NetworkDispatcher networkDispatcher = <span class="keyword">new</span> NetworkDispatcher(mNetworkQueue, mNetwork,
+                mCache, mDelivery);
+        mDispatchers[i] = networkDispatcher;
+        networkDispatcher.start();
+    }
+}
+</code></pre><p>同理<code>RequestQueue.stop</code>方法就是停止每一个Dispatcher，代码就不贴了</p>
+<p>###0x22 向RequestQueue中添加Request</p>
+<p>每创建一个<code>Request</code>都需要通过<code>RequestQueue.add</code>方法添加到队列中。调用<code>RequestQueue</code>的<code>add</code>方法，这就是生产者消费者问题中，生产者（producer）向池子（queue）里面存放物品（goods），然后消费者从池子（queue）里拿东西</p>
+<p>先看代码：</p>
+<pre><code><span class="comment">/**
+ * Adds a Request to the dispatch queue.
+ * @param request The request to service
+ * @return The passed-in request
+ */</span>
+public &lt;T&gt; Request&lt;T&gt; add<span class="params">(Request&lt;T&gt; request)</span> {
+    <span class="comment">// Tag the request as belonging to this queue and     add it to the set of current requests.</span>
+    request.setRequestQueue<span class="params">(this)</span>;
+    <span class="comment">// A</span>
+    synchronized <span class="params">(mCurrentRequests)</span> {
+        mCurrentRequests.add<span class="params">(request)</span>;
+    }
+
+    <span class="comment">// Process requests in the order they are added.</span>
+    request.setSequence<span class="params">(getSequenceNumber<span class="params">()</span>)</span>;
+    request.addMarker<span class="params">(<span class="string">"add-to-queue"</span>)</span>;
+
+    <span class="comment">// If the request is uncacheable, skip the cache queue and go straight to the network.</span>
+    <span class="comment">// B</span>
+    <span class="keyword">if</span> <span class="params">(!request.shouldCache<span class="params">()</span>)</span> {
+        mNetworkQueue.add<span class="params">(request)</span>;
+        return request;
+    }
+
+    <span class="comment">// Insert request into stage if there's already a request with the same cache key in flight.</span>
+    synchronized <span class="params">(mWaitingRequests)</span> {
+        String cacheKey = request.getCacheKey<span class="params">()</span>;
+        <span class="comment">// C</span>
+        <span class="keyword">if</span> <span class="params">(mWaitingRequests.containsKey<span class="params">(cacheKey)</span>)</span> {
+            <span class="comment">// There is already a request in flight. Queue up.</span>
+            Queue&lt;Request&lt;?&gt;&gt; stagedRequests = mWaitingRequests.get<span class="params">(cacheKey)</span>;
+            <span class="keyword">if</span> <span class="params">(stagedRequests == null)</span> {
+                stagedRequests = new LinkedList&lt;Request&lt;?&gt;&gt;<span class="params">()</span>;
+            }
+            stagedRequests.add<span class="params">(request)</span>;
+            mWaitingRequests.put<span class="params">(cacheKey, stagedRequests)</span>;
+            <span class="keyword">if</span> <span class="params">(VolleyLog.DEBUG)</span> {
+                VolleyLog.v<span class="params">(<span class="string">"Request for cacheKey=%s is in flight, putting on hold."</span>, cacheKey)</span>;
+            }
+        } <span class="keyword">else</span> {
+            <span class="comment">// Insert 'null' queue for this cacheKey, indicating there is now a request in flight.</span>
+            <span class="comment">// D</span>
+            mWaitingRequests.put<span class="params">(cacheKey, null)</span>;
+            mCacheQueue.add<span class="params">(request)</span>;
+        }
+        return request;
+    }
+}
+</code></pre><p>上面代码就是添加一个<code>Request</code>到队列中的全部操作。我加了A、B、C、D关键处标记，</p>
+<ul>
+<li><p>A : 首先，将<code>Request</code>加入到<code>mCurrentRequests</code>，表示有一个<code>Request</code>将要被处理，然后这是这个<code>Request</code>的序列号和一个测试标记</p>
+</li>
+<li><p>B : 检查这个<code>Request</code>是否可以被Cache，如果不可以，就直接放入<code>mNetworkQueue</code>中，由<code>NetworkDispatcher</code>处理，直接发送HTTP请求</p>
+</li>
+<li><p>C : 接下来，表示<code>Request</code>都可以被Cache的，检查<code>Request</code>的cacheKey字段，如果存在相同cacheKey的<code>Request</code>，就表示可以不处理这个<code>Request</code>了，直接拿别的<code>Request</code>的结果即可，这样可以减少相同<code>Request</code>的发送，减少流量消耗~</p>
+</li>
+<li><p>D : 如果C不满足的话，就将这个<code>Request</code>放入<code>mCacheQueue</code>队列中，由<code>CacheDispatcher</code>来处理 </p>
+</li>
+</ul>
+<p>###0x23 如何传递Response</p>
+<p>当<code>CacheDispatcher</code>或<code>NetworkDispatcher</code>拿到Response以后（不管是Cache中的还是请求HTTP返回的），都会通过一个叫做<code>ResponseDelivery</code>的东西传递出去。</p>
+<p>其中，传递HTTP Response真正的地方就在<code>ResponseDelivery</code>的<code>ResponseDeliveryRunnable</code>类中，下面是<code>ResponseDeliveryRunnable</code>类的<code>run</code>方法：</p>
+<pre><code> @Override
+ public void run<span class="params">()</span> {
+     <span class="comment">// If this request has canceled, finish it and don't deliver.</span>
+     <span class="keyword">if</span> <span class="params">(mRequest.isCanceled<span class="params">()</span>)</span> {
+         mRequest.finish<span class="params">(<span class="string">"canceled-at-delivery"</span>)</span>;
+         return;
+     }
+
+     <span class="comment">// Deliver a normal response or error, depending.</span>
+     <span class="keyword">if</span> <span class="params">(mResponse.isSuccess<span class="params">()</span>)</span> {
+         mRequest.deliverResponse<span class="params">(mResponse.result)</span>;
+     } <span class="keyword">else</span> {
+         mRequest.deliverError<span class="params">(mResponse.error)</span>;
+     }
+
+     <span class="comment">// If this is an intermediate response, add a marker, otherwise we're done</span>
+     <span class="comment">// and the request can be finished.</span>
+     <span class="keyword">if</span> <span class="params">(mResponse.intermediate)</span> {
+         mRequest.addMarker<span class="params">(<span class="string">"intermediate-response"</span>)</span>;
+     } <span class="keyword">else</span> {
+         mRequest.finish<span class="params">(<span class="string">"done"</span>)</span>;
+     }
+
+     <span class="comment">// If we have been provided a post-delivery runnable, run it.</span>
+     <span class="keyword">if</span> <span class="params">(mRunnable != null)</span> {
+         mRunnable.run<span class="params">()</span>;
+     }
+}
+</code></pre><p>这个方法就会检查这个<code>Response</code>，如果<code>Response</code>是成功的，那么就通过<code>Request.deliverResponse</code>方法传递。</p>
+<p>在本文最上面可以看到，<code>Request.deliverResponse</code>是一个抽象方法，每个<code>Request</code>都需要自己实现处理<code>Response</code>的代码，一般都是通过调用<code>Response.Listener</code> 接口来处理结果</p>
+<p>##0x3 CacheDispatcher</p>
+<p><code>CacheDispatcher</code>是一个专门用来检查Cache的线程，它其实既是消费者也是生产者。它需要以下几样东西：</p>
+<ul>
+<li><code>BlockingQueue&lt;Request&lt;?&gt;&gt; mCacheQueue</code> ： 等待检查Cache 的Request队列</li>
+<li><code>BlockingQueue&lt;Request&lt;?&gt;&gt; mNetworkQueue</code> ： 等待发送HTTP请求的Request队列</li>
+<li><code>Cache mCache</code> ： Volley使用的Cache，默认就是<code>DiskBasedCache</code></li>
+<li><code>ResponseDelivery mDelivery</code> ：如果检查的Cache符合要求（没有过期），就用这个来传递Response</li>
+</ul>
+<p>从上面图中可以看出，<code>CacheDispatcher</code>对于app来说是一个消费者，它从<code>mCacheQueue</code>中拿Request来检查Cache。对<code>NetworkDispatcher</code>来说，又是一个生产者（如果检查的Cache没有或者Cache已经过期，就向<code>mNetworkQueue</code>中添加Request）</p>
+<p>下面就是<code>CacheDispatcher</code>的<code>run</code>方法，从源代码里看一看到<code>CacheDispatcher</code>会一直运行，当<code>mCacheQueue</code>中没有需要处理的<code>Request</code>时，此线程会一直被<code>mCacheQueue.take()</code>方法阻塞，直到<code>RequestQueue</code>向<code>mCacheQueue</code>添加了一个请求。</p>
+<pre><code>@Override
+public void run<span class="params">()</span> {
+    <span class="keyword">if</span> <span class="params">(DEBUG)</span> VolleyLog.v<span class="params">(<span class="string">"start new dispatcher"</span>)</span>;
+    Process.setThreadPriority<span class="params">(Process.THREAD_PRIORITY_BACKGROUND)</span>;
+
+    <span class="comment">// Make a blocking call to initialize the cache.</span>
+    mCache.initialize<span class="params">()</span>;
+
+    while <span class="params">(<span class="literal">true</span>)</span> {
+        try {
+            <span class="comment">// Get a request from the cache triage queue, blocking until</span>
+            <span class="comment">// at least one is available.</span>
+            final Request&lt;?&gt; request = mCacheQueue.take<span class="params">()</span>;
+            request.addMarker<span class="params">(<span class="string">"cache-queue-take"</span>)</span>;
+
+            <span class="comment">// If the request has been canceled, don't bother dispatching it.</span>
+            <span class="keyword">if</span> <span class="params">(request.isCanceled<span class="params">()</span>)</span> {
+                request.finish<span class="params">(<span class="string">"cache-discard-canceled"</span>)</span>;
+                continue;
+            }
+
+            <span class="comment">// Attempt to retrieve this item from cache.</span>
+            Cache.Entry entry = mCache.get<span class="params">(request.getCacheKey<span class="params">()</span>)</span>;
+            <span class="keyword">if</span> <span class="params">(entry == null)</span> {
+                request.addMarker<span class="params">(<span class="string">"cache-miss"</span>)</span>;
+                <span class="comment">// Cache miss; send off to the network dispatcher.</span>
+                mNetworkQueue.put<span class="params">(request)</span>;
+                continue;
+            }
+
+            <span class="comment">// If it is completely expired, just send it to the network.</span>
+            <span class="keyword">if</span> <span class="params">(entry.isExpired<span class="params">()</span>)</span> {
+                request.addMarker<span class="params">(<span class="string">"cache-hit-expired"</span>)</span>;
+                request.setCacheEntry<span class="params">(entry)</span>;
+                mNetworkQueue.put<span class="params">(request)</span>;
+                continue;
+            }
+
+            <span class="comment">// We have a cache hit; parse its data for delivery back to the request.</span>
+            request.addMarker<span class="params">(<span class="string">"cache-hit"</span>)</span>;
+            Response&lt;?&gt; response = request.parseNetworkResponse<span class="params">(
+                    new NetworkResponse<span class="params">(entry.data, entry.responseHeaders)</span>)</span>;
+            request.addMarker<span class="params">(<span class="string">"cache-hit-parsed"</span>)</span>;
+
+            <span class="keyword">if</span> <span class="params">(!entry.refreshNeeded<span class="params">()</span>)</span> {
+                <span class="comment">// Completely unexpired cache hit. Just deliver the response.</span>
+                mDelivery.postResponse<span class="params">(request, response)</span>;
+            } <span class="keyword">else</span> {
+                <span class="comment">// Soft-expired cache hit. We can deliver the cached response,</span>
+                <span class="comment">// but we need to also send the request to the network for</span>
+                <span class="comment">// refreshing.</span>
+                request.addMarker<span class="params">(<span class="string">"cache-hit-refresh-needed"</span>)</span>;
+                request.setCacheEntry<span class="params">(entry)</span>;
+
+                <span class="comment">// Mark the response as intermediate.</span>
+                response.intermediate = <span class="literal">true</span>;
+
+                <span class="comment">// Post the intermediate response back to the user and have</span>
+                <span class="comment">// the delivery then forward the request along to the network.</span>
+                mDelivery.postResponse<span class="params">(request, response, new Runnable<span class="params">()</span> {
+                    @Override
+                    public void run<span class="params">()</span> {
+                        try {
+                            mNetworkQueue.put<span class="params">(request)</span>;
+                        } catch <span class="params">(InterruptedException e)</span> {
+                            // Not much we can do about this.
+                        }
+                    }
+                })</span>;
+            }
+
+        } catch <span class="params">(InterruptedException e)</span> {
+            <span class="comment">// We may have been interrupted because it was time to quit.</span>
+            <span class="keyword">if</span> <span class="params">(mQuit)</span> {
+                return;
+            }
+            continue;
+        }
+    }
+}
+</code></pre><p>##0x4 NetworkDispatcher</p>
+<p><code>NetworkDispatcher</code>和<code>CacheDispatcher</code>非常类似，它也需要4个东西：</p>
+<ul>
+<li><code>BlockingQueue&lt;Request&lt;?&gt;&gt; mNetworkQueue</code> ： 等待发送HTTP请求的Request队列</li>
+<li><code>Network mNetwork</code> ： 用于发送HTTP请求的，<code>Network</code>是一个接口</li>
+<li><code>Cache mCache</code> ： Volley使用的Cache，默认就是<code>DiskBasedCache</code></li>
+<li><code>ResponseDelivery mDelivery</code> ：如果检查的Cache符合要求（没有过期），就用这个来传递Response</li>
+</ul>
+<p>其中操作的过程也和<code>CacheDispatcher</code>类似，就不贴源码了</p>
+<p>##0x5 ImageLoader<br>上面讲的东西大致就构成了Volley库<strong>最核心</strong>的东西，一般的请求json或图片是没有太大问题的。但是Google的工程师又想到为我们广大码农减少工作量，增加了<code>ImageLoader</code>和<code>NetworkImageView</code>这两个东西</p>
+<p>其实<code>ImageLoader</code>这个工具和Volley库的整个架构是没有太大关系的，它就是为了更加方便的让我们加载网络图片</p>
+<p>创建一个<code>ImageLoader</code>需要两个东西：</p>
+<ul>
+<li>RequestQueue ： 这个在上面已经说了好多了</li>
+<li>ImageCache ： 这是一个接口，Volley没有提供具体的实现，需要自己实现。一般都会实现一个基于内存的<code>LruImageCache</code>，网上也有各种栗子。可以参考<a href="http://square.github.io/picasso/" target="_blank" rel="external">Picasso</a>源码中的<a href="https://github.com/square/picasso/blob/master/picasso/src/main/java/com/squareup/picasso/LruCache.java" target="_blank" rel="external">实现</a></li>
+</ul>
+<p><code>ImageLoader</code>也是对<code>RequestQueue</code>的一个封装，它也会为创建一个<code>Request&lt;ImageView&gt;</code>，然后把这个Request放到RequestQueue中去下载图片</p>
+<p>###0x50 在Volley中如何方便的加载一张图片</p>
+<pre><code>ImageLoader loader = new ImageLoader<span class="params">(RequestQueue, ImageCache)</span>;
+NetworkImageView imageView = <span class="params">(NetworkImageView)</span>findViewById<span class="params">(R.id.iv_news_pic)</span>;
+imageView.setImageUrl<span class="params">(picUrl, loader)</span>;
+</code></pre><p>上面3句代码就能够加载网络图片了，是不是很方便。<code>NetworkImageView</code>会计算当前ImageView的宽高，然后创建一个ImageRequest，放入RequestQueue中下载图片。</p>
+<p>###0x51 NetworkImageView</p>
+<p><code>NetworkImageView</code>是继承<code>ImageView</code>的，比传统的<code>ImageView</code>多了一个加载网络图片的功能</p>
+<p>##0x6 最后<br>本文就是详细的分析了Volley库的结构了流程。本文觉得这个库设计的非常好，不管是扩展性还是代码可读性都非常好。</p>
+<p><code>RequestQueue</code>就表示Volley运行的整个生命周期，它维护了很多个队列。<code>CacheDispatcher</code>和<code>NetworkDispatcher</code> 分别完成检查Cache和发送HTTP请求的工作。当拿到<code>NetworkResponse</code>数据的时候，会调用<code>Request.parseNetworkResponse</code>方法解析Response结果，最后调用<code>ResponseDeleivery</code>对象来传递解析后的Response结果。</p>
+<p>Google还在Volley中加入了<code>ImageLoader</code>和<code>NetworkImageView</code>让我们广大码农以更加方便的方式加载网络图片</p>
+<p>###最后的最后</p>
+<p>Volley的整个架构实现就是最基本的生产者消费者模式（<a href="http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem" target="_blank" rel="external">Producer–consumer problem</a>）。这种架构虽然很简单，但是用途也非常广泛，非常值得学习和借鉴！！</p>
+<p>也不是说Volley就完美了，最近本人又在学习<a href="http://square.github.io/picasso/" target="_blank" rel="external">Picasso</a>的源码。这是一个非常好的专门用于加载图片的库，它不光可以加载网络图片，还可以用它来加载res目录下的图片、SD卡上的图片、Asset目录下的图片、手机图片库中的图片，而且扩展性也非常好！不说了，下次有机会就写一篇关于<a href="http://square.github.io/picasso/" target="_blank" rel="external">Picasso</a>的源码分析博客</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Volley-源码分析/"> #Volley 源码分析 </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/13/my-2014/">我的2014</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/11/19/make-sense-of-layoutinflater/">LayoutInflater.inflate方法解析</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2014/12/24/read-volley-source-code/"
+               data-title="Volley源码分析" data-url="http://bxbxbai.gitcafe.io/2014/12/24/read-volley-source-code/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://i2.tietuku.com/2a1f0cd8b58ec63d.jpg" alt="bxbxbai" />
+          <p class="site-author-name">bxbxbai</p>
+        </div>
+        <p class="site-description motion-element">bxbxbai Android Notes</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">标签</span>
+              
+          </div>
+
+        </div>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml">
+              <i class="menu-item-icon icon-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/bxbxbai" target="_blank">GitHub</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.zhihu.com/people/bxbxbai" target="_blank">ZhiHu</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="https://instagram.com/bxbxbai" target="_blank">Instagram</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2014 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">bxbxbai</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.content img').each(function () {
+        var $image = $(this);
+        var $imageWrapLink = $image.parent('a');
+
+        if ($imageWrapLink.size() < 1) {
+          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
+        }
+        $imageWrapLink.addClass('fancybox');
+      });
+    });
+    $('.fancybox').fancybox({
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  </script>
+
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    LogoAndMenuMotion();
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+    function LogoAndMenuMotion() {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        
+        { e: $('.logo-line-before i'), p: { translateX: "100%" }, o: { duration: 500, sequenceQueue: false } },
+        { e: $('.logo-line-after i'), p: { translateX: "-100%" }, o: { duration: 500, sequenceQueue: false } },
+        
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    }
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
+      $('.post').velocity('transition.slideDownIn', postMotionOptions);
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"bxbxbai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  <script type="text/javascript">
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-51089251-1');ga('send','pageview');
+  </script>
+
+</body>
+</html>
