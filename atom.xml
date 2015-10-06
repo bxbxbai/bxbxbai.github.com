@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[bxbxbai‘s blog]]></title>
+  <title><![CDATA[bxbxbai’s notes]]></title>
   <subtitle><![CDATA[学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2015-09-29T11:20:09.000Z</updated>
+  <updated>2015-10-06T08:17:16.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -19,14 +19,14 @@
     <link href="http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/"/>
     <id>http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/</id>
     <published>2015-09-29T11:16:25.000Z</published>
-    <updated>2015-09-29T11:20:09.000Z</updated>
+    <updated>2015-10-06T08:17:16.000Z</updated>
     <content type="html"><![CDATA[<p>我本人平时很喜欢看一些博客，包括技术的和非技术的，慢慢也积累了很多博客列表，包括个人的和团队的</p>
 <p>很久以前我看到过大神刘未鹏写的文章：<a href="http://mindhacks.cn/2009/02/15/why-you-should-start-blogging-now/" target="_blank" rel="external">为什么你应该（从现在开始就）写博客</a>，文中很多道理直到我也开始写博客的时候才慢慢领悟到。比如，我可能对一个技术或概念很熟悉了，但是当我要说出来或者写下来给别人看的时候，就会发现有些技术的细节没考虑清楚。因此，当你写一篇博客的时候，其实你就是在逼迫你自己去把每一个细节都弄清楚</p>
 <a id="more"></a>
 <h2 id="国内外的技术博客">国内外的技术博客</h2><p>我也列举一些我收藏的，也经常会看的博客（排序不分先后）。</p>
 <h3 id="Facebook">Facebook</h3><p>网址：<a href="https://code.facebook.com" target="_blank" rel="external">https://code.facebook.com</a><br>博客上会介绍一些Facebook在Android、iOS、前端、后端以及硬件技术遇到的问题，也包括一些他们团队研究的新技术，比如<code>fresco</code>等等。我最感兴趣的是他们在技术上遇到的一些问题，然后他们是怎么解决的</p>
 <h3 id="Square">Square</h3><p>网址：<a href="http://square.github.io/" target="_blank" rel="external">http://square.github.io/</a><br>Square应该是业界开源项目最多的公司之一了，它的github主页上列举了好多开源项目，一个做Android的如果没用过Square的开源库的话，要么你非常非常牛逼，要么你真的不关心开源项目</p>
-<h3 id="美团">美团</h3><p>网址：<a href="http://tech.meituan.com/%E2%80%98" target="_blank" rel="external">http://tech.meituan.com/</a><br>从它的博客可以看到美团大概是从2013开慢慢写的，大概是因为2013后美团不断扩大，也慢慢积累了很多技术（踩了很多坑），博客上会写各种技术的：Android、iOS、前端、运维、机器学习等等~</p>
+<h3 id="美团">美团</h3><p>网址：<a href="http://tech.meituan.com/" target="_blank" rel="external">http://tech.meituan.com/</a><br>从它的博客可以看到美团大概是从2013开慢慢写的，大概是因为2013后美团不断扩大，也慢慢积累了很多技术（踩了很多坑），博客上会写各种技术的：Android、iOS、前端、运维、机器学习等等~</p>
 <h3 id="阿里">阿里</h3><p>网址：<a href="http://jaq.alibaba.com/" target="_blank" rel="external">阿里聚安全</a><br>抱歉我没有找到阿里公开的技术博客站点，之前我在阿里的时候，我在内网看到，公司内部会有很多人分享自己遇到的问题以及解决方法，公开的博客，我还没有发现</p>
 <h3 id="微信移动团队">微信移动团队</h3><p>这个应该没有博客，只有微信公众号：WeMobileDev<br>貌似也是最近才开的，博客文章的质量非常高，每一篇基本都是微信移动团队经验的总结，详细介绍了他们遇到的困难以及如何解决的。比如：提升Android客户端会话速度提升70%背后的故事、Android微信只能心跳方案、Android拆分与加载Dex的多种方案等等</p>
 <p>每一篇都会具体到技术的细节，真正的解决每一个问题，非常赞这样的技术团队</p>
