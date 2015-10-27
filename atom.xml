@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2015-10-06T08:17:16.000Z</updated>
+  <updated>2015-10-27T10:36:16.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/"/>
     <id>http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/</id>
     <published>2015-09-29T11:16:25.000Z</published>
-    <updated>2015-10-06T08:17:16.000Z</updated>
+    <updated>2015-10-27T10:36:16.000Z</updated>
     <content type="html"><![CDATA[<p>我本人平时很喜欢看一些博客，包括技术的和非技术的，慢慢也积累了很多博客列表，包括个人的和团队的</p>
 <p>很久以前我看到过大神刘未鹏写的文章：<a href="http://mindhacks.cn/2009/02/15/why-you-should-start-blogging-now/" target="_blank" rel="external">为什么你应该（从现在开始就）写博客</a>，文中很多道理直到我也开始写博客的时候才慢慢领悟到。比如，我可能对一个技术或概念很熟悉了，但是当我要说出来或者写下来给别人看的时候，就会发现有些技术的细节没考虑清楚。因此，当你写一篇博客的时候，其实你就是在逼迫你自己去把每一个细节都弄清楚</p>
 <a id="more"></a>
@@ -1629,7 +1629,7 @@ View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span cla
     <link href="http://bxbxbai.gitcafe.io/2014/10/25/use-trace-view/"/>
     <id>http://bxbxbai.gitcafe.io/2014/10/25/use-trace-view/</id>
     <published>2014-10-25T02:09:36.000Z</published>
-    <updated>2015-09-12T07:01:41.000Z</updated>
+    <updated>2015-10-27T10:35:58.000Z</updated>
     <content type="html"><![CDATA[<p>##前面唠叨<br>最近公司app中有些列表在滑动的时候会有卡顿现象，我就开始着手解决这些问题，解决问题之前首先要分析列表滑动的性能瓶颈在什么地方。因为之前不会正确使用TraceView这个工具，主要是看不懂TraceView界面下方数据指标的值代表什么意思…以前我用<a href="http://bxbxbai.github.io/2014/08/01/the-stopwatch-class/" target="_blank" rel="external">StopWatch</a>类来分析性能，现在觉得弱爆了…不过有些地方<a href="http://bxbxbai.github.io/2014/08/01/the-stopwatch-class/" target="_blank" rel="external">StopWatch</a>工具类还是很简单好用的~</p>
 <p>网上可以找了很多博客来介绍这个工具的使用方法，很多都是讲解了一些一些就会的方法，讲一个大概，包括StackOverFlow上我也没有找到很好的讲解TraceView各个数据指标代码什么意思的回答</p>
 <p>因为我要解决列表滑动的卡顿问题，就必须要找到导致卡顿现象的原因，我就在StackOverFlow上找着别人零散的回答慢慢琢磨这个工具的使用方法。现在我学会了，至少能看懂每个指标什么意思，<strong>最后发现这个工具实在太强大了！！！</strong></p>
