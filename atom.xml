@@ -4,7 +4,7 @@
   <subtitle><![CDATA[学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2015-12-13T11:28:26.000Z</updated>
+  <updated>2015-12-13T11:50:53.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -19,15 +19,16 @@
     <link href="http://bxbxbai.gitcafe.io/2015/12/13/retrofit2-analysis/"/>
     <id>http://bxbxbai.gitcafe.io/2015/12/13/retrofit2-analysis/</id>
     <published>2015-12-13T05:16:29.000Z</published>
-    <updated>2015-12-13T11:28:26.000Z</updated>
+    <updated>2015-12-13T11:50:53.000Z</updated>
     <content type="html"><![CDATA[<p>公司里最近做的项目中网络框架用的就是<a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit</a>，用的多了以后觉得这个框架真的非常好用，然后抽了点时间debug了一下源码，觉得不光代码写的非常好，而且设计这个框架的思路都非常特别，收获很多，决定记录下来</p>
 <p><strong>本文的源码分析基于Retrofit 2.0，和Retrofit 1.0有较大的不同</strong>， 本文主要分为几部分：0、Retrofi 是什么，1、Retrofi怎么用，2、Retrofit的原理是什么，3、我的心得与看法</p>
 <p><strong>下面说的Retrofit全部指Retrofit 2</strong></p>
 <a id="more"></a>
-<h2 id="0_Retrofit是什么">0 Retrofit是什么</h2><blockquote>
+<h2 id="0_Retrofit是什么">0 Retrofit是什么</h2><p>来自Retrofit官网的介绍：</p>
+<blockquote>
 <p>A type-safe HTTP client for Android and Java</p>
 </blockquote>
-<p>上面这句来自Retrofit的官网，简单的说它是一个HTTP请求工具，和Google开发的Volley功能上非常相似，这里有<a href="http://bxbxbai.gitcafe.io/2014/12/24/read-volley-source-code/">Volley的源码解析</a>，但是使用上很不相似。Retrofit使用起来更简单，Volley使用上更加原始而且符合使用者的直觉，其实我觉得如果对自己Volley封装一下也可以像Retrofit那样的简单的使用</p>
+<p>简单的说它是一个HTTP请求工具，和Google开发的Volley功能上非常相似，这里有<a href="http://bxbxbai.github.io/2014/12/24/read-volley-source-code/" target="_blank" rel="external">Volley的源码解析</a>，但是使用上很不相似。Retrofit使用起来更简单，Volley使用上更加原始而且符合使用者的直觉，其实我觉得如果对自己Volley封装一下也可以像Retrofit那样的简单的使用</p>
 <p>关于Volley的使用方法，请戳上面的Volley源码解析链接，这里就不赘述了</p>
 <h2 id="1_Retrofit怎么用">1 Retrofit怎么用</h2><p>虽然Retrofit官网已经说明了，我还是要按照我的思路说一下它的使用方法</p>
 <p>比如你要请求这么一个api：</p>
@@ -70,11 +71,9 @@ call.enqueue(<span class="keyword">new</span> Callback&lt;List&lt;Contributor&gt
 });
 </code></pre><p>这个使用方式看上去和Volley的方式完全不一样，使用Volley时你必须先创建一个<code>Request</code>对象，包括这个请求的Method，Url，Url的参数，以及一个请求成功和失败的Listener，然后把这个请求放到<code>RequestQueue</code>中，最后NetworkDispatcher会请求服务器获得数据。而<code>Retrofit</code>只要创建一个接口就可以了，太不可思议了！！</p>
 <p>而我要说，其实这两种方式本质上是一样的，只是这个框架<strong>描述HTTP请求的方式不一样而已</strong>。因此，<strong>你可以发现上面的<code>Github</code>接口其实就是<code>Retrofit</code>对一个HTTP请求的描述</strong></p>
-<p>#2 Retrofit的原理</p>
-<p>Volley描述一个HTTP请求是需要创建一个<code>Request</code>对象，而执行这个请求呢，就是把这个请求对象放到一个队列中，让网络线程去处理。</p>
+<h1 id="2_Retrofit的原理">2 Retrofit的原理</h1><p>Volley描述一个HTTP请求是需要创建一个<code>Request</code>对象，而执行这个请求呢，就是把这个请求对象放到一个队列中，让网络线程去处理。</p>
 <p>Retrofit是怎么做的呢？答案就是<strong>Java的动态代理</strong></p>
-<p>##动态代理</p>
-<p>当开始看Retrofit的代码，我对下面这句代码感到很困惑：</p>
+<h2 id="动态代理">动态代理</h2><p>当开始看Retrofit的代码，我对下面这句代码感到很困惑：</p>
 <pre><code>// Create an<span class="instruction"> instance </span>of our GitHub API interface.
 GitHub github =<span class="function"> retrofit.create(</span>GitHub.class<span class="function">)</span>;
 </code></pre><p>我给Retrofit对象传了一个<code>Github</code>接口的Class对象，怎么又返回一个<code>Github</code>对象呢？进入<code>create</code>方法一看，没几行代码，但是我觉得这几行代码就是Retrofit的精妙的地方：</p>
@@ -102,12 +101,11 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
     });
 }
 </code></pre><p>看，<code>create</code>方法重要就是返回了一个动态代理对象。那么问题来了…</p>
-<p><strong>动态代理是个上面东西？</strong></p>
+<p><strong>动态代理是个什么东西？</strong></p>
 <p>看Retrofit代码之前我知道Java动态代理是一个很重要的东西，比如在Spring框架里大量的用到，但是它有什么用呢？</p>
 <p><strong>Java动态代理就是Java开发给了开发人员一种可能：当你要调用某个类的方法前，插入你想要执行的代码</strong></p>
 <p>比如你要执行某个操作前，你必须要判断这个用户是否登录，或者你在付款前，你需要判断这个人的账户中存在这么多钱。这么简单的一句话，我相信可以把一个不懂技术的人也讲明白Java动态代理是什么东西了。</p>
-<p>##为什么要使用动态代理</p>
-<p>你看上面代码，获取数据的代码就是这句:</p>
+<h2 id="为什么要使用动态代理">为什么要使用动态代理</h2><p>你看上面代码，获取数据的代码就是这句:</p>
 <pre><code>// <span class="operator"><span class="keyword">Create</span> a <span class="keyword">call</span> <span class="keyword">instance</span> <span class="keyword">for</span> looking up Retrofit <span class="keyword">contributors</span>.
 <span class="keyword">Call</span>&lt;<span class="keyword">List</span>&lt;Contributor&gt;&gt; <span class="keyword">call</span> = github.<span class="keyword">contributors</span>(<span class="string">"square"</span>, <span class="string">"retrofit"</span>);</span>
 </code></pre><p>上面<code>github</code>对象其实是一个动态代理对象，并不是一个真正的<code>Githb</code>接口的<code>implements</code>对象，当<code>github</code>对象调用<code>contributors</code>方法时，执行的是动态代理方法（你debug一下就知道了）</p>
@@ -130,11 +128,9 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
 <li><code>void onResponse(Response&lt;T&gt; response);</code></li>
 <li><code>void onFailure(Throwable t);</code></li>
 </ul>
-<p>###<code>Converter&lt;F, T&gt;</code><br>这个接口主要的作用就是将HTTP返回的数据解析成Java对象，主要由Xml、Gson、protobuf等等，你可以在创建<code>Retrofit</code>对象时添加你需要使用的<code>Converter</code>实现（看上面创建Retrofit对象的代码）</p>
+<h3 id="Converter&lt;F,_T&gt;"><code>Converter&lt;F, T&gt;</code></h3><p>这个接口主要的作用就是将HTTP返回的数据解析成Java对象，主要由Xml、Gson、protobuf等等，你可以在创建<code>Retrofit</code>对象时添加你需要使用的<code>Converter</code>实现（看上面创建Retrofit对象的代码）</p>
 <h3 id="Call&lt;T&gt;"><code>Call&lt;T&gt;</code></h3><p>这个接口主要的作用就是发送一个HTTP请求，Retrofit默认的实现是<code>OkHttpCall&lt;T&gt;</code>，你可以根据实际情况实现你自己的Call类，这个设计和Volley的<code>HttpStack</code>接口设计的思想非常相似，子类可以实现基于<code>HttpClient</code>或<code>HttpUrlConnetction</code>的HTTP请求工具，<strong>这种设计非常的插件化，而且灵活</strong></p>
-<ul>
-<li><code>CallAdapter&lt;T&gt;</code><br>上面说到过，<code>CallAdapter</code>中属性只有<code>responseType</code>一个，还有一个<code>&lt;R&gt; T adapt(Call&lt;R&gt; call)</code>方法，这个接口的实现类也只有一个，<code>DefaultCallAdapter</code>。这个方法的主要作用就是将<code>Call</code>对象转换成另一个对象，可能是为了支持RxJava才设计这个类的吧</li>
-</ul>
+<h3 id="CallAdapter&lt;T&gt;"><code>CallAdapter&lt;T&gt;</code></h3><p>上面说到过，<code>CallAdapter</code>中属性只有<code>responseType</code>一个，还有一个<code>&lt;R&gt; T adapt(Call&lt;R&gt; call)</code>方法，这个接口的实现类也只有一个，<code>DefaultCallAdapter</code>。这个方法的主要作用就是将<code>Call</code>对象转换成另一个对象，可能是为了支持RxJava才设计这个类的吧</p>
 <h2 id="Retrofit的运行">Retrofit的运行</h2><p>刚才讲到<code>GitHub github = retrofit.create(GitHub.class);</code>代码返回了一个动态代理对象，而执行<code>Call&lt;List&lt;Contributor&gt;&gt; call = github.contributors(&quot;square&quot;, &quot;retrofit&quot;);</code>代码时返回了一个<code>OkHttpCall</code>对象，拿到这个<code>Call</code>对象才能执行HTTP请求</p>
 <p>其中后一句代码执行了一个非常复杂的过程</p>
 <p>当执行了<code>contributors</code>方法时，Retrofit其实是执行了动态代理的<code>InvocationHandler</code>对象，最后会创建一个<code>MethodHandler</code>对象，这个对象很重要</p>
@@ -146,13 +142,13 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
     <span class="type">RequestFactory</span> requestFactory = <span class="type">RequestFactoryParser</span>.parse(<span class="keyword">method</span>, responseType, retrofit);
 
     <span class="keyword">return</span> new <span class="type">MethodHandler</span>&lt;&gt;(retrofit.client(), requestFactory, callAdapter, responseConverter);
-</code></pre><p>  }</p>
-<p>上面代码就是创建一个<code>MethodHandler</code>对象，一个<code>MethodHandler</code>对象中包含了4个对象</p>
-<h3 id="OkHttpClient">OkHttpClient</h3><p>这个是Retrofit默认生成的</p>
-<h3 id="RequestFactory：">RequestFactory：</h3><p>通过<code>RequestFactoryParser.parse(method, responseType, retrofit);</code>生成，主要作用就是<strong>解析整个Http请求的所有数据</strong></p>
+}
+</code></pre><p>上面代码就是创建一个<code>MethodHandler</code>对象，一个<code>MethodHandler</code>对象中包含了4个对象</p>
+<h3 id="0-_OkHttpClient">0. OkHttpClient</h3><p>这个是Retrofit默认生成的</p>
+<h3 id="1-_RequestFactory：">1. RequestFactory：</h3><p>通过<code>RequestFactoryParser.parse(method, responseType, retrofit);</code>生成，主要作用就是<strong>解析整个Http请求的所有数据</strong></p>
 <p>主要原理就是解析一个接口，比如上面的<code>Github</code>接口，结果就是得到整个Http请求全部的信息，还会通过<code>@Path</code>和<code>@Query</code>注解拼接Url</p>
 <p>不细讲了，全部代码都在<code>retrofit.RequestFactoryParser</code>类中</p>
-<h3 id="CallAdapter">CallAdapter</h3><p>获取<code>CallAdapter</code>的代码如下：</p>
+<h3 id="2-_CallAdapter">2. CallAdapter</h3><p>获取<code>CallAdapter</code>的代码如下：</p>
 <pre><code>private <span class="keyword">static</span> <span class="type">CallAdapter</span>&lt;?&gt; createCallAdapter(<span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Retrofit</span> retrofit) {
   <span class="type">Type</span> returnType = <span class="keyword">method</span>.getGenericReturnType();
   <span class="keyword">if</span> (<span class="type">Utils</span>.hasUnresolvableType(returnType)) {
@@ -171,7 +167,7 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
 }
 </code></pre><p>你可以在创建Retrofit对象时，添加你想要的<code>CallAdapter</code>，而获取<code>CallAdapter</code>的方式也是从<code>Retrofit</code>对象中获取</p>
 <p>默认的<code>DefaultCallAdapter</code>几乎没有上面作用，基本和动画里面的<code>LinearInterpolator</code>差不多</p>
-<h3 id="Converter">Converter</h3><p>获得<code>Converter</code>对象和上面的原理几乎一样</p>
+<h3 id="3-_Converter">3. Converter</h3><p>获得<code>Converter</code>对象和上面的原理几乎一样</p>
 <pre><code>private <span class="keyword">static</span> <span class="type">Converter</span>&lt;<span class="type">ResponseBody</span>, ?&gt; createResponseConverter(<span class="type">Method</span> <span class="keyword">method</span>,
   <span class="type">Retrofit</span> retrofit, <span class="type">Type</span> responseType) {
   <span class="type">Annotation</span>[] annotations = <span class="keyword">method</span>.getAnnotations();
@@ -194,7 +190,7 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
 <p>Retrofit的功能非常多的依赖Java反射，代码中其实还有很多细节，比如异常的捕获、抛出和处理，大量的Factory设计模式（为什么要这么多使用Factory模式？）</p>
 <p>Retrofit中接口设计的恰到好处，在你创建<code>Retrofit</code>对象时，让你有更多更灵活的方式去处理你的需求，比如使用不同的<code>Converter</code>、使用不同的<code>CallAdapter</code>，这也就提供了你使用RxJava来调用Retrofit的可能</p>
 <p>我也慢慢看了<a href="http://square.github.io/picasso/" target="_blank" rel="external"><code>Picasso</code></a>和<code>Retrofit</code>的代码了，收获还是很多的，也更加深入的理解面向接口的编程方法，这个写代码就是<strong>好的代码就是依赖接口而不是实现</strong>最好的例子</p>
-<p>好感谢开源的世界，让我能读到b大牛的代码。我一直觉得一个人如果没有读过好的代码是不太可能写出好代码的。什么是好的代码？像<code>Picasso</code>和<code>Retrofit</code>这样的就是好的代码，扩展性强、低耦合、插件化</p>
+<p>好感谢开源的世界，让我能读到大牛的代码。我一直觉得一个人如果没有读过好的代码是不太可能写出好代码的。什么是好的代码？像<code>Picasso</code>和<code>Retrofit</code>这样的就是好的代码，扩展性强、低耦合、插件化</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>公司里最近做的项目中网络框架用的就是<a href="http://square.github.io/retrofit/">Retrofit</a>，用的多了以后觉得这个框架真的非常好用，然后抽了点时间debug了一下源码，觉得不光代码写的非常好，而且设计这个框架的思路都非常特别，收获很多，决定记录下来</p>
