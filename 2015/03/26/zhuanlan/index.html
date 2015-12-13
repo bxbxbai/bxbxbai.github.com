@@ -1,66 +1,187 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>知乎专栏App | bxbxbai’s notes</title>
-  <meta name="description" content="学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
-  <meta name="generator" content="bxbxbai’s notes">
-
+  <meta charset="utf-8">
+  
+  <title>知乎专栏App | Android Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）
+项目地址：https://github.com/bxbxbai/ZhuanLan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知乎专栏App">
+<meta property="og:url" content="http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/index.html">
+<meta property="og:site_name" content="Android Notes">
+<meta property="og:description" content="最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）
+项目地址：https://github.com/bxbxbai/ZhuanLan">
+<meta property="og:image" content="http://i2.tietuku.com/0753db9e1804f6b3.png">
+<meta property="og:image" content="http://i2.tietuku.com/2970239f71296398.png">
+<meta property="og:image" content="http://i2.tietuku.com/6fa9fc0c9c2de428.png">
+<meta property="og:image" content="http://i2.tietuku.com/ace4ca3200ad7a09.png">
+<meta property="og:image" content="http://i2.tietuku.com/da044bdfabfe3e4f.png">
+<meta property="og:image" content="http://i2.tietuku.com/e991cad27820649d.jpg">
+<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="知乎专栏App">
+<meta name="twitter:description" content="最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）
+项目地址：https://github.com/bxbxbai/ZhuanLan">
+  
+    <link rel="alternative" href="/atom.xml" title="Android Notes" type="application/atom+xml">
   
   
-  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+    <link rel="icon" href="/favicon.png">
   
-  
-
-  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/bxbxbai.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+			
+		</a>
 
-<!--
-<body class="post-template">
--->
-<body class="home-template">
-<div id="perspective" class="perspective effect-movedown">
-  <div class="container">
-    <!-- wrapper -->
-    <div class="wrapper">
+		<hgroup>
+		  <h1 class="header-author"><a href="/">bxbxbai</a></h1>
+		</hgroup>
 
-      <header class="site-head"  style="background: #24282b url(/img/img-bg.jpg) 0 -20%" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="/img/logo.svg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">bxbxbai’s notes</h1>
-            <h2 class="blog-description">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多<button id="showMenu">Show Menu</button></h2>
-        </div>
+		
+		<p class="header-subtitle">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多</p>
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/about">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
+					        
+								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
     </div>
-</header>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">bxbxbai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/bxbxbai.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">bxbxbai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/about">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
+			        
+						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-zhuanlan" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/26/zhuanlan/" class="article-date">
+  	<time datetime="2015-03-26T11:55:31.000Z" itemprop="datePublished">Mar 26 2015</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      知乎专栏App
+    </h1>
+  
 
+      </header>
       
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开源/">开源</a></li></ul>
+	</div>
 
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2015-03-26T11:55:31.000Z" itemprop="datePublished">
-          Mar 26 2015
-      </time>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
     
-    
-    | 
-    <a href='/tags/Android/'>Android</a>,
-    
-    <a href='/tags/开源/'>开源</a>
-    
-    
-</span>
-    <h1 class="post-title">知乎专栏App</h1>
-    <section class="post-content">
-      <p>最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）</p>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）</p>
 <p>项目地址：<a href="https://github.com/bxbxbai/ZhuanLan" target="_blank" rel="external">https://github.com/bxbxbai/ZhuanLan</a></p>
 <a id="more"></a>
 <p>##1.1版本<br>现在App在Android 4.4系统上支持沉浸式状态栏了，个人感觉更加好看了，增加了抽屉菜单功能（部分功能还未完成）。</p>
@@ -91,89 +212,126 @@
 <p><img src="http://i2.tietuku.com/e991cad27820649d.jpg" alt="image"></p>
 <p>（支付宝扫一扫）</p>
 
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>bxbxbai</h4>
-    <p>杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟</p>
-</section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟 ?url=http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/" target="_blank">
-        <span class="hidden">weibo</span>
-    </a>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
+      
+    </div>
     
-    <a class="newer-posts" href="/2015/04/07/swipe-playbar/">
-        ← 可以滑动切歌的播放控制条（模仿QQ音乐）
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/04/07/swipe-playbar/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          可以滑动切歌的播放控制条（模仿QQ音乐）
+        
+      </div>
     </a>
-    
-    <span class="icon-logo">•</span>
-    
-    <a class="older-posts" href="/2015/02/08/android-develop-notes-0/">
-        Android开发笔记0 →
+  
+  
+    <a href="/2015/02/08/android-develop-notes-0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android开发笔记0</div>
+      <strong class="article-nav-caption">></strong>
     </a>
-    
+  
 </nav>
 
-  <div id="comment" class="comments-area">
-    <h4 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h4>
-    
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
 </div>
 
-</main>
 
 
-      
-<footer class="site-footer">
-  
-  <a class="subscribe icon-feed" href="atom.xml"><span class="tooltip">Subscribe!</span></a>
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">bxbxbai’s notes</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="zhuanlan" data-title="知乎专栏App" data-url="http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 bxbxbai
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
   </div>
 </footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
 
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-<script type="text/javascript" src="/js/menu.js"></script>
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
 
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51089251-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
 
 
 
 
   </div>
-</div>
-
-<nav  class="outer-nav top horizontal">
-
-          <a class="icon-home"  href="/"><span>Home</span></a>
-
-          <a class="icon-news"  href="/archive"><span>Archive</span></a>
-
-          <a class="default"  href="/about/"><span>About</span></a>
-
-</nav>
-
-</div>
 </body>
 </html>

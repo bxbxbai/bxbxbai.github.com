@@ -1,64 +1,178 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>防御性编程以及我的一些感想 | bxbxbai’s notes</title>
-  <meta name="description" content="学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
-  <meta name="generator" content="bxbxbai’s notes">
-
+  <meta charset="utf-8">
+  
+  <title>防御性编程以及我的一些感想 | Android Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##这得从我看到的这篇文章说起~防御性编程小例，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防御性编程以及我的一些感想">
+<meta property="og:url" content="http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/index.html">
+<meta property="og:site_name" content="Android Notes">
+<meta property="og:description" content="##这得从我看到的这篇文章说起~防御性编程小例，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。">
+<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="防御性编程以及我的一些感想">
+<meta name="twitter:description" content="##这得从我看到的这篇文章说起~防御性编程小例，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。">
+  
+    <link rel="alternative" href="/atom.xml" title="Android Notes" type="application/atom+xml">
   
   
-  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+    <link rel="icon" href="/favicon.png">
   
-  
-
-  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/bxbxbai.jpg" class="js-avatar" style="width: 100%;height: 100%;opacity: 1;">
+			
+		</a>
 
-<!--
-<body class="post-template">
--->
-<body class="home-template">
-<div id="perspective" class="perspective effect-movedown">
-  <div class="container">
-    <!-- wrapper -->
-    <div class="wrapper">
+		<hgroup>
+		  <h1 class="header-author"><a href="/">bxbxbai</a></h1>
+		</hgroup>
 
-      <header class="site-head"  style="background: #24282b url(/img/img-bg.jpg) 0 -20%" >
-    <div class="vertical">
-        <div class="site-head-content inner">
-             <a class="blog-logo" href="/"><img src="/img/logo.svg" alt="Blog Logo"/></a> 
-            <h1 class="blog-title">bxbxbai’s notes</h1>
-            <h2 class="blog-description">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多<button id="showMenu">Show Menu</button></h2>
-        </div>
+		
+		<p class="header-subtitle">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多</p>
+		
+
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/about">关于我</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
+					        
+								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
     </div>
-</header>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">bxbxbai</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/bxbxbai.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">bxbxbai</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">学会用不同的角度去看待和理解这个世界，你收获的永远比你想象的更多</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/about">关于我</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
+			        
+						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-防御性编程以及我的一些感想" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/06/11/防御性编程以及我的一些感想/" class="article-date">
+  	<time datetime="2014-06-11T12:36:49.000Z" itemprop="datePublished">Jun 11 2014</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      防御性编程以及我的一些感想
+    </h1>
+  
 
+      </header>
       
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/经验/">经验</a></li></ul>
+	</div>
 
-<main class="content" role="main">
-  <article class="post">
-    <span class="post-meta">
-      <time datetime="2014-06-11T12:36:49.000Z" itemprop="datePublished">
-          Jun 11 2014
-      </time>
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
     
-    
-    | 
-    <a href='/tags/经验/'>经验</a>
-    
-    
-</span>
-    <h1 class="post-title">防御性编程以及我的一些感想</h1>
-    <section class="post-content">
-      <p>##这得从我看到的这篇文章说起~<br><a href="http://sharecore.net/blog/2014/01/13/defensive-programming/" target="_blank" rel="external">防御性编程小例</a>，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。</p>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##这得从我看到的这篇文章说起~<br><a href="http://sharecore.net/blog/2014/01/13/defensive-programming/" target="_blank" rel="external">防御性编程小例</a>，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。</p>
 <a id="more"></a>
 <p>在公司，我们碰到的很大一部分问题都是<code>NullPointerException</code>。我常常就想：<strong>这段程序明明在我手机上运行好好的，为什么会出现这种情况呢？</strong></p>
 <p><strong>因为，我们永远都无法预测用户使用App时会发生的各种情况。</strong>所以防御性编程可以让我们减少很大一部分错误。</p>
@@ -114,89 +228,126 @@
 <p>要知道当一个对象为<code>null</code>的时候（你肯定不知道它为<code>null</code>），然后调用它的方法时，就会发生程序崩溃，这是应该是程序崩溃最常见的原因之一了~</p>
 <p>比如在我最开始写的那个atoi程序里，如果别人用我的程序不小心传入一个<code>null</code>，那么我的程序就崩溃了~</p>
 
-    </section>
-    <footer class="post-footer">
-      <section class="author">
-    <h4>bxbxbai</h4>
-    <p>杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟</p>
-</section>
-      <section class="share">
-    <h4>Share this post</h4>
-    <a class="icon-sina-weibo" href="http://v.t.sina.com.cn/share/share.php?title=杭州人，目前上海工作，Android码农，不断学习中，这里主要记录我的技术学习和感悟 ?url=http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/" target="_blank">
-        <span class="hidden">weibo</span>
-    </a>
-    <a class="icon-twitter" href="http://twitter.com/share?url=http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/"
-       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-        <span class="hidden">Twitter</span>
-    </a>
-    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/"
-       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-        <span class="hidden">Facebook</span>
-    </a>
-    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/"
-       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-        <span class="hidden">Google+</span>
-    </a>
-</section>
-
-    </footer>
-  </article>
-  <nav class="pagination" role="pagination">
+      
+    </div>
     
-    <a class="newer-posts" href="/2014/07/13/android要点理解looper和handler/">
-        ← Android要点：理解Loopers 和 Handlers
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/07/13/android要点理解looper和handler/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android要点：理解Loopers 和 Handlers
+        
+      </div>
     </a>
-    
-    <span class="icon-logo">•</span>
-    
-    <a class="older-posts" href="/2014/05/22/android-wifi-connection/">
-        Android应用程序创建热点以及自动链接Wifi，我遇到的问题以及我是怎么解决的 →
+  
+  
+    <a href="/2014/05/22/android-wifi-connection/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android应用程序创建热点以及自动链接Wifi，我遇到的问题以及我是怎么解决的</div>
+      <strong class="article-nav-caption">></strong>
     </a>
-    
+  
 </nav>
 
-  <div id="comment" class="comments-area">
-    <h4 class="title"><a href="#disqus_comments" name="disqus_comments">Comments</a></h4>
-    
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
 </div>
 
-</main>
 
 
-      
-<footer class="site-footer">
-  
-  <a class="subscribe icon-feed" href="atom.xml"><span class="tooltip">Subscribe!</span></a>
-  
-  <div class="inner">
-     <section class="copyright">All content copyright <a href="/">bxbxbai’s notes</a> &copy; 2014 &bull; All rights reserved.</section>
-     <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/">Hexo</a></section>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="防御性编程以及我的一些感想" data-title="防御性编程以及我的一些感想" data-url="http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 bxbxbai
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
   </div>
 </footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
 
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
-<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
-<script type="text/javascript" src="/js/index.js"></script>
-<script type="text/javascript" src="/js/menu.js"></script>
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
 
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51089251-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
 
 
 
 
   </div>
-</div>
-
-<nav  class="outer-nav top horizontal">
-
-          <a class="icon-home"  href="/"><span>Home</span></a>
-
-          <a class="icon-news"  href="/archive"><span>Archive</span></a>
-
-          <a class="default"  href="/about/"><span>About</span></a>
-
-</nav>
-
-</div>
 </body>
 </html>
