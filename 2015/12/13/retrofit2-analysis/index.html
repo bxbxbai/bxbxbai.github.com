@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Android Notes">
 <meta property="og:description" content="公司里最近做的项目中网络框架用的就是Retrofit，用的多了以后觉得这个框架真的非常好用，然后抽了点时间debug了一下源码，觉得不光代码写的非常好，而且设计这个框架的思路都非常特别，收获很多，决定记录下来
 本文的源码分析基于Retrofit 2.0，和Retrofit 1.0有较大的不同， 本文主要分为几部分：0、Retrofi 是什么，1、Retrofi怎么用，2、Retrofit的原理是什">
-<meta property="og:updated_time" content="2015-12-13T11:50:53.000Z">
+<meta property="og:updated_time" content="2015-12-15T05:48:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Retrofit2 源码解析">
 <meta name="twitter:description" content="公司里最近做的项目中网络框架用的就是Retrofit，用的多了以后觉得这个框架真的非常好用，然后抽了点时间debug了一下源码，觉得不光代码写的非常好，而且设计这个框架的思路都非常特别，收获很多，决定记录下来
@@ -341,6 +341,14 @@ public &lt;T&gt; T create(final <span class="type">Class</span>&lt;T&gt; service
 <p>只不过前一种方式是同步的，后一种是异步的，<strong>也就是说Retrofit提供了同步和异步两种HTTP请求方式</strong></p>
 <p>你可能会觉得我只要发送一个HTTP请求，你要做这么多事情不会很“慢”吗？不会很浪费性能吗？</p>
 <p>我觉得，首先现在手机处理器主频非常高了，解析这个接口可能就花1ms可能更少的时间（我没有测试过），面对一个HTTP本来就需要几百ms，甚至几千ms来说不值得一提；而且Retrofit会对解析过的请求进行缓存，就在<code>Map&lt;Method, MethodHandler&lt;?&gt;&gt; methodHandlerCache</code>这个对象中</p>
+<h2 id="如何在Retrofit中使用RxJava">如何在Retrofit中使用RxJava</h2><p>由于Retrofit设计的扩张性非常强，你只需要改变一下<code>CallAdapter</code>就可以了</p>
+<pre><code>Retrofit retrofit = new Retrofit.Builder<span class="params">()</span>
+  .baseUrl<span class="params">(<span class="string">"https://api.github.com"</span>)</span>
+  .addConverterFactory<span class="params">(ProtoConverterFactory.create<span class="params">()</span>)</span>
+  .addConverterFactory<span class="params">(GsonConverterFactory.create<span class="params">()</span>)</span>
+  .addCallAdapterFactory<span class="params">(RxJavaCallAdapterFactory.create<span class="params">()</span>)</span>
+  .build<span class="params">()</span>;
+</code></pre><p>上面代码创建了一个<code>Retrofit</code>对象，支持Proto和Gson两种数据格式，并且还支持RxJava</p>
 <h1 id="4_最后">4 最后</h1><p><strong>Retrofit非常巧妙的用注解来描述一个HTTP请求，将一个HTTP请求抽象成一个Java接口，然后用了Java动态代理的方式，动态的将这个接口的注解“翻译”成一个HTTP请求，最后再执行这个HTTP请求</strong></p>
 <p>Retrofit的功能非常多的依赖Java反射，代码中其实还有很多细节，比如异常的捕获、抛出和处理，大量的Factory设计模式（为什么要这么多使用Factory模式？）</p>
 <p>Retrofit中接口设计的恰到好处，在你创建<code>Retrofit</code>对象时，让你有更多更灵活的方式去处理你的需求，比如使用不同的<code>Converter</code>、使用不同的<code>CallAdapter</code>，这也就提供了你使用RxJava来调用Retrofit的可能</p>
