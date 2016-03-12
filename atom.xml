@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2016-03-12T08:55:06.000Z</updated>
+  <updated>2016-03-12T08:59:20.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://bxbxbai.gitcafe.io/2016/03/12/how-butterknife-works/"/>
     <id>http://bxbxbai.gitcafe.io/2016/03/12/how-butterknife-works/</id>
     <published>2016-03-12T06:25:46.000Z</published>
-    <updated>2016-03-12T08:55:06.000Z</updated>
+    <updated>2016-03-12T08:59:20.000Z</updated>
     
     <content type="html">&lt;p&gt;大部分Android开发应该都知道&lt;a href=&quot;https://twitter.com/jakewharton&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@JakeWharton&lt;/a&gt; 大神的&lt;strong&gt;ButterKnife&lt;/strong&gt;注解库，使用这个库我们可以不用写很多无聊的&lt;code&gt;findViewById()&lt;/code&gt;和&lt;code&gt;setOnClickListener()&lt;/code&gt;等代码&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -105,7 +105,7 @@
 &lt;p&gt;如果你自定义了一个View，比如&lt;code&gt;public class BadgeLayout extends Fragment&lt;/code&gt;，那么你可以可以通过&lt;code&gt;ButterKnife.bind(BadgeLayout)&lt;/code&gt;来注入View的&lt;/p&gt;
 &lt;p&gt;如果你在一个ViewHolder中inflate了一个xml布局文件，得到一个&lt;code&gt;View&lt;/code&gt;对象，并且这个View是&lt;code&gt;LinearLayout&lt;/code&gt;或&lt;code&gt;FrameLayout&lt;/code&gt;等系统自带View，那么不是不能用&lt;code&gt;ButterKnife.bind(View)&lt;/code&gt;来注入View的，因为ButterKnife认为这些类的包名以&lt;code&gt;com.android&lt;/code&gt;开头的类是没有注解功能的（-。- 这不是废话吗？），所以这种情况你需要使用&lt;code&gt;ButterKnife.bind(ViewHolder，View)&lt;/code&gt;来注入View。&lt;/p&gt;
 &lt;p&gt;这表示&lt;strong&gt;你是把&lt;code&gt;@Bind&lt;/code&gt;、&lt;code&gt;@OnClick&lt;/code&gt;等注解写到了这个ViewHolder类中，ViewHolder中的View呢需要从后面那个&lt;code&gt;View&lt;/code&gt;中去找&lt;/strong&gt;， 大概就是这么个意思&lt;/p&gt;
-&lt;p&gt;原文：&lt;a href=&quot;https://medium.com/@lgvalle/how-butterknife-actually-works-85be0afbc5ab&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://medium.com/@lgvalle/how-butterknife-actually-works-85be0afbc5ab&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://medium.com/@lgvalle/how-butterknife-actually-works-85be0afbc5ab&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://medium.com/@lgvalle/how-butterknife-actually-works-85be0afbc5ab&lt;/a&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -124,7 +124,7 @@
     <link href="http://bxbxbai.gitcafe.io/2015/12/13/retrofit2/"/>
     <id>http://bxbxbai.gitcafe.io/2015/12/13/retrofit2/</id>
     <published>2015-12-13T05:16:29.000Z</published>
-    <updated>2016-03-12T06:55:53.000Z</updated>
+    <updated>2016-03-12T06:55:58.000Z</updated>
     
     <content type="html">&lt;p&gt;公司里最近做的项目中网络框架用的就是&lt;a href=&quot;http://square.github.io/retrofit/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Retrofit&lt;/a&gt;，用的多了以后觉得这个框架真的非常好用，然后抽了点时间debug了一下源码，觉得不光代码写的非常好，而且设计这个框架的思路都非常特别，收获很多，决定记录下来&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;本文的源码分析基于Retrofit 2.0，和Retrofit 1.0有较大的不同&lt;/strong&gt;， 本文主要分为几部分：0、Retrofi 是什么，1、Retrofi怎么用，2、Retrofit的原理是什么，3、我的心得与看法&lt;/p&gt;
@@ -320,7 +320,7 @@ Call&amp;lt;List&amp;lt;Contributor&amp;gt;&amp;gt; call = github.contributors(&
     <link href="http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/"/>
     <id>http://bxbxbai.gitcafe.io/2015/09/29/why-a-team-should-write-a-blog/</id>
     <published>2015-09-29T11:16:25.000Z</published>
-    <updated>2016-01-11T10:09:31.000Z</updated>
+    <updated>2016-03-12T06:59:55.000Z</updated>
     
     <content type="html">&lt;p&gt;我本人平时很喜欢看一些博客，包括技术的和非技术的，慢慢也积累了很多博客列表，包括个人的和团队的&lt;/p&gt;
 &lt;p&gt;很久以前我看到过大神刘未鹏写的文章：&lt;a href=&quot;http://mindhacks.cn/2009/02/15/why-you-should-start-blogging-now/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;为什么你应该（从现在开始就）写博客&lt;/a&gt;，文中很多道理直到我也开始写博客的时候才慢慢领悟到。比如，我可能对一个技术或概念很熟悉了，但是当我要说出来或者写下来给别人看的时候，就会发现有些技术的细节没考虑清楚。因此，当你写一篇博客的时候，其实你就是在逼迫你自己去把每一个细节都弄清楚&lt;/p&gt;
@@ -1054,7 +1054,7 @@ private Object readObjectString() {
     <link href="http://bxbxbai.gitcafe.io/2015/04/07/swipe-playbar/"/>
     <id>http://bxbxbai.gitcafe.io/2015/04/07/swipe-playbar/</id>
     <published>2015-04-07T11:59:09.000Z</published>
-    <updated>2016-03-12T06:58:18.000Z</updated>
+    <updated>2016-03-12T06:58:22.000Z</updated>
     
     <content type="html">&lt;p&gt;看了QQ音乐Android版有这个功能，觉得挺好玩的，就模仿它做了一个demo，可以滑动切歌（转换的gif严重失真，只能截图了 -.-）&lt;/p&gt;
 &lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/bxbxbai/SwipePlaybarDemo&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/bxbxbai/SwipePlaybarDemo&lt;/a&gt;&lt;/p&gt;
@@ -1220,7 +1220,7 @@ public class PlaybarPagerTransformer implements ViewPager.PageTransformer {
     <link href="http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/"/>
     <id>http://bxbxbai.gitcafe.io/2015/03/26/zhuanlan/</id>
     <published>2015-03-26T11:55:31.000Z</published>
-    <updated>2016-03-12T07:00:20.000Z</updated>
+    <updated>2016-03-12T07:00:21.000Z</updated>
     
     <content type="html">&lt;p&gt;最近一直在利用空余时间开发一个完整的App，名字就叫“专栏”。开发这个App的目的主要是为了练练手，熟悉开发一个完整App的流程。就像造房子，亲手打地基，搬砖头，垒砖头，还自己装修（虽然装修的不好看）&lt;/p&gt;
 &lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/bxbxbai/ZhuanLan&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/bxbxbai/ZhuanLan&lt;/a&gt;&lt;/p&gt;
@@ -1267,7 +1267,7 @@ public class PlaybarPagerTransformer implements ViewPager.PageTransformer {
     <link href="http://bxbxbai.gitcafe.io/2015/02/08/android-develop-notes-0/"/>
     <id>http://bxbxbai.gitcafe.io/2015/02/08/android-develop-notes-0/</id>
     <published>2015-02-08T03:13:56.000Z</published>
-    <updated>2016-03-12T06:57:16.000Z</updated>
+    <updated>2016-03-12T06:57:57.000Z</updated>
     
     <content type="html">&lt;p&gt;记录一些好用的开发技巧&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -1957,7 +1957,7 @@ View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, layout, t
     <link href="http://bxbxbai.gitcafe.io/2014/10/25/use-trace-view/"/>
     <id>http://bxbxbai.gitcafe.io/2014/10/25/use-trace-view/</id>
     <published>2014-10-25T02:09:36.000Z</published>
-    <updated>2016-03-12T06:59:50.000Z</updated>
+    <updated>2016-03-12T06:59:52.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;前面唠叨&quot;&gt;&lt;a href=&quot;#前面唠叨&quot; class=&quot;headerlink&quot; title=&quot;前面唠叨&quot;&gt;&lt;/a&gt;前面唠叨&lt;/h2&gt;&lt;p&gt;最近公司app中有些列表在滑动的时候会有卡顿现象，我就开始着手解决这些问题，解决问题之前首先要分析列表滑动的性能瓶颈在什么地方。因为之前不会正确使用TraceView这个工具，主要是看不懂TraceView界面下方数据指标的值代表什么意思…以前我用&lt;a href=&quot;http://bxbxbai.github.io/2014/08/01/the-stopwatch-class/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;StopWatch&lt;/a&gt;类来分析性能，现在觉得弱爆了…不过有些地方&lt;a href=&quot;http://bxbxbai.github.io/2014/08/01/the-stopwatch-class/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;StopWatch&lt;/a&gt;工具类还是很简单好用的~&lt;/p&gt;
 &lt;p&gt;网上可以找了很多博客来介绍这个工具的使用方法，很多都是讲解了一些一些就会的方法，讲一个大概，包括StackOverFlow上我也没有找到很好的讲解TraceView各个数据指标代码什么意思的回答&lt;/p&gt;
@@ -2279,7 +2279,7 @@ View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, layout, t
     <link href="http://bxbxbai.gitcafe.io/2014/09/14/android-working-with-volley/"/>
     <id>http://bxbxbai.gitcafe.io/2014/09/14/android-working-with-volley/</id>
     <published>2014-09-14T06:48:39.000Z</published>
-    <updated>2016-03-12T07:01:24.000Z</updated>
+    <updated>2016-03-12T07:01:26.000Z</updated>
     
     <content type="html">&lt;p&gt;&lt;a href=&quot;http://developer.android.com/training/volley/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android Volley&lt;/a&gt; 是Google开发的一个网络lib，可以让你更加简单并且快速的访问网络数据。Volley库的网络请求都是异步的，你不必担心异步处理问题。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -2769,7 +2769,7 @@ Log.i(TAG, &amp;quot;time: &amp;quot; + (SystemClock.uptimeMillis() - start));
     <link href="http://bxbxbai.gitcafe.io/2014/07/16/context/"/>
     <id>http://bxbxbai.gitcafe.io/2014/07/16/context/</id>
     <published>2014-07-16T12:44:29.000Z</published>
-    <updated>2016-01-04T08:30:23.000Z</updated>
+    <updated>2016-03-12T07:02:29.000Z</updated>
     
     <content type="html">&lt;p&gt;原文：&lt;a href=&quot;http://www.doubleencore.com/2013/06/context/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.doubleencore.com/2013/06/context/&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&quot;译者注：&quot;&gt;&lt;a href=&quot;#译者注：&quot; class=&quot;headerlink&quot; title=&quot;译者注：&quot;&gt;&lt;/a&gt;译者注：&lt;/h3&gt;&lt;p&gt;找到一篇好文章，在开发过程中，经常会使用context对象，但是却不知道context是个什么东西，也不知道&lt;code&gt;getApplicationContext()&lt;/code&gt; 和 &lt;code&gt;getContext()&lt;/code&gt; 如何工作。特地翻译这篇文章，刚开始翻译，英语也不好，有错误还请大家指正。&lt;/p&gt;
@@ -2935,7 +2935,7 @@ Log.i(TAG, &amp;quot;time: &amp;quot; + (SystemClock.uptimeMillis() - start));
     <link href="http://bxbxbai.gitcafe.io/2014/07/13/android%E8%A6%81%E7%82%B9%E7%90%86%E8%A7%A3looper%E5%92%8Chandler/"/>
     <id>http://bxbxbai.gitcafe.io/2014/07/13/android要点理解looper和handler/</id>
     <published>2014-07-13T09:01:13.000Z</published>
-    <updated>2016-03-12T07:01:47.000Z</updated>
+    <updated>2016-03-12T07:01:49.000Z</updated>
     
     <content type="html">&lt;p&gt;原文：&lt;a href=&quot;http://mindtherobot.com/blog/159/android-guts-intro-to-loopers-and-handlers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://mindtherobot.com/blog/159/android-guts-intro-to-loopers-and-handlers/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;我喜欢Android的原因之一就是它有很多非常有用的小工具，其中很多还是与平台无关的。今天，我想介绍两个非常nice 的类——&lt;code&gt;Looper&lt;/code&gt;和&lt;code&gt;Handler&lt;/code&gt;，他们用于Android UI，并且对我们开发者也可用，我们就可以用它们来做很多非常棒的事情了。&lt;/p&gt;
@@ -3036,7 +3036,7 @@ public void onCreate(Bundle savedInstanceState) {
     <link href="http://bxbxbai.gitcafe.io/2014/06/11/%E9%98%B2%E5%BE%A1%E6%80%A7%E7%BC%96%E7%A8%8B%E4%BB%A5%E5%8F%8A%E6%88%91%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/"/>
     <id>http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/</id>
     <published>2014-06-11T12:36:49.000Z</published>
-    <updated>2016-03-12T07:02:07.000Z</updated>
+    <updated>2016-03-12T07:02:09.000Z</updated>
     
     <content type="html">&lt;h2 id=&quot;这得从我看到的这篇文章说起&quot;&gt;&lt;a href=&quot;#这得从我看到的这篇文章说起&quot; class=&quot;headerlink&quot; title=&quot;这得从我看到的这篇文章说起~&quot;&gt;&lt;/a&gt;这得从我看到的这篇文章说起~&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://sharecore.net/blog/2014/01/13/defensive-programming/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;防御性编程小例&lt;/a&gt;，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
