@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://i3.tietuku.com/14cc4af678f56eaf.png">
 <meta property="og:image" content="http://i1.tietuku.com/003b8cf9f3012d19.png">
 <meta property="og:image" content="http://i3.tietuku.com/e0b5b487f20e50ac.png">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2015-12-23T07:25:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈App混合开发">
 <meta name="twitter:description" content="混合开发的App（Hybrid App）就是在一个App中内嵌一个轻量级的浏览器，一部分原生的功能改为Html 5来开发，这部分功能不仅能够在不升级App的情况下动态更新，而且可以在Android或iOS的App上同时运行，让用户的体验更好又可以节省开发的资源。
@@ -73,13 +73,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -133,13 +129,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -186,15 +178,15 @@
         <p>混合开发的App（Hybrid App）就是在一个App中内嵌一个轻量级的浏览器，一部分原生的功能改为Html 5来开发，这部分功能不仅能够在不升级App的情况下动态更新，而且可以在Android或iOS的App上同时运行，让用户的体验更好又可以节省开发的资源。</p>
 <p>下面来谈谈Hybrid App开发中的技术问题。iOS方面的我不太了解，我就主要谈谈Android开发中的，其中可能会有很多说错的，请大家轻喷</p>
 <a id="more"></a>
-<h1 id="Hybrid开发中关键问题是什么">Hybrid开发中关键问题是什么</h1><p>想要在一个App中显示一个Html 5网页的功能，其实很简单，只要一个WebView就可以了。你可以点击链接来跳转网页。像这样的功能就能叫做Hybrid 开发了嘛？显然不是的。</p>
+<h1 id="Hybrid开发中关键问题是什么"><a href="#Hybrid开发中关键问题是什么" class="headerlink" title="Hybrid开发中关键问题是什么"></a>Hybrid开发中关键问题是什么</h1><p>想要在一个App中显示一个Html 5网页的功能，其实很简单，只要一个WebView就可以了。你可以点击链接来跳转网页。像这样的功能就能叫做Hybrid 开发了嘛？显然不是的。</p>
 <p><strong>我觉得一个Hybrid开发的App中必须要要有的功能就是Html 5页面和Native App怎么进行交互</strong>。比如，我点了一个Html 5页面上的一个按钮或链接，我能不能够跳转到Native App的某个页面；比如我点了Html 5页面上的分享按钮，我能不能调用Native App的分享功能；比如Html加载的时候能不能获取Native App的用户信息等等。</p>
 <p>看下图，在网易云音乐中进入这个Html 5页面时，你点击<strong>作者：空虚小编</strong>你会进入他的主页，这个主页是Native页面，而你点击上面那个播放按钮时，云音乐会启动Native的播放界面播放音乐，你点击评论时，你会进入Native的评论页</p>
 <p><img src="http://i1.tietuku.com/5575cfa4108a1f0e.png" alt="此处输入图片的描述"></p>
-<h1 id="Html_5和Native的交互">Html 5和Native的交互</h1><p><code>WebView</code>本来就支持js和Java相互调用，你只需要开启<code>WebView</code>的JavaScript脚本执行，然后通过代码<code>mWebView.addJavascriptInterface(new JsBridge(), &quot;bxbxbai&quot;);</code>向Html 5页面时注入一个Java对象，然后就可以在Html 5页面中调用Native的功能了</p>
-<h2 id="微信怎么做的">微信怎么做的</h2><p>微信应该是Hybrid 开发做的最好的App之一，它是怎么做交互的呢？</p>
+<h1 id="Html-5和Native的交互"><a href="#Html-5和Native的交互" class="headerlink" title="Html 5和Native的交互"></a>Html 5和Native的交互</h1><p><code>WebView</code>本来就支持js和Java相互调用，你只需要开启<code>WebView</code>的JavaScript脚本执行，然后通过代码<code>mWebView.addJavascriptInterface(new JsBridge(), &quot;bxbxbai&quot;);</code>向Html 5页面时注入一个Java对象，然后就可以在Html 5页面中调用Native的功能了</p>
+<h2 id="微信怎么做的"><a href="#微信怎么做的" class="headerlink" title="微信怎么做的"></a>微信怎么做的</h2><p>微信应该是Hybrid 开发做的最好的App之一，它是怎么做交互的呢？</p>
 <p>答案就是<code>微信JS-SDK</code>，去微信开发者文档中可以看到，微信JS-SDK封装了各种微信的功能，比如分享到朋友圈，图像接口，音频接口，支付接口地理位置接口等等。开发者只需要调用微信JS-SDK中的函数，然后统一由JS-SDK来调用微信中的功能，这样好处就是我写了一个Html 5的应用或网页，在Android和iOS的微信中都可以正常运行了</p>
 <p>下面会详细讲到</p>
-<h2 id="网易云音乐怎么做的">网易云音乐怎么做的</h2><p>那么网易云音乐是怎么做的呢？我用黑科技知道了上图云音乐的界面Activity是<code>CommonSubjectActivity</code>（名字好奇怪，如果要我从代码里找，我肯定找不到，因为还有一个类叫做<code>EmbedBrowserActivity</code>），我就在反编译后的云音乐代码中找相应的功能实现代码，实在没找到。不过我拿到了那个Html 5页面的地址：<a href="http://music.163.com/m/topic/194001" target="_blank" rel="external">http://music.163.com/m/topic/194001</a></p>
+<h2 id="网易云音乐怎么做的"><a href="#网易云音乐怎么做的" class="headerlink" title="网易云音乐怎么做的"></a>网易云音乐怎么做的</h2><p>那么网易云音乐是怎么做的呢？我用黑科技知道了上图云音乐的界面Activity是<code>CommonSubjectActivity</code>（名字好奇怪，如果要我从代码里找，我肯定找不到，因为还有一个类叫做<code>EmbedBrowserActivity</code>），我就在反编译后的云音乐代码中找相应的功能实现代码，实在没找到。不过我拿到了那个Html 5页面的地址：<a href="http://music.163.com/m/topic/194001" target="_blank" rel="external">http://music.163.com/m/topic/194001</a></p>
 <p>用Chrome打开后发现和App中显示的不一样，然后我用Charles截了进入那个Html 5的请求，发现云音乐加载的地址是<a href="http://music.163.com/m/topic/194001?type=android" target="_blank" rel="external">http://music.163.com/m/topic/194001?type=android</a> ，就是加了手机系统类型</p>
 <p>然后在我自己的App中加载这个Html 5页面就可以看到下图，<strong>@小比比说</strong>这样的文字是可以点击跳转到个人，点击播放按钮是可以播放音乐的</p>
 <p><img src="http://i3.tietuku.com/b00f74ef47f9ee0d.png" alt="此处输入图片的描述"></p>
@@ -202,21 +194,21 @@
 <p><img src="http://i3.tietuku.com/0197b3a47d0c2f1a.png" alt="此处输入图片的描述"></p>
 <p>也就是说，当我点击一个用户名的时候就请求跳转到<code>orpheus://user/30868859</code>，因为WebView可以拦截跳转的url，所以App在拦截每一个url，如果host是<code>orpheus</code>的话就启动用户首页</p>
 <p>反编译代码后，在云音乐的代码中找到了<code>this.mWebView.setWebViewClient(new cf(this));</code>这么一句代码，进入<code>cf</code>类，发现下面代码：</p>
-<pre><code>public boolean shouldOverrideUrlLoading<span class="params">(WebView webView, String url)</span> {
-    <span class="keyword">if</span> <span class="params">(url.startsWith<span class="params">(<span class="string">"orpheus://"</span>)</span>)</span> {
-        RedirectActivity.a<span class="params">(this.activity, url)</span>;
-        return <span class="literal">true</span>;
+<pre><code>public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+    if (url.startsWith(&quot;orpheus://&quot;)) {
+        RedirectActivity.a(this.activity, url);
+        return true;
     }
-    <span class="keyword">if</span> <span class="params">(<span class="params">(url.toLowerCase<span class="params">()</span>.startsWith<span class="params">(<span class="string">"http://"</span>)</span>)</span> || <span class="params">(url.toLowerCase<span class="params">()</span>.startsWith<span class="params">(<span class="string">"https://"</span>)</span>)</span>)</span> {
-        return <span class="literal">false</span>;
+    if ((url.toLowerCase().startsWith(&quot;http://&quot;)) || (url.toLowerCase().startsWith(&quot;https://&quot;))) {
+        return false;
     }
     try {
-        this.activity.startActivity<span class="params">(new Intent<span class="params">(<span class="string">"android.intent.action.VIEW"</span>, Uri.parse<span class="params">(url)</span>)</span>)</span>;
-        return <span class="literal">true</span>;
-    } catch <span class="params">(ActivityNotFoundException localActivityNotFoundException)</span> {
-        localActivityNotFoundException.printStackTrace<span class="params">()</span>;
+        this.activity.startActivity(new Intent(&quot;android.intent.action.VIEW&quot;, Uri.parse(url)));
+        return true;
+    } catch (ActivityNotFoundException localActivityNotFoundException) {
+        localActivityNotFoundException.printStackTrace();
     }
-    return <span class="literal">true</span>;
+    return true;
 }
 </code></pre><p>果然如此，再进入<code>RedirectActivity</code>，这是一个没有任何界面的Activity，专门用于处理页面跳转信息，它会调用一个方法<code>NeteaseMusicUtils.redirect(this, getIntent().getData().toString(), false)</code>来处理url，<code>redirect</code>方法的名字是我自己写的，部分代码如下：</p>
 <p><img src="http://i3.tietuku.com/99edcdc0195316cf.png" alt="此处输入图片的描述"></p>
@@ -224,25 +216,25 @@
 <p>然后我自己写了代码拦截Html 5的跳转，打印出的Log如下：</p>
 <p><img src="http://i3.tietuku.com/68f3abf5eb92745c.png" alt="此处输入图片的描述"></p>
 <p>可以看到Html 5页面可以跳转到各种页面，比如用户首页、播放音乐、MV界面、评论页、电台节目等等</p>
-<h2 id="总结">总结</h2><p>一般来讲，也是我目前知道的两种主流的方式就是</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般来讲，也是我目前知道的两种主流的方式就是</p>
 <ol>
 <li>js调用Native中的代码</li>
 <li>Schema：WebView拦截页面跳转</li>
 </ol>
 <p>第2种方式实现起来很简单，但是一个致命的问题就是这种交互方式是单向的，Html 5无法实现回调。像云音乐App中这种点击跳转到具体页面的功能，Schema的方式确实可以简单实现，而且也非常适合。如果需求变得复杂，假如Html 5需要获取Native App中的用户信息，那么最好使用js调用的方式。</p>
-<h1 id="js和Native进行交互">js和Native进行交互</h1><p>上面讲到WebViewbe本身就是支持js调用Native代码的，不过WebView的这个功能在Android 4.2（API 17）一下存在高危的漏洞。这个漏洞的原理就是Android系统通过<code>WebView.addJavascriptInterface(Object o, String interface)</code>方法注册可供js调用的Java对象，但是系统并没有对注册的Java对象方法调用做限制。导致攻击者可以利用反射调用未注册的其他任何Java对象，攻击者可以根据客户端的能力做任何事情。<a href="http://jaq.alibaba.com/blog.htm?id=48" target="_blank" rel="external">这篇文章</a>详细的介绍了这个漏洞</p>
+<h1 id="js和Native进行交互"><a href="#js和Native进行交互" class="headerlink" title="js和Native进行交互"></a>js和Native进行交互</h1><p>上面讲到WebViewbe本身就是支持js调用Native代码的，不过WebView的这个功能在Android 4.2（API 17）一下存在高危的漏洞。这个漏洞的原理就是Android系统通过<code>WebView.addJavascriptInterface(Object o, String interface)</code>方法注册可供js调用的Java对象，但是系统并没有对注册的Java对象方法调用做限制。导致攻击者可以利用反射调用未注册的其他任何Java对象，攻击者可以根据客户端的能力做任何事情。<a href="http://jaq.alibaba.com/blog.htm?id=48" target="_blank" rel="external">这篇文章</a>详细的介绍了这个漏洞</p>
 <p>出于安全考虑，Android 4.2以后的系统规定允许被js调用的Java方法必须以<code>@JavascriptInterface</code>进行注解</p>
-<h2 id="Cordova的解决方案">Cordova的解决方案</h2><p>Cordova是一个广泛使用的Hybrid开发框架，它提供了一套js和Native交互规范</p>
+<h2 id="Cordova的解决方案"><a href="#Cordova的解决方案" class="headerlink" title="Cordova的解决方案"></a>Cordova的解决方案</h2><p>Cordova是一个广泛使用的Hybrid开发框架，它提供了一套js和Native交互规范</p>
 <p>在Cordova的<code>SystemWebViewEngine</code>类中可以看到</p>
-<pre><code><span class="keyword">private</span> <span class="keyword">static</span> <span class="function"><span class="keyword">void</span> <span class="title">exposeJsInterface</span><span class="params">(WebView webView, CordovaBridge bridge)</span> </span>{
-    <span class="keyword">if</span> ((Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-        Log.i(TAG, <span class="string">"Disabled addJavascriptInterface() bridge since Android version is old."</span>);
-        <span class="comment">// Bug being that Java Strings do not get converted to JS strings automatically.</span>
-        <span class="comment">// This isn't hard to work-around on the JS side, but it's easier to just</span>
-        <span class="comment">// use the prompt bridge instead.</span>
-        <span class="keyword">return</span>;
+<pre><code>private static void exposeJsInterface(WebView webView, CordovaBridge bridge) {
+    if ((Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+        Log.i(TAG, &quot;Disabled addJavascriptInterface() bridge since Android version is old.&quot;);
+        // Bug being that Java Strings do not get converted to JS strings automatically.
+        // This isn&apos;t hard to work-around on the JS side, but it&apos;s easier to just
+        // use the prompt bridge instead.
+        return;
     }
-    webView.addJavascriptInterface(<span class="keyword">new</span> SystemExposedJsApi(bridge), <span class="string">"_cordovaNative"</span>);
+    webView.addJavascriptInterface(new SystemExposedJsApi(bridge), &quot;_cordovaNative&quot;);
 }
 </code></pre><p>因此当Android系统高于4.2时，Cordova还是使用<code>addJavascriptInterface</code>这种方式，因为这个方法在高版本上安全而且简单，低于4.2的时候，用什么方法呢？</p>
 <p><strong>答案是<code>WebChromeClient.onJsPrompt</code>方法</strong></p>
@@ -253,199 +245,199 @@
 <li><code>onJsPrompt</code></li>
 </ul>
 <p>这3个方法分别对应js的<code>alert</code>、<code>confirm</code>、<code>prompt</code>方法，因为只有<code>prompt</code>接收返回值，所以js调用一个Native方法后可以等待Native返回一个参数。下面是<code>cordova.js</code>中的一段代码：</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
 * Implements the API of ExposedJsApi.java, but uses prompt() to communicate.
 * This is used pre-JellyBean, where addJavascriptInterface() is disabled.
-*/</span>
-<span class="built_in">module</span>.exports = {
-    exec: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, service, action, callbackId, argsJson</span>) </span>{
-        <span class="keyword">return</span> prompt(argsJson, <span class="string">'gap:'</span>+<span class="built_in">JSON</span>.stringify([bridgeSecret, service, action, callbackId]));
+*/
+module.exports = {
+    exec: function(bridgeSecret, service, action, callbackId, argsJson) {
+        return prompt(argsJson, &apos;gap:&apos;+JSON.stringify([bridgeSecret, service, action, callbackId]));
     },
-    setNativeToJsBridgeMode: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, value</span>) </span>{
-        prompt(value, <span class="string">'gap_bridge_mode:'</span> + bridgeSecret);
+    setNativeToJsBridgeMode: function(bridgeSecret, value) {
+        prompt(value, &apos;gap_bridge_mode:&apos; + bridgeSecret);
     },
-    retrieveJsMessages: <span class="function"><span class="keyword">function</span>(<span class="params">bridgeSecret, fromOnlineEvent</span>) </span>{
-        <span class="keyword">return</span> prompt(+fromOnlineEvent, <span class="string">'gap_poll:'</span> + bridgeSecret);
+    retrieveJsMessages: function(bridgeSecret, fromOnlineEvent) {
+        return prompt(+fromOnlineEvent, &apos;gap_poll:&apos; + bridgeSecret);
     }
 };
 </code></pre><p>然后只要在<code>onJsPrompt</code>方法中使用<code>CordovaBridge</code>来处理js的prompt调用</p>
 <pre><code>/**
- * <span class="type">Tell</span> the client to display a prompt dialog to the user. <span class="type">If</span> the client returns <span class="literal">true</span>, <span class="type">WebView</span> will assume that the client will handle the prompt dialog <span class="keyword">and</span> call the appropriate <span class="type">JsPromptResult</span> <span class="keyword">method</span>.
+ * Tell the client to display a prompt dialog to the user. If the client returns true, WebView will assume that the client will handle the prompt dialog and call the appropriate JsPromptResult method.
  * &lt;p/&gt;
- * <span class="type">Since</span> we are hacking prompts <span class="keyword">for</span> our own purposes, we should <span class="keyword">not</span> be <span class="keyword">using</span> them <span class="keyword">for</span> this purpose, perhaps we should hack console.log to <span class="keyword">do</span> this instead!
+ * Since we are hacking prompts for our own purposes, we should not be using them for this purpose, perhaps we should hack console.log to do this instead!
  */
-@<span class="type">Override</span>
-public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="type">String</span> origin, <span class="type">String</span> message, <span class="type">String</span> defaultValue, final <span class="type">JsPromptResult</span> <span class="literal">result</span>) {
-    // <span class="type">Unlike</span> the @<span class="type">JavascriptInterface</span> bridge, this <span class="keyword">method</span> <span class="keyword">is</span> always called on the <span class="type">UI</span> thread.
-    <span class="type">String</span> handledRet = parentEngine.bridge.promptOnJsPrompt(origin, message, defaultValue);
-    <span class="keyword">if</span> (handledRet != null) {
-        <span class="literal">result</span>.confirm(handledRet);
-    } <span class="keyword">else</span> {
-        dialogsHelper.showPrompt(message, defaultValue, new <span class="type">CordovaDialogsHelper</span>.<span class="type">Result</span>() {
-            @<span class="type">Override</span>
-            public <span class="type">void</span> gotResult(boolean success, <span class="type">String</span> value) {
-                <span class="keyword">if</span> (success) {
-                    <span class="literal">result</span>.confirm(value);
-                } <span class="keyword">else</span> {
-                    <span class="literal">result</span>.cancel();
+@Override
+public boolean onJsPrompt(WebView view, String origin, String message, String defaultValue, final JsPromptResult result) {
+    // Unlike the @JavascriptInterface bridge, this method is always called on the UI thread.
+    String handledRet = parentEngine.bridge.promptOnJsPrompt(origin, message, defaultValue);
+    if (handledRet != null) {
+        result.confirm(handledRet);
+    } else {
+        dialogsHelper.showPrompt(message, defaultValue, new CordovaDialogsHelper.Result() {
+            @Override
+            public void gotResult(boolean success, String value) {
+                if (success) {
+                    result.confirm(value);
+                } else {
+                    result.cancel();
                 }
             }
         });
     }
-    <span class="keyword">return</span> <span class="literal">true</span>;
+    return true;
 }
-</code></pre><h2 id="一种开源的解决方案">一种开源的解决方案</h2><p>Cordova是Apache的一个开源解决方案，不过它需要xml配置<code>CordovaPlugin</code>信息，使用会比较麻烦，而且这个框架很重，具体请自行搜索Cordova使用教程</p>
+</code></pre><h2 id="一种开源的解决方案"><a href="#一种开源的解决方案" class="headerlink" title="一种开源的解决方案"></a>一种开源的解决方案</h2><p>Cordova是Apache的一个开源解决方案，不过它需要xml配置<code>CordovaPlugin</code>信息，使用会比较麻烦，而且这个框架很重，具体请自行搜索Cordova使用教程</p>
 <p>下面这个开源项目是我个人觉得比较合理的解决方案，也比较轻量级，下图就是一个Demo</p>
 <p><a href="https://github.com/pedant/safe-java-js-webview-bridge" target="_blank" rel="external">https://github.com/pedant/safe-java-js-webview-bridge</a></p>
 <p><img src="http://i3.tietuku.com/14cc4af678f56eaf.png" alt="此处输入图片的描述"></p>
 <p>这个项目的原理就是使用<code>WebChromeClient.onJsPrompt</code>方法来进行交互，本质上都是js调用<code>prompt</code>函数，传输一些参数，<code>onJsPrompt</code>方法拦截到prompt动作，然后解析数据，最后调用相应的Native方法</p>
 <p><strong>HostJsScope</strong>类中定义了所有可以被js调用的方法，这些方法都必须是静态方法，并且所有的方法第一个参数必须是WebView</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
 * HostJsScope中需要被JS调用的函数，必须定义成public static，且必须包含WebView这个参数
-*/</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HostJsScope</span> </span>{
-    <span class="comment">/**
+*/
+public class HostJsScope {
+    /**
     * 短暂气泡提醒
-    * <span class="doctag">@param</span> webView 浏览器
-    * <span class="doctag">@param</span> message 提示信息
-    * */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">toast</span><span class="params">(WebView webView, String message)</span> </span>{
+    * @param webView 浏览器
+    * @param message 提示信息
+    * */
+    public static void toast(WebView webView, String message) {
         Toast.makeText(webView.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    <span class="comment">/**
+    /**
     * 系统弹出提示框
-    * <span class="doctag">@param</span> webView 浏览器
-    * <span class="doctag">@param</span> message 提示信息
-    * */</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">alert</span><span class="params">(WebView webView, String message)</span> </span>{
-        <span class="comment">// 构建一个Builder来显示网页中的alert对话框</span>
-        AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(webView.getContext());
-        builder.setPositiveButton(android.R.string.ok, <span class="keyword">new</span> AlertDialog.OnClickListener() {
-            <span class="annotation">@Override</span>
-            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>{
+    * @param webView 浏览器
+    * @param message 提示信息
+    * */
+    public static void alert(WebView webView, String message) {
+        // 构建一个Builder来显示网页中的alert对话框
+        AlertDialog.Builder builder = new AlertDialog.Builder(webView.getContext());
+        builder.setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        builder.setTitle(<span class="string">"Hello world"</span>)
+        builder.setTitle(&quot;Hello world&quot;)
             .setMessage(message)
-            .setCancelable(<span class="keyword">false</span>)
+            .setCancelable(false)
             .create()
             .show();
     }
 
-    <span class="comment">// 其他代码</span>
+    // 其他代码
 
 }
 </code></pre><p>上面代码列举了最基本的点击Html 5按钮弹出对话框的功能</p>
 <p>这个库中一个最关键的叫做<code>JsCallJava</code>，这个实现的就是js来调用Java方法的功能，这个类只用于<code>InjectedWebChromeClient</code>类</p>
-<pre><code>public class <span class="type">InjectedChromeClient</span> extends <span class="type">WebChromeClient</span> {
+<pre><code>public class InjectedChromeClient extends WebChromeClient {
 
-    private <span class="type">JsCallJava</span> mJsCallJava;
+    private JsCallJava mJsCallJava;
     private boolean mIsInjectedJS;
 
-    public <span class="type">InjectedChromeClient</span>(<span class="type">String</span> injectedName, <span class="type">Class</span> injectedCls) {
-        this(new <span class="type">JsCallJava</span>(injectedName, injectedCls));
+    public InjectedChromeClient(String injectedName, Class injectedCls) {
+        this(new JsCallJava(injectedName, injectedCls));
     }
 
-    public <span class="type">InjectedChromeClient</span>(<span class="type">JsCallJava</span> jsCallJava) {
+    public InjectedChromeClient(JsCallJava jsCallJava) {
         mJsCallJava = jsCallJava;
     }
 
-    // 处理<span class="type">Alert</span>事件
-    @<span class="type">Override</span>
-    public boolean onJsAlert(<span class="type">WebView</span> view, <span class="type">String</span> url, <span class="type">String</span> message, final <span class="type">JsResult</span> <span class="literal">result</span>) {
-        <span class="literal">result</span>.confirm();
-        <span class="keyword">return</span> <span class="literal">true</span>;
+    // 处理Alert事件
+    @Override
+    public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+        result.confirm();
+        return true;
     }
 
-    @<span class="type">Override</span>
-    public <span class="type">void</span> onProgressChanged(<span class="type">WebView</span> view, <span class="type">int</span> newProgress) {
-        //为什么要在这里注入<span class="type">JS</span>
-        //<span class="number">1</span> <span class="type">OnPageStarted</span>中注入有可能全局注入不成功，导致页面脚本上所有接口任何时候都不可用
-        //<span class="number">2</span> <span class="type">OnPageFinished</span>中注入，虽然最后都会全局注入成功，但是完成时间有可能太晚，当页面在初始化调用接口函数时会等待时间过长
-        //<span class="number">3</span> 在进度变化时注入，刚好可以在上面两个问题中得到一个折中处理
-        //为什么是进度大于<span class="number">25</span>%才进行注入，因为从测试看来只有进度大于这个数字页面才真正得到框架刷新加载，保证<span class="number">100</span>%注入成功
-        <span class="keyword">if</span> (newProgress &lt;= <span class="number">25</span>) {
-            mIsInjectedJS = <span class="literal">false</span>;
-        } <span class="keyword">else</span> <span class="keyword">if</span> (!mIsInjectedJS) {
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        //为什么要在这里注入JS
+        //1 OnPageStarted中注入有可能全局注入不成功，导致页面脚本上所有接口任何时候都不可用
+        //2 OnPageFinished中注入，虽然最后都会全局注入成功，但是完成时间有可能太晚，当页面在初始化调用接口函数时会等待时间过长
+        //3 在进度变化时注入，刚好可以在上面两个问题中得到一个折中处理
+        //为什么是进度大于25%才进行注入，因为从测试看来只有进度大于这个数字页面才真正得到框架刷新加载，保证100%注入成功
+        if (newProgress &lt;= 25) {
+            mIsInjectedJS = false;
+        } else if (!mIsInjectedJS) {
             view.loadUrl(mJsCallJava.getPreloadInterfaceJS());
-            mIsInjectedJS = <span class="literal">true</span>;
-            <span class="type">StopWatch</span>.log(<span class="string">" inject js interface completely on progress "</span> + newProgress);
+            mIsInjectedJS = true;
+            StopWatch.log(&quot; inject js interface completely on progress &quot; + newProgress);
         }
         super.onProgressChanged(view, newProgress);
     }
 
-    @<span class="type">Override</span>
-    public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="type">String</span> url, <span class="type">String</span> message, <span class="type">String</span> defaultValue, <span class="type">JsPromptResult</span> <span class="literal">result</span>) {
-        <span class="literal">result</span>.confirm(mJsCallJava.call(view, message));
-        <span class="type">StopWatch</span>.log(<span class="string">"onJsPrompt: "</span> + view.toString() +<span class="string">", "</span> + url +<span class="string">", "</span> + message +<span class="string">", "</span> + defaultValue + <span class="string">", "</span> + <span class="literal">result</span>) ;
-        <span class="keyword">return</span> <span class="literal">true</span>;
+    @Override
+    public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+        result.confirm(mJsCallJava.call(view, message));
+        StopWatch.log(&quot;onJsPrompt: &quot; + view.toString() +&quot;, &quot; + url +&quot;, &quot; + message +&quot;, &quot; + defaultValue + &quot;, &quot; + result) ;
+        return true;
     }
 }   
 </code></pre><p>这个<code>InjectedWebChromeClient</code>是设给WebView的，这里一个非常重要的细节需要注意一下，在<code>onProgressChange</code>方法中，向WebView注入了一段js代码，这段js代码如下：</p>
 <pre><code>javascript: (function(b) {
-    console.<span class="literal">log</span>(<span class="string">"HostApp initialization begin"</span>);
-    <span class="keyword">var</span> a = {
+    console.log(&quot;HostApp initialization begin&quot;);
+    var a = {
         queue: [],
         callback: function() {
-            <span class="keyword">var</span> <span class="keyword">d</span> = Array.prototype.slice.call(arguments, 0);
-            <span class="keyword">var</span> c = <span class="keyword">d</span>.shift();
-            <span class="keyword">var</span> <span class="keyword">e</span> = <span class="keyword">d</span>.shift();
-            this.queue[c].apply(this, <span class="keyword">d</span>);
-            <span class="keyword">if</span> (!<span class="keyword">e</span>) {
+            var d = Array.prototype.slice.call(arguments, 0);
+            var c = d.shift();
+            var e = d.shift();
+            this.queue[c].apply(this, d);
+            if (!e) {
                 delete this.queue[c]
             }
         }
     };
     a.alert = a.alert = a.alert = a.delayJsCallBack = a.getIMSI = a.getOsSdk = a.goBack = a.overloadMethod = a.overloadMethod 
         = a.passJson2Java = a.passLongType = a.retBackPassJson = a.retJavaObject = a.testLossTime = a.toast = a.toast = function() {
-        <span class="keyword">var</span> f = Array.prototype.slice.call(arguments, 0);
-        <span class="keyword">if</span> (f.length &lt; 1) {
-            throw <span class="string">"HostApp call error, message:miss method name"</span>
+        var f = Array.prototype.slice.call(arguments, 0);
+        if (f.length &lt; 1) {
+            throw &quot;HostApp call error, message:miss method name&quot;
         }
-        <span class="keyword">var</span> <span class="keyword">e</span> = [];
-        <span class="keyword">for</span> (<span class="keyword">var</span> <span class="keyword">h</span> = 1; <span class="keyword">h</span> &lt; f.length; <span class="keyword">h</span>++) {
-            <span class="keyword">var</span> c = f[<span class="keyword">h</span>];
-            <span class="keyword">var</span> j = <span class="keyword">typeof</span> c;
-            <span class="keyword">e</span>[<span class="keyword">e</span>.length] = j;
-            <span class="keyword">if</span> (j == <span class="string">"function"</span>) {
-                <span class="keyword">var</span> <span class="keyword">d</span> = a.queue.length;
-                a.queue[<span class="keyword">d</span>] = c;
-                f[<span class="keyword">h</span>] = <span class="literal">d</span>
+        var e = [];
+        for (var h = 1; h &lt; f.length; h++) {
+            var c = f[h];
+            var j = typeof c;
+            e[e.length] = j;
+            if (j == &quot;function&quot;) {
+                var d = a.queue.length;
+                a.queue[d] = c;
+                f[h] = d
             }
         }
-        <span class="keyword">var</span> <span class="keyword">g</span> = JSON.<span class="keyword">parse</span>(prompt(JSON.stringify({
+        var g = JSON.parse(prompt(JSON.stringify({
             method: f.shift(),
-            types: <span class="keyword">e</span>,
-            <span class="keyword">args</span>: <span class="literal">f</span>
+            types: e,
+            args: f
         })));
-        <span class="keyword">if</span> (<span class="keyword">g</span>.code != 200) {
-            throw <span class="string">"HostApp call error, code:"</span> + <span class="keyword">g</span>.code + <span class="string">", message:"</span> + <span class="keyword">g</span>.result
+        if (g.code != 200) {
+            throw &quot;HostApp call error, code:&quot; + g.code + &quot;, message:&quot; + g.result
         }
-        <span class="keyword">return</span> <span class="keyword">g</span>.result
+        return g.result
     };
-    <span class="comment">//有时候，我们希望在该方法执行前插入一些其他的行为用来检查当前状态或是监测</span>
-    <span class="comment">//代码行为，这就要用到拦截（Interception）或者叫注入（Injection）技术了</span>
-    <span class="comment">/**
+    //有时候，我们希望在该方法执行前插入一些其他的行为用来检查当前状态或是监测
+    //代码行为，这就要用到拦截（Interception）或者叫注入（Injection）技术了
+    /**
      * Object.getOwnPropertyName 返回一个数组，内容是指定对象的所有属性
      *
      * 其后遍历这个数组，分别做以下处理：
      * 1. 备份原始属性；
      * 2. 检查属性是否为 function（即方法）；
      * 3. 若是重新定义该方法，做你需要做的事情，之后 apply 原来的方法体。
-     */</span>
-    Object.getOwnPropertyNames(a).<span class="keyword">forEach</span>(function(<span class="keyword">d</span>) {
-        <span class="keyword">var</span> c = a[<span class="keyword">d</span>];
-        <span class="keyword">if</span> (<span class="keyword">typeof</span> c === <span class="string">"function"</span> &amp;&amp; <span class="keyword">d</span> !== <span class="string">"callback"</span>) {
-            a[<span class="keyword">d</span>] = function() {
-                <span class="keyword">return</span> c.apply(a, [<span class="keyword">d</span>].concat(Array.prototype.slice.call(arguments, 0)))
+     */
+    Object.getOwnPropertyNames(a).forEach(function(d) {
+        var c = a[d];
+        if (typeof c === &quot;function&quot; &amp;&amp; d !== &quot;callback&quot;) {
+            a[d] = function() {
+                return c.apply(a, [d].concat(Array.prototype.slice.call(arguments, 0)))
             }
         }
     });
     b.HostApp = a;
-    console.<span class="literal">log</span>(<span class="string">"HostApp initialization end"</span>)
-})(<span class="keyword">window</span>);
+    console.log(&quot;HostApp initialization end&quot;)
+})(window);
 </code></pre><p>那么这段js代码是如何生成的呢？答案就在<code>JsCallJava</code>类的构造函数方法中，这个构造方法做的事情就是解析<code>HostJsScope</code>类中的方法，把每一个方法的签名都保持到<code>private Map&lt;String, Method&gt; mMethodsMap</code>中，再看上面那段js代码中</p>
 <blockquote>
 <p>a.alert = a.alert = a.alert = a.delayJsCallBack = a.getIMSI = a.getOsSdk = a.goBack = a.overloadMethod = a.overloadMethod<br>            = a.passJson2Java = a.passLongType = a.retBackPassJson = a.retJavaObject = a.testLossTime = a.toast = a.toast = function()</p>
@@ -460,7 +452,7 @@ public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="t
 </ol>
 <p>以上就是这个开源库的整个原理，我个人觉得非常适合用于Hybrid开发，这个解决方案中js可以收到Native的返回值，而且没有使用<code>addJavascriptInterface</code>方法，在低版本手机上也不会有安全问题，这个方法比Cordova的实现和配置简单</p>
 <p>那么当我点击Html 5页面上的一个按钮，比如弹出对话框，这个过程的整体流程是怎么样的呢</p>
-<h2 id="微信的解决方案？">微信的解决方案？</h2><p>什么？你问我微信是怎么解决的？我也反编译了微信的代码，想研究一下他们是解决的，其实我非常好奇微信的这种js 调用Native，并且又返回的调用方法</p>
+<h2 id="微信的解决方案？"><a href="#微信的解决方案？" class="headerlink" title="微信的解决方案？"></a>微信的解决方案？</h2><p>什么？你问我微信是怎么解决的？我也反编译了微信的代码，想研究一下他们是解决的，其实我非常好奇微信的这种js 调用Native，并且又返回的调用方法</p>
 <p>首先，我去微信的js sdk官网看了一下js sdk提供的功能，提供了各种强大的功能，各位可以自己去看一下。那么问题来了，微信是怎么做到js 调用Native并且能够成功返回的呢？</p>
 <p>带着疑问我反编译了微信Android客户端，在assers/jsapi中看到了<code>wxjs.js</code>文件，我想这个就是微信js sdk的源码了吧。。。</p>
 <p>我首先说一下，我不太懂js的代码， 我只能连蒙带猜的看微信的js代码，<code>如果有js大神对这方面也感兴趣，希望可以一起(jian)探(fei)讨(zao)</code></p>
@@ -471,82 +463,82 @@ public boolean onJsPrompt(<span class="type">WebView</span> view, <span class="t
     call:_call,
     on:_onfor3rd,
     env:_env,
-    <span class="built_in">log</span>:_<span class="built_in">log</span>,
+    log:_log,
     // private
-    // _<span class="built_in">test</span>_start:_<span class="built_in">test</span>_start,
+    // _test_start:_test_start,
     _fetchQueue: _fetchQueue,
     _handleMessageFromWeixin: _handleMessageFromWeixin,
-    _hasInit: <span class="literal">false</span>,
-    _<span class="built_in">continue</span>SetResult: _<span class="built_in">continue</span>SetResult
+    _hasInit: false,
+    _continueSetResult: _continueSetResult
 };
 </code></pre><p>然后我又看到了下面的代码，我想应该是提供分享内容到朋友圈功能的吧</p>
 <pre><code>// share timeline
-_on<span class="list">(<span class="quoted">'menu</span><span class="keyword">:share</span><span class="keyword">:timeline</span>',function<span class="list">(<span class="keyword">argv</span>)</span>{
-  _log<span class="list">(<span class="quoted">'share</span> timeline')</span><span class="comment">;</span>
+_on(&apos;menu:share:timeline&apos;,function(argv){
+  _log(&apos;share timeline&apos;);
 
-  var data<span class="comment">;</span>
-  if <span class="list">(<span class="keyword">typeof</span> argv.title === <span class="quoted">'string</span>')</span> {
-    data = argv<span class="comment">;</span>
-    _call<span class="list">(<span class="quoted">'shareTimeline</span>',data)</span><span class="comment">;</span>
+  var data;
+  if (typeof argv.title === &apos;string&apos;) {
+    data = argv;
+    _call(&apos;shareTimeline&apos;,data);
   }else{
     data = {
-        // <span class="string">"img_url"</span>: <span class="string">""</span>,
-        // <span class="string">"img_width"</span>: <span class="string">""</span>,
-        // <span class="string">"img_height"</span>: <span class="string">""</span>,
-        <span class="string">"link"</span>: document.documentURI || _session_data.init_url,
-        <span class="string">"desc"</span>: document.documentURI || _session_data.init_url,
-        <span class="string">"title"</span>: document.title
-    }<span class="comment">;</span>
+        // &quot;img_url&quot;: &quot;&quot;,
+        // &quot;img_width&quot;: &quot;&quot;,
+        // &quot;img_height&quot;: &quot;&quot;,
+        &quot;link&quot;: document.documentURI || _session_data.init_url,
+        &quot;desc&quot;: document.documentURI || _session_data.init_url,
+        &quot;title&quot;: document.title
+    };
 
-    var shareFunc = function<span class="list">(<span class="keyword">_img</span>)</span>{          
-      if <span class="list">(<span class="keyword">_img</span>)</span> {
-          data[<span class="quoted">'img_url</span>'] = _img.src<span class="comment">;</span>
-          data[<span class="quoted">'img_width</span>'] = _img.width<span class="comment">;</span>
-          data[<span class="quoted">'img_height</span>'] = _img.height<span class="comment">;                        </span>
+    var shareFunc = function(_img){          
+      if (_img) {
+          data[&apos;img_url&apos;] = _img.src;
+          data[&apos;img_width&apos;] = _img.width;
+          data[&apos;img_height&apos;] = _img.height;                        
       }
 
-      _call<span class="list">(<span class="quoted">'shareTimeline</span>',data)</span><span class="comment">;</span>
-    }<span class="comment">;</span>
+      _call(&apos;shareTimeline&apos;,data);
+    };
 
-    getSharePreviewImage<span class="list">(<span class="keyword">shareFunc</span>)</span><span class="comment">;</span>
+    getSharePreviewImage(shareFunc);
   }
-})</span><span class="comment">;</span>
+});
 </code></pre><p>请注意最后这句：<code>_call(&#39;shareTimeline&#39;,data);</code>，在看看<code>__WeixinJSBridge</code>中的<code>call</code>属性，接着我找到了<code>_call</code>方法。</p>
-<pre><code>function _call(func,<span class="keyword">params</span>,callback) {
-    <span class="keyword">var</span> curFuncIdentifier = __WeixinJSBridge.call;
-    <span class="keyword">if</span> (curFuncIdentifier !== _callIdentifier) {
-        <span class="keyword">return</span>;
+<pre><code>function _call(func,params,callback) {
+    var curFuncIdentifier = __WeixinJSBridge.call;
+    if (curFuncIdentifier !== _callIdentifier) {
+        return;
     }
-    <span class="keyword">if</span> (!func || <span class="keyword">typeof</span> func !== <span class="string">'string'</span>) {
-        <span class="keyword">return</span>;
+    if (!func || typeof func !== &apos;string&apos;) {
+        return;
     };
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">params</span> !== <span class="string">'object'</span>) {
-        <span class="keyword">params</span> = {};
+    if (typeof params !== &apos;object&apos;) {
+        params = {};
     };
 
-    <span class="keyword">var</span> callbackID = (_callback_count++).toString();
+    var callbackID = (_callback_count++).toString();
 
-    <span class="keyword">if</span> (<span class="keyword">typeof</span> callback === <span class="string">'function'</span>) {
+    if (typeof callback === &apos;function&apos;) {
       _callback_map[callbackID] = callback;
     };
 
-    <span class="keyword">var</span> msgObj = {<span class="string">'func'</span>:func,<span class="string">'params'</span>:<span class="keyword">params</span>};
-    msgObj[_MESSAGE_TYPE] = <span class="string">'call'</span>;        
+    var msgObj = {&apos;func&apos;:func,&apos;params&apos;:params};
+    msgObj[_MESSAGE_TYPE] = &apos;call&apos;;        
     msgObj[_CALLBACK_ID] = callbackID;
 
     _sendMessage(JSON.stringify(msgObj));
 }
 </code></pre><p>大致意思应该就是：就是将这个东西<code>_call(&#39;shareTimeline&#39;,data);</code>转换成一个json字符串吧，从这里看到微信的做法和上面那个开源库非常类似，简单并且安全。<code>_call</code>方法最后调用<code>_sendMessage</code>方法发送消息</p>
-<pre><code><span class="comment">//将消息添加到发送队列，iframe的准备队列为weixin://dispatch_message/</span>
-<span class="function"><span class="keyword">function</span> <span class="title">_sendMessage</span><span class="params">(message)</span> {</span>
-    _sendMessageQueue.push<span class="params">(message)</span>;
-    _readyMessageIframe.src = _CUSTOM_PROTOCOL_SCHEME + ':<span class="comment">//' + _QUEUE_HAS_MESSAGE;</span>
+<pre><code>//将消息添加到发送队列，iframe的准备队列为weixin://dispatch_message/
+function _sendMessage(message) {
+    _sendMessageQueue.push(message);
+    _readyMessageIframe.src = _CUSTOM_PROTOCOL_SCHEME + &apos;://&apos; + _QUEUE_HAS_MESSAGE;
 
-    <span class="comment">// var ifm = _WXJS('iframe#__WeixinJSBridgeIframe')[0];</span>
-    <span class="comment">// if (!ifm) {</span>
-    <span class="comment">//   ifm = _createQueueReadyIframe(document);</span>
-    <span class="comment">// }</span>
-    <span class="comment">// ifm.src = _CUSTOM_PROTOCOL_SCHEME + '://' + _QUEUE_HAS_MESSAGE;</span>
+    // var ifm = _WXJS(&apos;iframe#__WeixinJSBridgeIframe&apos;)[0];
+    // if (!ifm) {
+    //   ifm = _createQueueReadyIframe(document);
+    // }
+    // ifm.src = _CUSTOM_PROTOCOL_SCHEME + &apos;://&apos; + _QUEUE_HAS_MESSAGE;
 };
 </code></pre><p>从上面代码可以看到微信的js sdk也是将js的方法调用换成一个类似<code>weixin://dispatch_message/</code>这样的url，上面说的json封装的数据。那么我猜测微信的做法是类似网易云音乐的拦截url吗？如果真的是这样的话，就非常不安全了，随便一个Html 5页面可以伪造一个类似：<code>weixin://dispatch_message/</code>这样的url来调用微信的功能了，不过好在微信对每个js调用都必须带上appid。</p>
 <p>在反编译后的微信代码，我看到了下面代码：</p>
@@ -556,39 +548,39 @@ _on<span class="list">(<span class="quoted">'menu</span><span class="keyword">:s
 <p><img src="http://i3.tietuku.com/e0b5b487f20e50ac.png" alt="image"></p>
 <p>因此，我大致猜测，微信中的js调Native功能是用拦截url的方式，而Native回调的话是使用<code>evaluateJavascript</code>方法</p>
 <p>我也在js sdk中找到了相应的函数：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">_handleMessageFromWeixin</span>(<span class="params">message</span>) </span>{
-    <span class="keyword">var</span> curFuncIdentifier = __WeixinJSBridge._handleMessageFromWeixin;
-    <span class="keyword">if</span> (curFuncIdentifier !== _handleMessageIdentifier) {
-        <span class="keyword">return</span> <span class="string">'{}'</span>;
+<pre><code>function _handleMessageFromWeixin(message) {
+    var curFuncIdentifier = __WeixinJSBridge._handleMessageFromWeixin;
+    if (curFuncIdentifier !== _handleMessageIdentifier) {
+        return &apos;{}&apos;;
     }
 
-    <span class="keyword">var</span> ret;
-    <span class="keyword">var</span> msgWrap
-    <span class="keyword">if</span> (_isUseMd5 === <span class="string">'yes'</span>) {
-      <span class="keyword">var</span> realMessage = message[_JSON_MESSAGE];
-      <span class="keyword">var</span> shaStr = message[_SHA_KEY];
-      <span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>;
-      arr[<span class="number">0</span>] = <span class="built_in">JSON</span>.stringify(realMessage);
-      arr[<span class="number">1</span>] = _xxyy;
-      <span class="keyword">var</span> str = arr.join(<span class="string">""</span>);
-      <span class="keyword">var</span> msgSha = <span class="string">''</span>;
-        <span class="keyword">var</span> shaObj = CryptoJS.SHA1(str);
+    var ret;
+    var msgWrap
+    if (_isUseMd5 === &apos;yes&apos;) {
+      var realMessage = message[_JSON_MESSAGE];
+      var shaStr = message[_SHA_KEY];
+      var arr = new Array;
+      arr[0] = JSON.stringify(realMessage);
+      arr[1] = _xxyy;
+      var str = arr.join(&quot;&quot;);
+      var msgSha = &apos;&apos;;
+        var shaObj = CryptoJS.SHA1(str);
         msgSha = shaObj.toString();
-        <span class="keyword">if</span> (msgSha !== shaStr) {
-            _log(<span class="string">'_handleMessageFromWeixin , shaStr : '</span> + shaStr + <span class="string">' , str : '</span> + str + <span class="string">' , msgSha : '</span> + msgSha);
-            <span class="keyword">return</span> <span class="string">'{}'</span>;
+        if (msgSha !== shaStr) {
+            _log(&apos;_handleMessageFromWeixin , shaStr : &apos; + shaStr + &apos; , str : &apos; + str + &apos; , msgSha : &apos; + msgSha);
+            return &apos;{}&apos;;
 
         }
         msgWrap = realMessage;
     }
-    <span class="comment">//省略很多代码</span>
+    //省略很多代码
 </code></pre><p>微信的做法应该说非常基础，使用了原生的功能，但是安全，由于微信客户端对每一个js调用都有验证（appid），因此这也增加了一定的安全性</p>
 <p>以上说的都是建立在我的分析正确的情况下。</p>
-<h1 id="一些个人的想法">一些个人的想法</h1><p>现在各种新的技术也在想办法解决Native开发的效率问题，想用技术来解决一套代码运行在Android和iOS客户端，我相信随着技术的发展这些问题都会解决。我也好期待Facebook即将推出的<a href="http://www.reactnativeandroid.com/" target="_blank" rel="external">React Native Android</a></p>
-<h2 id="Hybrid开发适用于哪些功能">Hybrid开发适用于哪些功能</h2><p>本文讲的Hybrid开发就是Native客户端中嵌入了Html App的功能，这方面微信应该是做的最好的，由于Html 5的效率以及耗电问题，我个人觉得用户是不能满足Web App的体验的，Hybrid App也只适用于某些场景。一些基础的功能，比如调用手机的摄像头，获取地理位置，登录注册功能等等，做成Native的功能，让Html 5来调用更好，这样的体验也更好。</p>
+<h1 id="一些个人的想法"><a href="#一些个人的想法" class="headerlink" title="一些个人的想法"></a>一些个人的想法</h1><p>现在各种新的技术也在想办法解决Native开发的效率问题，想用技术来解决一套代码运行在Android和iOS客户端，我相信随着技术的发展这些问题都会解决。我也好期待Facebook即将推出的<a href="http://www.reactnativeandroid.com/" target="_blank" rel="external">React Native Android</a></p>
+<h2 id="Hybrid开发适用于哪些功能"><a href="#Hybrid开发适用于哪些功能" class="headerlink" title="Hybrid开发适用于哪些功能"></a>Hybrid开发适用于哪些功能</h2><p>本文讲的Hybrid开发就是Native客户端中嵌入了Html App的功能，这方面微信应该是做的最好的，由于Html 5的效率以及耗电问题，我个人觉得用户是不能满足Web App的体验的，Hybrid App也只适用于某些场景。一些基础的功能，比如调用手机的摄像头，获取地理位置，登录注册功能等等，做成Native的功能，让Html 5来调用更好，这样的体验也更好。</p>
 <p>如果你把一个登录和注册功能也做成Html 5，在弱网络环境下，这个体验应该会非常的差，或许你等半天还没加载出页面。你可能会说，我可以预先加载Html 5的代码，打开App时直接加载，那么我说你在给自己找麻烦，如果要这样的话，Native开发或许更快一点。</p>
 <p>那么什么情况适合Html 5开发呢？像一些活动页面，比如秒杀、团购等适合做Html 5，因为这些页面可能涉及的非常炫而且复杂，Html 5开发或许会简单点，关键是这些页面时效性短，更新更快，因为一个活动说不定就一周时间，下周换活动，如果这样的话，你还做Native是肯定不行的</p>
-<h1 id="总结-1">总结</h1><p>有那么一句<a href="http://mindhacks.cn/2009/01/16/hammers-and-nails/" target="_blank" rel="external">古老的箴言</a>：</p>
+<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1><p>有那么一句<a href="http://mindhacks.cn/2009/01/16/hammers-and-nails/" target="_blank" rel="external">古老的箴言</a>：</p>
 <blockquote>
 <p>如果你手里有一把锤子，所有东西看上去都想钉子</p>
 </blockquote>
@@ -673,7 +665,7 @@ _on<span class="list">(<span class="quoted">'menu</span><span class="keyword">:s
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

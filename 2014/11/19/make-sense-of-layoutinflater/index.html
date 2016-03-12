@@ -71,13 +71,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -131,13 +127,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -189,29 +181,29 @@
 <p>事情是这样的，我有一个<code>LineaLayout</code>，然后在代码中会<code>inflate</code>若干个<code>View</code>添加到这个<code>LineaLayout</code>中，但是坑出现了。。。</p>
 <a id="more"></a>
 <p>##0x00 一个栗子<br>需要添加到LinearLayout中的View布局文件类似如下（）：</p>
-<pre><code><span class="tag">&lt;<span class="title">RelativeLayout</span>
-    <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span>
-    <span class="attribute">android:layout_width</span>=<span class="value">"80dp"</span>
-    <span class="attribute">android:paddingTop</span>=<span class="value">"5dp"</span>
-    <span class="attribute">android:paddingBottom</span>=<span class="value">"5dp"</span>
-    <span class="attribute">android:background</span>=<span class="value">"@android:color/holo_green_dark"</span>
-    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span>&gt;</span>
+<pre><code>&lt;RelativeLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;80dp&quot;
+    android:paddingTop=&quot;5dp&quot;
+    android:paddingBottom=&quot;5dp&quot;
+    android:background=&quot;@android:color/holo_green_dark&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
 
-    <span class="tag">&lt;<span class="title">ImageView</span>
-        <span class="attribute">android:id</span>=<span class="value">"@+id/iv_media_menu_icon"</span>
-        <span class="attribute">android:layout_height</span>=<span class="value">"24dp"</span>
-        <span class="attribute">android:layout_width</span>=<span class="value">"24dp"</span>
-        <span class="attribute">android:src</span>=<span class="value">"@drawable/ic_mv"</span>
-        <span class="attribute">android:layout_centerHorizontal</span>=<span class="value">"true"</span>/&gt;</span>
-    <span class="tag">&lt;<span class="title">TextView</span>
-        <span class="attribute">android:id</span>=<span class="value">"@+id/tv_media_menu_text"</span>
-        <span class="attribute">android:text</span>=<span class="value">"bxbxbai"</span>
-        <span class="attribute">style</span>=<span class="value">"@style/Menu_TextView"</span>/&gt;</span>
-<span class="tag">&lt;/<span class="title">RelativeLayout</span>&gt;</span>
+    &lt;ImageView
+        android:id=&quot;@+id/iv_media_menu_icon&quot;
+        android:layout_height=&quot;24dp&quot;
+        android:layout_width=&quot;24dp&quot;
+        android:src=&quot;@drawable/ic_mv&quot;
+        android:layout_centerHorizontal=&quot;true&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/tv_media_menu_text&quot;
+        android:text=&quot;bxbxbai&quot;
+        style=&quot;@style/Menu_TextView&quot;/&gt;
+&lt;/RelativeLayout&gt;
 </code></pre><p>这个<code>View</code>的宽固定为<code>80dp</code>，高和父容器一样，然后就是<code>inflate</code>这个View并且添加到这个<code>LinearLayout</code>中（我故意将这个布局文件的background设置一个颜色，这样可以很清晰的看出这个View占的位置）</p>
-<pre><code>LinearLayout <span class="keyword">layout</span> = (LinearLayout)findViewById(R.id.<span class="keyword">container</span>);
-View view = View.inflate(this, R.<span class="keyword">layout</span>.layout_menu_item, null);
-<span class="keyword">layout</span>.addView(view);
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View view = View.inflate(this, R.layout.layout_menu_item, null);
+layout.addView(view);
 </code></pre><p>这样写的话，你就会发现布局文件<code>R.layout.layout_menu_item</code>中的<code>android:layout_width=&quot;80dp&quot;</code>不起作用！！也就是说<code>View.inflate</code>方法忽略了布局文件的宽度设置</p>
 <p><img src="http://bxbxbai.github.io/img/inflate0.PNG" alt="inflate"></p>
 <p>可是你又可以发现<code>View.inflate</code>方法中还有第三个参数<code>ViewGroup root</code>，Android文档中是这么写的：</p>
@@ -219,12 +211,12 @@ View view = View.inflate(this, R.<span class="keyword">layout</span>.layout_menu
 <p>A view group will be the parent. Used to properly inflate the layout_* parameters</p>
 </blockquote>
 <p>那么可以猜想肯定和这个参数有关，下面改写代码：</p>
-<pre><code>LinearLayout <span class="keyword">layout</span> = (LinearLayout)findViewById(R.id.<span class="keyword">container</span>);
-View view = View.inflate(this, R.<span class="keyword">layout</span>.layout_menu_item, <span class="keyword">layout</span>);
-<span class="keyword">layout</span>.addView(view);
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View view = View.inflate(this, R.layout.layout_menu_item, layout);
+layout.addView(view);
 </code></pre><p>你就会发现这样写会崩溃！然后下面这样写就没问题了：</p>
-<pre><code>LinearLayout <span class="keyword">layout</span> = (LinearLayout)findViewById(R.id.<span class="keyword">container</span>);
-View view = View.inflate(this, R.<span class="keyword">layout</span>.layout_menu_item, <span class="keyword">layout</span>);
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View view = View.inflate(this, R.layout.layout_menu_item, layout);
 </code></pre><p><code>View.inflate</code>方法自动将生成的View添加到了这个<code>ViewGroup root</code>中去了！！</p>
 <p><img src="http://bxbxbai.github.io/img/inflate1.PNG" alt="inflate"></p>
 <p>你可以<code>inflate</code>多个View，就可以看到下面这样样子了：</p>
@@ -237,46 +229,46 @@ View view = View.inflate(this, R.<span class="keyword">layout</span>.layout_menu
 </ul>
 <p><code>inflate</code>方法会返回resource布局文件产生的View</p>
 <p>上面栗子中调用了<code>View.inflate(Context context, int resource, ViewGroup root)</code>，这个方法本质上是调用了了<code>LayoutInflater.from(context).inflate(resource, root, root != null)</code>，在这个<code>inflate</code>方法中可以找到下面代码：</p>
-<pre><code>// We are supposed <span class="keyword">to</span> attach all the views we found (<span class="built_in">int</span> temp)
-// <span class="keyword">to</span> root. <span class="keyword">Do</span> that <span class="built_in">now</span>.
-<span class="keyword">if</span> (root != <span class="literal">null</span> &amp;&amp; attachToRoot) {
-    root.addView(temp, params)<span class="comment">;</span>
+<pre><code>// We are supposed to attach all the views we found (int temp)
+// to root. Do that now.
+if (root != null &amp;&amp; attachToRoot) {
+    root.addView(temp, params);
 }
 </code></pre><p>可见<code>inflate</code>方法自动将这个生成的<code>View</code>添加到了这个<code>root</code>中去了</p>
 <p>##0x02 实验</p>
 <p>因为可以调用<code>inflate</code>方法的途径有很多，下面就来做实验总结一下：</p>
 <p>###实验0<br>布局文件<code>R.layout.layout_menu_item</code> 中<code>android:layout_height=&quot;match_parent&quot;</code> 改为<code>android:layout_height=&quot;10dp&quot;</code></p>
-<pre><code>LinearLayout layout = <span class="params">(LinearLayout)</span>findViewById<span class="params">(R.id.container)</span>;
-View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span class="params">(R.layout.layout_menu_item, null)</span>;
-layout.addView<span class="params">(v1)</span>;
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, null);
+layout.addView(v1);
 
-<span class="comment">// 结果: layout_height = match_parent layout_width = match_parent</span>
+// 结果: layout_height = match_parent layout_width = match_parent
 </code></pre><p><img src="http://bxbxbai.github.io/img/inflate_expriment_0.PNG" alt="inflate"></p>
 <p>###实验1<br>布局文件<code>R.layout.layout_menu_item</code> 中<code>android:layout_height=&quot;match_parent&quot;</code> 改为<code>android:layout_height=&quot;10dp&quot;</code></p>
-<pre><code>LinearLayout layout = <span class="params">(LinearLayout)</span>findViewById<span class="params">(R.id.container)</span>;
-View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span class="params">(R.layout.layout_menu_item, null)</span>;
-layout.addView<span class="params">(v1, <span class="number">200</span>, <span class="number">200</span>)</span>;
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, null);
+layout.addView(v1, 200, 200);
 
-<span class="comment">// 结果: layout_height = 200 layout_width = 200</span>
+// 结果: layout_height = 200 layout_width = 200
 </code></pre><p><img src="http://bxbxbai.github.io/img/inflate_expriment_1.PNG" alt="inflate"></p>
 <p>###实验2<br>布局文件<code>R.layout.layout_menu_item</code> 中<code>android:layout_height</code>值改为<code>match_parent</code> </p>
-<pre><code>LinearLayout layout = <span class="params">(LinearLayout)</span>findViewById<span class="params">(R.id.container)</span>;
-View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span class="params">(R.layout.layout_menu_item, layout, <span class="literal">false</span>)</span>;
-layout.addView<span class="params">(v1)</span>;
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, layout, false);
+layout.addView(v1);
 
-<span class="comment">// 结果: layout_height = match_parent layout_width = 80dp</span>
-<span class="comment">// v1 = RelativeLayout 因为 attachRoot = false</span>
+// 结果: layout_height = match_parent layout_width = 80dp
+// v1 = RelativeLayout 因为 attachRoot = false
 </code></pre><p><img src="http://bxbxbai.github.io/img/inflate_expriment_2.PNG" alt="inflate"></p>
 <p>###实验3<br>布局文件<code>R.layout.layout_menu_item</code> 中<code>android:layout_height</code>值改为<code>match_parent</code> </p>
-<pre><code>LinearLayout layout = <span class="params">(LinearLayout)</span>findViewById<span class="params">(R.id.container)</span>;
-View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span class="params">(R.layout.layout_menu_item, layout, <span class="literal">true</span>)</span>;
-<span class="comment">//layout.addView(v1);</span>
+<pre><code>LinearLayout layout = (LinearLayout)findViewById(R.id.container);
+View v1 = LayoutInflater.from(this).inflate(R.layout.layout_menu_item, layout, true);
+//layout.addView(v1);
 
-<span class="comment">// 结果: layout_height = match_parent layout_width = 80dp</span>
-<span class="comment">// 不需要layout.addView, 因为设置attachRoot=true, 生成的View自动添加到root中去了</span>
-<span class="comment">// v1 = root 因为 attachRoot = true</span>
+// 结果: layout_height = match_parent layout_width = 80dp
+// 不需要layout.addView, 因为设置attachRoot=true, 生成的View自动添加到root中去了
+// v1 = root 因为 attachRoot = true
 </code></pre><p>##0x03 源码分析</p>
-<pre><code><span class="comment"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public View inflate(XmlPullParser parser, ViewGroup root, boolean attachToRoot) &#123;&#10;    synchronized (mConstructorArgs) &#123;&#10;        Trace.traceBegin(Trace.TRACE_TAG_VIEW, &#34;inflate&#34;);&#10;&#10;        final AttributeSet attrs = Xml.asAttributeSet(parser);&#10;        Context lastContext = (Context)mConstructorArgs[0];&#10;        mConstructorArgs[0] = mContext;&#10;        View result = root;&#10;&#10;        try &#123;&#10;            // Look for the root node.&#10;            int type;&#10;            while ((type = parser.next()) != XmlPullParser.START_TAG &#38;&#38;&#10;                    type != XmlPullParser.END_DOCUMENT) &#123;&#10;                // Empty&#10;            &#125;&#10;&#10;            if (type != XmlPullParser.START_TAG) &#123;&#10;                throw new InflateException(parser.getPositionDescription()&#10;                        + &#34;: No start tag found!&#34;);&#10;            &#125;&#10;&#10;            final String name = parser.getName();&#10;            &#10;            if (DEBUG) &#123;&#10;                System.out.println(&#34;**************************&#34;);&#10;                System.out.println(&#34;Creating root view: &#34;&#10;                        + name);&#10;                System.out.println(&#34;**************************&#34;);&#10;            &#125;&#10;&#10;            if (TAG_MERGE.equals(name)) &#123;&#10;                if (root == null || !attachToRoot) &#123;&#10;                    throw new InflateException(&#34;&#60;merge /&#62; can be used only with a valid &#34;&#10;                            + &#34;ViewGroup root and attachToRoot=true&#34;);&#10;                &#125;&#10;&#10;                rInflate(parser, root, attrs, false);&#10;            &#125; else &#123;&#10;                // Temp is the root view that was found in the xml&#10;                View temp;&#10;                if (TAG_1995.equals(name)) &#123;&#10;                    temp = new BlinkLayout(mContext, attrs);&#10;                &#125; else &#123;&#10;                    temp = createViewFromTag(root, name, attrs);&#10;                &#125;&#10;&#10;                ViewGroup.LayoutParams params = null;&#10;&#10;                if (root != null) &#123;&#10;                    if (DEBUG) &#123;&#10;                        System.out.println(&#34;Creating params from root: &#34; +&#10;                                root);&#10;                    &#125;&#10;                    // Create layout params that match root, if supplied&#10;                    params = root.generateLayoutParams(attrs);&#10;                    if (!attachToRoot) &#123;&#10;                        // Set the layout params for temp if we are not&#10;                        // attaching. (If we are, we use addView, below)&#10;                        temp.setLayoutParams(params);&#10;                    &#125;&#10;                &#125;&#10;&#10;                if (DEBUG) &#123;&#10;                    System.out.println(&#34;-----&#62; start inflating children&#34;);&#10;                &#125;&#10;                // Inflate all children under temp&#10;                rInflate(parser, temp, attrs, true);&#10;                if (DEBUG) &#123;&#10;                    System.out.println(&#34;-----&#62; done inflating children&#34;);&#10;                &#125;&#10;&#10;                // We are supposed to attach all the views we found (int temp)&#10;                // to root. Do that now.&#10;                if (root != null &#38;&#38; attachToRoot) &#123;&#10;                    root.addView(temp, params);&#10;                &#125;&#10;&#10;                // Decide whether to return the root that was passed in or the&#10;                // top view found in xml.&#10;                if (root == null || !attachToRoot) &#123;&#10;                    result = temp;&#10;                &#125;&#10;            &#125;&#10;&#10;        &#125; catch (XmlPullParserException e) &#123;&#10;            InflateException ex = new InflateException(e.getMessage());&#10;            ex.initCause(e);&#10;            throw ex;&#10;        &#125; catch (IOException e) &#123;&#10;            InflateException ex = new InflateException(&#10;                    parser.getPositionDescription()&#10;                    + &#34;: &#34; + e.getMessage());&#10;            ex.initCause(e);&#10;            throw ex;&#10;        &#125; finally &#123;&#10;            // Don&#39;t retain static reference on context.&#10;            mConstructorArgs[0] = lastContext;&#10;            mConstructorArgs[1] = null;&#10;        &#125;&#10;&#10;        Trace.traceEnd(Trace.TRACE_TAG_VIEW);&#10;&#10;        return result;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></span>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public View inflate(XmlPullParser parser, ViewGroup root, boolean attachToRoot) &#123;&#10;    synchronized (mConstructorArgs) &#123;&#10;        Trace.traceBegin(Trace.TRACE_TAG_VIEW, &#34;inflate&#34;);&#10;&#10;        final AttributeSet attrs = Xml.asAttributeSet(parser);&#10;        Context lastContext = (Context)mConstructorArgs[0];&#10;        mConstructorArgs[0] = mContext;&#10;        View result = root;&#10;&#10;        try &#123;&#10;            // Look for the root node.&#10;            int type;&#10;            while ((type = parser.next()) != XmlPullParser.START_TAG &#38;&#38;&#10;                    type != XmlPullParser.END_DOCUMENT) &#123;&#10;                // Empty&#10;            &#125;&#10;&#10;            if (type != XmlPullParser.START_TAG) &#123;&#10;                throw new InflateException(parser.getPositionDescription()&#10;                        + &#34;: No start tag found!&#34;);&#10;            &#125;&#10;&#10;            final String name = parser.getName();&#10;            &#10;            if (DEBUG) &#123;&#10;                System.out.println(&#34;**************************&#34;);&#10;                System.out.println(&#34;Creating root view: &#34;&#10;                        + name);&#10;                System.out.println(&#34;**************************&#34;);&#10;            &#125;&#10;&#10;            if (TAG_MERGE.equals(name)) &#123;&#10;                if (root == null || !attachToRoot) &#123;&#10;                    throw new InflateException(&#34;&#60;merge /&#62; can be used only with a valid &#34;&#10;                            + &#34;ViewGroup root and attachToRoot=true&#34;);&#10;                &#125;&#10;&#10;                rInflate(parser, root, attrs, false);&#10;            &#125; else &#123;&#10;                // Temp is the root view that was found in the xml&#10;                View temp;&#10;                if (TAG_1995.equals(name)) &#123;&#10;                    temp = new BlinkLayout(mContext, attrs);&#10;                &#125; else &#123;&#10;                    temp = createViewFromTag(root, name, attrs);&#10;                &#125;&#10;&#10;                ViewGroup.LayoutParams params = null;&#10;&#10;                if (root != null) &#123;&#10;                    if (DEBUG) &#123;&#10;                        System.out.println(&#34;Creating params from root: &#34; +&#10;                                root);&#10;                    &#125;&#10;                    // Create layout params that match root, if supplied&#10;                    params = root.generateLayoutParams(attrs);&#10;                    if (!attachToRoot) &#123;&#10;                        // Set the layout params for temp if we are not&#10;                        // attaching. (If we are, we use addView, below)&#10;                        temp.setLayoutParams(params);&#10;                    &#125;&#10;                &#125;&#10;&#10;                if (DEBUG) &#123;&#10;                    System.out.println(&#34;-----&#62; start inflating children&#34;);&#10;                &#125;&#10;                // Inflate all children under temp&#10;                rInflate(parser, temp, attrs, true);&#10;                if (DEBUG) &#123;&#10;                    System.out.println(&#34;-----&#62; done inflating children&#34;);&#10;                &#125;&#10;&#10;                // We are supposed to attach all the views we found (int temp)&#10;                // to root. Do that now.&#10;                if (root != null &#38;&#38; attachToRoot) &#123;&#10;                    root.addView(temp, params);&#10;                &#125;&#10;&#10;                // Decide whether to return the root that was passed in or the&#10;                // top view found in xml.&#10;                if (root == null || !attachToRoot) &#123;&#10;                    result = temp;&#10;                &#125;&#10;            &#125;&#10;&#10;        &#125; catch (XmlPullParserException e) &#123;&#10;            InflateException ex = new InflateException(e.getMessage());&#10;            ex.initCause(e);&#10;            throw ex;&#10;        &#125; catch (IOException e) &#123;&#10;            InflateException ex = new InflateException(&#10;                    parser.getPositionDescription()&#10;                    + &#34;: &#34; + e.getMessage());&#10;            ex.initCause(e);&#10;            throw ex;&#10;        &#125; finally &#123;&#10;            // Don&#39;t retain static reference on context.&#10;            mConstructorArgs[0] = lastContext;&#10;            mConstructorArgs[1] = null;&#10;        &#125;&#10;&#10;        Trace.traceEnd(Trace.TRACE_TAG_VIEW);&#10;&#10;        return result;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
 </code></pre><p>实验3的原因在<strong>inflate详解</strong>中已经介绍过了。</p>
 <p>总之原因就在上面代码<code>71-74</code>行，布局文件<code>R.layout.layout_menu_item</code>生成的View会因为<code>attachToRoot</code>参数为<code>true</code>，就将这个生成的<code>View</code>添加到<code>root</code>中去，然后<code>inflate</code>方法会返回这个<code>root</code>的<code>View</code></p>
 <p>看上面代码<code>54-60</code>行，如果root不为null的话，就会为这个布局文件<code>R.layout.layout_menu_item</code>生成一个<code>LayoutParam</code>对象，如果<code>attachToRoot</code>参数为<code>false</code>，那么就将这个<code>param</code>对象给这个布局文件的View（看55行）。如果<code>attachToRoot</code>参数为<code>true</code>，那么就在上面代码第70行，将这个布局文件的<code>View</code>和<code>param</code>参数添加到<code>root</code>中。</p>
@@ -370,7 +362,7 @@ View v1 = LayoutInflater.from<span class="params">(this)</span>.inflate<span cla
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Android Notes">
 <meta property="og:description" content="原文：http://mindtherobot.com/blog/159/android-guts-intro-to-loopers-and-handlers/
 我喜欢Android的原因之一就是它有很多非常有用的小工具，其中很多还是与平台无关的。今天，我想介绍两个非常nice 的类——Looper和Handler，他们用于Android UI，并且对我们开发者也可用，我们就可以用它们来做很多非常棒">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2016-03-12T07:01:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android要点：理解Loopers 和 Handlers">
 <meta name="twitter:description" content="原文：http://mindtherobot.com/blog/159/android-guts-intro-to-loopers-and-handlers/
@@ -65,13 +65,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -125,13 +121,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -202,60 +194,58 @@
 <li>下载操作</li>
 </ol>
 <p>通常，使用一个Pipeline线程而不是为每个后台操作都新建一个线程的好处就是，这样你可以控制每个后台任务的加载以及顺序（优先级）。此外，你也可以开启多个Pipeline线程，把他们当做一个线程池，这样你就可以一次同时执行多个操作。</p>
-<p>###Looping和Handling<br><a href="http://developer.android.com/reference/android/os/Looper.html" target="_blank" rel="external">Looper</a>类可以将一个线程转换成Pipeline线程，而<a href="http://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">Handler</a>提供了一种机制，你可以通过它将任务添加到Pipeline线程中。Looper之所以这么命名是因为它实现了循环——取一个task执行，然后再取下一个task执行，如此循环；Handler如此命名是因为他们无法想出一个更好的名字了~（译者注：囧…）</p>
+<h3 id="Looping和Handling"><a href="#Looping和Handling" class="headerlink" title="Looping和Handling"></a>Looping和Handling</h3><p><a href="http://developer.android.com/reference/android/os/Looper.html" target="_blank" rel="external">Looper</a>类可以将一个线程转换成Pipeline线程，而<a href="http://developer.android.com/reference/android/os/Handler.html" target="_blank" rel="external">Handler</a>提供了一种机制，你可以通过它将任务添加到Pipeline线程中。Looper之所以这么命名是因为它实现了循环——取一个task执行，然后再取下一个task执行，如此循环；Handler如此命名是因为他们无法想出一个更好的名字了~（译者注：囧…）</p>
 <p>下面就是你需要添加到Thread类的run方法中的代码来创建一个你自己的Pipeline线程，然后可以将这个Pipeline线程添加到Handler对象中：</p>
-<pre><code><span class="annotation">@Override</span>
-<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-  <span class="keyword">try</span> {
-    <span class="comment">// preparing a looper on current thread     </span>
-    <span class="comment">// the current thread is being detected implicitly</span>
+<pre><code>@Override
+public void run() {
+  try {
+    // preparing a looper on current thread     
+    // the current thread is being detected implicitly
     Looper.prepare();
 
-    <span class="comment">// now, the handler will automatically bind to the</span>
-    <span class="comment">// Looper that is attached to the current thread</span>
-    <span class="comment">// You don't need to specify the Looper explicitly</span>
-    <span class="keyword">handler</span> = <span class="keyword">new</span> Handler();
+    // now, the handler will automatically bind to the
+    // Looper that is attached to the current thread
+    // You don&apos;t need to specify the Looper explicitly
+    handler = new Handler();
 
-    <span class="comment">// After the following line the thread will start</span>
-    <span class="comment">// running the message loop and will not normally</span>
-    <span class="comment">// exit the loop unless a problem happens or you</span>
-    <span class="comment">// quit() the looper (see below)</span>
+    // After the following line the thread will start
+    // running the message loop and will not normally
+    // exit the loop unless a problem happens or you
+    // quit() the looper (see below)
     Looper.loop();
-  } <span class="keyword">catch</span> (Throwable t) {
-    Log.e(TAG, <span class="string">"halted due to an error"</span>, t);
+  } catch (Throwable t) {
+    Log.e(TAG, &quot;halted due to an error&quot;, t);
   } 
 }
 </code></pre><p>然后，你只要将这个handler对象传到其他任何线程中去，它有一个线程安全的接口，包括了很多操作，但是最主要的操作就是<code>postMessage()</code>以及相关的方法了。</p>
-<p>#####Notes：Handler类包含了很多非常棒的方法，特别是与消息传递有关的，本文不会写与此相关的内容。</p>
-<p>举个栗子：想象一下，一个线程A持有了handler对象的引用，此handler是在Pipeline线程中创建的，下面代码就可以让这个线程A在Pipeline线程中执行操作了：</p>
-<pre><code><span class="keyword">handler</span>.post(<span class="keyword">new</span> Runnable() {
-  <span class="annotation">@Override</span>
-  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{       
-    <span class="comment">// this will be done in the Pipeline Thread       </span>
+<h5 id="Notes：Handler类包含了很多非常棒的方法，特别是与消息传递有关的，本文不会写与此相关的内容。"><a href="#Notes：Handler类包含了很多非常棒的方法，特别是与消息传递有关的，本文不会写与此相关的内容。" class="headerlink" title="Notes：Handler类包含了很多非常棒的方法，特别是与消息传递有关的，本文不会写与此相关的内容。"></a>Notes：Handler类包含了很多非常棒的方法，特别是与消息传递有关的，本文不会写与此相关的内容。</h5><p>举个栗子：想象一下，一个线程A持有了handler对象的引用，此handler是在Pipeline线程中创建的，下面代码就可以让这个线程A在Pipeline线程中执行操作了：</p>
+<pre><code>handler.post(new Runnable() {
+  @Override
+  public void run() {       
+    // this will be done in the Pipeline Thread       
   }
 });
 </code></pre><p>在下载的栗子中，我们就会在用户点击按钮（在UI线程中处理）的时候，用这个模板来创建一个下载任务（在下载Pipeline线程中）。我们还用另外一种方式用它——当下载线程下载完成以后会通知Activity，因此在创建下载线程的时候，我们会将Activity中的UI线程handler对象传给它。</p>
 <p>此外，UI线程拥有一个Looper（译者注：可以通过Looper.getMainLooper()方法获取，判断一个线程是否为主线程可以使用Looper.getLooper() == Looper.getMainLooper()来判断）。所以，你可以在Activity的onCreate()方法中直接新建一个handler对象：</p>
-<pre><code><span class="annotation">@Override</span>
-<span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>{
-    <span class="keyword">super</span>.onCreate(savedInstanceState);
+<pre><code>@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    <span class="comment">// Create the Handler. It will implicitly bind to the Looper</span>
-    <span class="comment">// that is internally created for this thread (since it is the UI thread)</span>
-    <span class="keyword">handler</span> = <span class="keyword">new</span> Handler();
+    // Create the Handler. It will implicitly bind to the Looper
+    // that is internally created for this thread (since it is the UI thread)
+    handler = new Handler();
 }
-</code></pre><p>###结论<br>Looper和Handler可以让你很方便的做很多事情，然而他们与并发相关，这就会变得很复杂。</p>
-<p>####译者注：<br>Looper和Handler是非UI线程更新界面的重要方式，在非UI线程中通过下面代码：</p>
-<pre><code><span class="keyword">new</span> Handler(Looper.myLooper()).post(<span class="keyword">new</span> Runnable() {
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{
-        <span class="comment">//在UI线程中处理 </span>
+</code></pre><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>Looper和Handler可以让你很方便的做很多事情，然而他们与并发相关，这就会变得很复杂。</p>
+<h4 id="译者注："><a href="#译者注：" class="headerlink" title="译者注："></a>译者注：</h4><p>Looper和Handler是非UI线程更新界面的重要方式，在非UI线程中通过下面代码：</p>
+<pre><code>new Handler(Looper.myLooper()).post(new Runnable() {
+    @Override
+    public void run() {
+        //在UI线程中处理 
     }
 });
 </code></pre><p>就可以轻松的将一些工作放到UI线程中处理，比如进度条刷新等等。</p>
-<p>####附件：<a href="http://mindtherobot.com/blog/wp-content/uploads/2010/06/downloadqueue.zip" target="_blank" rel="external">完整源代码</a></p>
-
+<h4 id="附件：完整源代码"><a href="#附件：完整源代码" class="headerlink" title="附件：完整源代码"></a>附件：<a href="http://mindtherobot.com/blog/wp-content/uploads/2010/06/downloadqueue.zip" target="_blank" rel="external">完整源代码</a></h4>
       
     </div>
     
@@ -329,7 +319,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

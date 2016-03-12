@@ -66,13 +66,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -126,13 +122,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -189,7 +181,7 @@
 <p>如果<code>CacheDispatcher</code>中没有数据或，数据已经过期了，那么Volley就通过<code>NetworkDispatcher</code>发送一个http请求来获取最新的数据，从图中可以看出有多个线程来发送http请求，也就是说Volley可以同时发送多个http请求</p>
 <p>##0x1<br>上面将了Volley处理一个<code>Request</code>的大致流程，那么从源码角度来看Volley是怎么处理的呢？</p>
 <p>###0x10 Request<t>类<br>首先来看一下Volley的<code>Request</code>类的签名：</t></p>
-<pre><code>public abstract <span class="class"><span class="keyword">class</span> <span class="title">Request</span><span class="inheritance">&lt;<span class="parent">T</span></span>&gt; <span class="title">implements</span> <span class="title">Comparable</span><span class="inheritance">&lt;<span class="parent">Request</span></span><span class="inheritance">&lt;<span class="parent">T</span></span>&gt;&gt;</span>
+<pre><code>public abstract class Request&lt;T&gt; implements Comparable&lt;Request&lt;T&gt;&gt;
 </code></pre><p><code>Request</code>是一个范型，其中<code>T</code>表示这个<code>Request</code>返回的数据类型，并且这个<code>Request</code>是可以相互比较的（实现<code>Comparable</code>接口），<code>Request</code>类实现的<code>Comparable</code>接口就是比较两个<code>Request</code>的priority</p>
 <p>Volley自带的<code>Request</code>包含了一下几个：</p>
 <ul>
@@ -225,7 +217,7 @@
 <p><code>Map&lt;String, Queue&lt;Request&lt;?&gt;&gt;&gt; mWaitingRequests</code> 这个对象也很有意思，这个map的key是<code>Request</code>的cacheKay，value是一个对应这个cacheKey所有的<code>Request</code></p>
 <p>###0x20 创建一个RequestQueue</p>
 <p>一般创建一个<code>RequestQueue</code>的方法就是通过下面这句代码：</p>
-<pre><code>RequestQueue <span class="built_in">queue</span> = Volley.newRequestQueue(Context);
+<pre><code>RequestQueue queue = Volley.newRequestQueue(Context);
 </code></pre><p>当然，如果你需要自定义的话，就可以通过<code>RequestQueue</code>的构造函数自己new一个<code>RequestQueue</code>。一般来说，一个app中有一个<code>RequestQueue</code>就够了，没必要生成多个队列，生成多个队列会浪费系统的线程资源</p>
 <p>在创建一个<code>RequestQueue</code>的时候，Volley已经充分帮我们考虑了一些事情</p>
 <p>Android中用来发送HTTP请求的类有<code>HttpUrlConnection</code>和<code>AndroidHttpClient</code>，一般会使用前者，因为Google对它做了很多优化，但是在Android Gingerbread（Android 2.3，API LEVEL = 9）以前，<code>HttpUrlConnection</code>会有一些bug，那么应该使用后者。那为什么不直接使用后者呢？因为Google对前者做了很多优化…=。=</p>
@@ -235,18 +227,18 @@
 <p>###0x21 启动和停止RequestQueue</p>
 <p>在<code>RequestQueue</code>生成以后就需要调用<code>RequestQueue.start</code>方法启动</p>
 <p><code>RequestQueue.start</code>方法就是启动每一个Dispatcher（每一个Dispatcher就是一个线程）</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
  * Starts the dispatchers in this queue.
- */</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>{
-    stop();  <span class="comment">// Make sure any currently running dispatchers are stopped.</span>
-    <span class="comment">// Create the cache dispatcher and start it.</span>
-    mCacheDispatcher = <span class="keyword">new</span> CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
+ */
+public void start() {
+    stop();  // Make sure any currently running dispatchers are stopped.
+    // Create the cache dispatcher and start it.
+    mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
     mCacheDispatcher.start();
 
-    <span class="comment">// Create network dispatchers (and corresponding threads) up to the pool size.</span>
-    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mDispatchers.length; i++) {
-        NetworkDispatcher networkDispatcher = <span class="keyword">new</span> NetworkDispatcher(mNetworkQueue, mNetwork,
+    // Create network dispatchers (and corresponding threads) up to the pool size.
+    for (int i = 0; i &lt; mDispatchers.length; i++) {
+        NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork,
                 mCache, mDelivery);
         mDispatchers[i] = networkDispatcher;
         networkDispatcher.start();
@@ -256,50 +248,50 @@
 <p>###0x22 向RequestQueue中添加Request</p>
 <p>每创建一个<code>Request</code>都需要通过<code>RequestQueue.add</code>方法添加到队列中。调用<code>RequestQueue</code>的<code>add</code>方法，这就是生产者消费者问题中，生产者（producer）向池子（queue）里面存放物品（goods），然后消费者从池子（queue）里拿东西</p>
 <p>先看代码：</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
  * Adds a Request to the dispatch queue.
  * @param request The request to service
  * @return The passed-in request
- */</span>
-public &lt;T&gt; Request&lt;T&gt; add<span class="params">(Request&lt;T&gt; request)</span> {
-    <span class="comment">// Tag the request as belonging to this queue and     add it to the set of current requests.</span>
-    request.setRequestQueue<span class="params">(this)</span>;
-    <span class="comment">// A</span>
-    synchronized <span class="params">(mCurrentRequests)</span> {
-        mCurrentRequests.add<span class="params">(request)</span>;
+ */
+public &lt;T&gt; Request&lt;T&gt; add(Request&lt;T&gt; request) {
+    // Tag the request as belonging to this queue and     add it to the set of current requests.
+    request.setRequestQueue(this);
+    // A
+    synchronized (mCurrentRequests) {
+        mCurrentRequests.add(request);
     }
 
-    <span class="comment">// Process requests in the order they are added.</span>
-    request.setSequence<span class="params">(getSequenceNumber<span class="params">()</span>)</span>;
-    request.addMarker<span class="params">(<span class="string">"add-to-queue"</span>)</span>;
+    // Process requests in the order they are added.
+    request.setSequence(getSequenceNumber());
+    request.addMarker(&quot;add-to-queue&quot;);
 
-    <span class="comment">// If the request is uncacheable, skip the cache queue and go straight to the network.</span>
-    <span class="comment">// B</span>
-    <span class="keyword">if</span> <span class="params">(!request.shouldCache<span class="params">()</span>)</span> {
-        mNetworkQueue.add<span class="params">(request)</span>;
+    // If the request is uncacheable, skip the cache queue and go straight to the network.
+    // B
+    if (!request.shouldCache()) {
+        mNetworkQueue.add(request);
         return request;
     }
 
-    <span class="comment">// Insert request into stage if there's already a request with the same cache key in flight.</span>
-    synchronized <span class="params">(mWaitingRequests)</span> {
-        String cacheKey = request.getCacheKey<span class="params">()</span>;
-        <span class="comment">// C</span>
-        <span class="keyword">if</span> <span class="params">(mWaitingRequests.containsKey<span class="params">(cacheKey)</span>)</span> {
-            <span class="comment">// There is already a request in flight. Queue up.</span>
-            Queue&lt;Request&lt;?&gt;&gt; stagedRequests = mWaitingRequests.get<span class="params">(cacheKey)</span>;
-            <span class="keyword">if</span> <span class="params">(stagedRequests == null)</span> {
-                stagedRequests = new LinkedList&lt;Request&lt;?&gt;&gt;<span class="params">()</span>;
+    // Insert request into stage if there&apos;s already a request with the same cache key in flight.
+    synchronized (mWaitingRequests) {
+        String cacheKey = request.getCacheKey();
+        // C
+        if (mWaitingRequests.containsKey(cacheKey)) {
+            // There is already a request in flight. Queue up.
+            Queue&lt;Request&lt;?&gt;&gt; stagedRequests = mWaitingRequests.get(cacheKey);
+            if (stagedRequests == null) {
+                stagedRequests = new LinkedList&lt;Request&lt;?&gt;&gt;();
             }
-            stagedRequests.add<span class="params">(request)</span>;
-            mWaitingRequests.put<span class="params">(cacheKey, stagedRequests)</span>;
-            <span class="keyword">if</span> <span class="params">(VolleyLog.DEBUG)</span> {
-                VolleyLog.v<span class="params">(<span class="string">"Request for cacheKey=%s is in flight, putting on hold."</span>, cacheKey)</span>;
+            stagedRequests.add(request);
+            mWaitingRequests.put(cacheKey, stagedRequests);
+            if (VolleyLog.DEBUG) {
+                VolleyLog.v(&quot;Request for cacheKey=%s is in flight, putting on hold.&quot;, cacheKey);
             }
-        } <span class="keyword">else</span> {
-            <span class="comment">// Insert 'null' queue for this cacheKey, indicating there is now a request in flight.</span>
-            <span class="comment">// D</span>
-            mWaitingRequests.put<span class="params">(cacheKey, null)</span>;
-            mCacheQueue.add<span class="params">(request)</span>;
+        } else {
+            // Insert &apos;null&apos; queue for this cacheKey, indicating there is now a request in flight.
+            // D
+            mWaitingRequests.put(cacheKey, null);
+            mCacheQueue.add(request);
         }
         return request;
     }
@@ -319,31 +311,31 @@ public &lt;T&gt; Request&lt;T&gt; add<span class="params">(Request&lt;T&gt; requ
 <p>当<code>CacheDispatcher</code>或<code>NetworkDispatcher</code>拿到Response以后（不管是Cache中的还是请求HTTP返回的），都会通过一个叫做<code>ResponseDelivery</code>的东西传递出去。</p>
 <p>其中，传递HTTP Response真正的地方就在<code>ResponseDelivery</code>的<code>ResponseDeliveryRunnable</code>类中，下面是<code>ResponseDeliveryRunnable</code>类的<code>run</code>方法：</p>
 <pre><code> @Override
- public void run<span class="params">()</span> {
-     <span class="comment">// If this request has canceled, finish it and don't deliver.</span>
-     <span class="keyword">if</span> <span class="params">(mRequest.isCanceled<span class="params">()</span>)</span> {
-         mRequest.finish<span class="params">(<span class="string">"canceled-at-delivery"</span>)</span>;
+ public void run() {
+     // If this request has canceled, finish it and don&apos;t deliver.
+     if (mRequest.isCanceled()) {
+         mRequest.finish(&quot;canceled-at-delivery&quot;);
          return;
      }
 
-     <span class="comment">// Deliver a normal response or error, depending.</span>
-     <span class="keyword">if</span> <span class="params">(mResponse.isSuccess<span class="params">()</span>)</span> {
-         mRequest.deliverResponse<span class="params">(mResponse.result)</span>;
-     } <span class="keyword">else</span> {
-         mRequest.deliverError<span class="params">(mResponse.error)</span>;
+     // Deliver a normal response or error, depending.
+     if (mResponse.isSuccess()) {
+         mRequest.deliverResponse(mResponse.result);
+     } else {
+         mRequest.deliverError(mResponse.error);
      }
 
-     <span class="comment">// If this is an intermediate response, add a marker, otherwise we're done</span>
-     <span class="comment">// and the request can be finished.</span>
-     <span class="keyword">if</span> <span class="params">(mResponse.intermediate)</span> {
-         mRequest.addMarker<span class="params">(<span class="string">"intermediate-response"</span>)</span>;
-     } <span class="keyword">else</span> {
-         mRequest.finish<span class="params">(<span class="string">"done"</span>)</span>;
+     // If this is an intermediate response, add a marker, otherwise we&apos;re done
+     // and the request can be finished.
+     if (mResponse.intermediate) {
+         mRequest.addMarker(&quot;intermediate-response&quot;);
+     } else {
+         mRequest.finish(&quot;done&quot;);
      }
 
-     <span class="comment">// If we have been provided a post-delivery runnable, run it.</span>
-     <span class="keyword">if</span> <span class="params">(mRunnable != null)</span> {
-         mRunnable.run<span class="params">()</span>;
+     // If we have been provided a post-delivery runnable, run it.
+     if (mRunnable != null) {
+         mRunnable.run();
      }
 }
 </code></pre><p>这个方法就会检查这个<code>Response</code>，如果<code>Response</code>是成功的，那么就通过<code>Request.deliverResponse</code>方法传递。</p>
@@ -359,79 +351,79 @@ public &lt;T&gt; Request&lt;T&gt; add<span class="params">(Request&lt;T&gt; requ
 <p>从上面图中可以看出，<code>CacheDispatcher</code>对于app来说是一个消费者，它从<code>mCacheQueue</code>中拿Request来检查Cache。对<code>NetworkDispatcher</code>来说，又是一个生产者（如果检查的Cache没有或者Cache已经过期，就向<code>mNetworkQueue</code>中添加Request）</p>
 <p>下面就是<code>CacheDispatcher</code>的<code>run</code>方法，从源代码里看一看到<code>CacheDispatcher</code>会一直运行，当<code>mCacheQueue</code>中没有需要处理的<code>Request</code>时，此线程会一直被<code>mCacheQueue.take()</code>方法阻塞，直到<code>RequestQueue</code>向<code>mCacheQueue</code>添加了一个请求。</p>
 <pre><code>@Override
-public void run<span class="params">()</span> {
-    <span class="keyword">if</span> <span class="params">(DEBUG)</span> VolleyLog.v<span class="params">(<span class="string">"start new dispatcher"</span>)</span>;
-    Process.setThreadPriority<span class="params">(Process.THREAD_PRIORITY_BACKGROUND)</span>;
+public void run() {
+    if (DEBUG) VolleyLog.v(&quot;start new dispatcher&quot;);
+    Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
-    <span class="comment">// Make a blocking call to initialize the cache.</span>
-    mCache.initialize<span class="params">()</span>;
+    // Make a blocking call to initialize the cache.
+    mCache.initialize();
 
-    while <span class="params">(<span class="literal">true</span>)</span> {
+    while (true) {
         try {
-            <span class="comment">// Get a request from the cache triage queue, blocking until</span>
-            <span class="comment">// at least one is available.</span>
-            final Request&lt;?&gt; request = mCacheQueue.take<span class="params">()</span>;
-            request.addMarker<span class="params">(<span class="string">"cache-queue-take"</span>)</span>;
+            // Get a request from the cache triage queue, blocking until
+            // at least one is available.
+            final Request&lt;?&gt; request = mCacheQueue.take();
+            request.addMarker(&quot;cache-queue-take&quot;);
 
-            <span class="comment">// If the request has been canceled, don't bother dispatching it.</span>
-            <span class="keyword">if</span> <span class="params">(request.isCanceled<span class="params">()</span>)</span> {
-                request.finish<span class="params">(<span class="string">"cache-discard-canceled"</span>)</span>;
+            // If the request has been canceled, don&apos;t bother dispatching it.
+            if (request.isCanceled()) {
+                request.finish(&quot;cache-discard-canceled&quot;);
                 continue;
             }
 
-            <span class="comment">// Attempt to retrieve this item from cache.</span>
-            Cache.Entry entry = mCache.get<span class="params">(request.getCacheKey<span class="params">()</span>)</span>;
-            <span class="keyword">if</span> <span class="params">(entry == null)</span> {
-                request.addMarker<span class="params">(<span class="string">"cache-miss"</span>)</span>;
-                <span class="comment">// Cache miss; send off to the network dispatcher.</span>
-                mNetworkQueue.put<span class="params">(request)</span>;
+            // Attempt to retrieve this item from cache.
+            Cache.Entry entry = mCache.get(request.getCacheKey());
+            if (entry == null) {
+                request.addMarker(&quot;cache-miss&quot;);
+                // Cache miss; send off to the network dispatcher.
+                mNetworkQueue.put(request);
                 continue;
             }
 
-            <span class="comment">// If it is completely expired, just send it to the network.</span>
-            <span class="keyword">if</span> <span class="params">(entry.isExpired<span class="params">()</span>)</span> {
-                request.addMarker<span class="params">(<span class="string">"cache-hit-expired"</span>)</span>;
-                request.setCacheEntry<span class="params">(entry)</span>;
-                mNetworkQueue.put<span class="params">(request)</span>;
+            // If it is completely expired, just send it to the network.
+            if (entry.isExpired()) {
+                request.addMarker(&quot;cache-hit-expired&quot;);
+                request.setCacheEntry(entry);
+                mNetworkQueue.put(request);
                 continue;
             }
 
-            <span class="comment">// We have a cache hit; parse its data for delivery back to the request.</span>
-            request.addMarker<span class="params">(<span class="string">"cache-hit"</span>)</span>;
-            Response&lt;?&gt; response = request.parseNetworkResponse<span class="params">(
-                    new NetworkResponse<span class="params">(entry.data, entry.responseHeaders)</span>)</span>;
-            request.addMarker<span class="params">(<span class="string">"cache-hit-parsed"</span>)</span>;
+            // We have a cache hit; parse its data for delivery back to the request.
+            request.addMarker(&quot;cache-hit&quot;);
+            Response&lt;?&gt; response = request.parseNetworkResponse(
+                    new NetworkResponse(entry.data, entry.responseHeaders));
+            request.addMarker(&quot;cache-hit-parsed&quot;);
 
-            <span class="keyword">if</span> <span class="params">(!entry.refreshNeeded<span class="params">()</span>)</span> {
-                <span class="comment">// Completely unexpired cache hit. Just deliver the response.</span>
-                mDelivery.postResponse<span class="params">(request, response)</span>;
-            } <span class="keyword">else</span> {
-                <span class="comment">// Soft-expired cache hit. We can deliver the cached response,</span>
-                <span class="comment">// but we need to also send the request to the network for</span>
-                <span class="comment">// refreshing.</span>
-                request.addMarker<span class="params">(<span class="string">"cache-hit-refresh-needed"</span>)</span>;
-                request.setCacheEntry<span class="params">(entry)</span>;
+            if (!entry.refreshNeeded()) {
+                // Completely unexpired cache hit. Just deliver the response.
+                mDelivery.postResponse(request, response);
+            } else {
+                // Soft-expired cache hit. We can deliver the cached response,
+                // but we need to also send the request to the network for
+                // refreshing.
+                request.addMarker(&quot;cache-hit-refresh-needed&quot;);
+                request.setCacheEntry(entry);
 
-                <span class="comment">// Mark the response as intermediate.</span>
-                response.intermediate = <span class="literal">true</span>;
+                // Mark the response as intermediate.
+                response.intermediate = true;
 
-                <span class="comment">// Post the intermediate response back to the user and have</span>
-                <span class="comment">// the delivery then forward the request along to the network.</span>
-                mDelivery.postResponse<span class="params">(request, response, new Runnable<span class="params">()</span> {
+                // Post the intermediate response back to the user and have
+                // the delivery then forward the request along to the network.
+                mDelivery.postResponse(request, response, new Runnable() {
                     @Override
-                    public void run<span class="params">()</span> {
+                    public void run() {
                         try {
-                            mNetworkQueue.put<span class="params">(request)</span>;
-                        } catch <span class="params">(InterruptedException e)</span> {
+                            mNetworkQueue.put(request);
+                        } catch (InterruptedException e) {
                             // Not much we can do about this.
                         }
                     }
-                })</span>;
+                });
             }
 
-        } catch <span class="params">(InterruptedException e)</span> {
-            <span class="comment">// We may have been interrupted because it was time to quit.</span>
-            <span class="keyword">if</span> <span class="params">(mQuit)</span> {
+        } catch (InterruptedException e) {
+            // We may have been interrupted because it was time to quit.
+            if (mQuit) {
                 return;
             }
             continue;
@@ -456,9 +448,9 @@ public void run<span class="params">()</span> {
 </ul>
 <p><code>ImageLoader</code>也是对<code>RequestQueue</code>的一个封装，它也会为创建一个<code>Request&lt;ImageView&gt;</code>，然后把这个Request放到RequestQueue中去下载图片</p>
 <p>###0x50 在Volley中如何方便的加载一张图片</p>
-<pre><code>ImageLoader loader = new ImageLoader<span class="params">(RequestQueue, ImageCache)</span>;
-NetworkImageView imageView = <span class="params">(NetworkImageView)</span>findViewById<span class="params">(R.id.iv_news_pic)</span>;
-imageView.setImageUrl<span class="params">(picUrl, loader)</span>;
+<pre><code>ImageLoader loader = new ImageLoader(RequestQueue, ImageCache);
+NetworkImageView imageView = (NetworkImageView)findViewById(R.id.iv_news_pic);
+imageView.setImageUrl(picUrl, loader);
 </code></pre><p>上面3句代码就能够加载网络图片了，是不是很方便。<code>NetworkImageView</code>会计算当前ImageView的宽高，然后创建一个ImageRequest，放入RequestQueue中下载图片。</p>
 <p>###0x51 NetworkImageView</p>
 <p><code>NetworkImageView</code>是继承<code>ImageView</code>的，比传统的<code>ImageView</code>多了一个加载网络图片的功能</p>
@@ -542,7 +534,7 @@ imageView.setImageUrl<span class="params">(picUrl, loader)</span>;
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

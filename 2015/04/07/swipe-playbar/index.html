@@ -18,7 +18,7 @@
 下载地址：http://vdisk.weibo.com/s/GGofvp4_QVU/1428410542
 底部播放条的歌曲信息可以滑动切换，并且专辑图会转动">
 <meta property="og:image" content="http://i2.tietuku.com/de77e5c2f25e89f1.png">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2016-03-12T06:58:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可以滑动切歌的播放控制条（模仿QQ音乐）">
 <meta name="twitter:description" content="看了QQ音乐Android版有这个功能，觉得挺好玩的，就模仿它做了一个demo，可以滑动切歌（转换的gif严重失真，只能截图了 -.-）
@@ -72,13 +72,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -132,13 +128,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -187,138 +179,135 @@
 <p>下载地址：<a href="http://vdisk.weibo.com/s/GGofvp4_QVU/1428410542" target="_blank" rel="external">http://vdisk.weibo.com/s/GGofvp4_QVU/1428410542</a></p>
 <p>底部播放条的歌曲信息可以滑动切换，并且专辑图会转动</p>
 <a id="more"></a>
-<p>##看看截图<br>这个是4个播放条的截图：<br><img src="http://i2.tietuku.com/de77e5c2f25e89f1.png" alt="playbar"> </p>
-<p>##实现</p>
-<p>这个功能就是使用<code>ViewPager</code>这个组件来实现，然后最主要的就是为这个<code>ViewPager</code>写一个<code>PagerAapter</code>。这个<code>PagerAdapter</code>写起来也容易，但是我在这个类里做了一些优化。</p>
+<h2 id="看看截图"><a href="#看看截图" class="headerlink" title="看看截图"></a>看看截图</h2><p>这个是4个播放条的截图：<br><img src="http://i2.tietuku.com/de77e5c2f25e89f1.png" alt="playbar"> </p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>这个功能就是使用<code>ViewPager</code>这个组件来实现，然后最主要的就是为这个<code>ViewPager</code>写一个<code>PagerAapter</code>。这个<code>PagerAdapter</code>写起来也容易，但是我在这个类里做了一些优化。</p>
 <p>这个<code>PagerAdapter</code>的全部代码就在下面：</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
   * PlayBar ViewPager Adapter 
   * 
-  * <span class="doctag">@author</span> bxbxbai
-*/</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlayCtrlBarPagerAdapter</span> <span class="keyword">extends</span> <span class="title">PagerAdapter</span> </span>{
+  * @author bxbxbai
+*/
+public class PlayCtrlBarPagerAdapter extends PagerAdapter {
 
-  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_SONGS = <span class="number">10</span>;
-  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ANIMATOR_DURATION = <span class="number">1000</span> * <span class="number">10</span>;
+  private static final int NUM_SONGS = 10;
+  private static final int ANIMATOR_DURATION = 1000 * 10;
 
-  <span class="keyword">private</span> LayoutInflater mInflater;
+  private LayoutInflater mInflater;
 
-  <span class="keyword">private</span> Queue&lt;View&gt; mReusableViews;
+  private Queue&lt;View&gt; mReusableViews;
 
 
-  <span class="function"><span class="keyword">public</span> <span class="title">PlayCtrlBarPagerAdapter</span><span class="params">(Context context)</span> </span>{
+  public PlayCtrlBarPagerAdapter(Context context) {
     mInflater = LayoutInflater.from(context);
-    mReusableViews = <span class="keyword">new</span> ArrayDeque&lt;&gt;(NUM_SONGS);
+    mReusableViews = new ArrayDeque&lt;&gt;(NUM_SONGS);
   }
 
-  <span class="annotation">@Override</span>
-  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> NUM_SONGS;
+  @Override
+  public int getCount() {
+    return NUM_SONGS;
   }
 
-  <span class="annotation">@Override</span>
-  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isViewFromObject</span><span class="params">(View view, Object object)</span> </span>{
-    <span class="keyword">return</span> view == object;
+  @Override
+  public boolean isViewFromObject(View view, Object object) {
+    return view == object;
   }
 
-  <span class="annotation">@Override</span>
-  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>{
-    <span class="keyword">if</span> (object <span class="keyword">instanceof</span> View) {
+  @Override
+  public void destroyItem(ViewGroup container, int position, Object object) {
+    if (object instanceof View) {
         container.removeView((View) object);
         mReusableViews.add((View) object);
     }
   }
 
-  <span class="annotation">@Override</span>
-  <span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>{
+  @Override
+  public Object instantiateItem(ViewGroup container, int position) {
     View v = mReusableViews.poll();
-    <span class="keyword">if</span> (v == <span class="keyword">null</span>) {
-        v = mInflater.inflate(R.layout.layout_music, container, <span class="keyword">false</span>);
+    if (v == null) {
+        v = mInflater.inflate(R.layout.layout_music, container, false);
         setAnimator(v);
     }
     bindData(v, position);
     container.addView(v);
-    <span class="keyword">return</span> v;
+    return v;
  }
 
-  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bindData</span><span class="params">(View v, <span class="keyword">int</span> position)</span> </span>{
+  private void bindData(View v, int position) {
     TextView songName = ButterKnife.findById(v, R.id.tv_song_name);
-    songName.setText(<span class="string">"Try - "</span> + position);
+    songName.setText(&quot;Try - &quot; + position);
 
     ImageView artistImage = ButterKnife.findById(v, R.id.iv_artist_cover);
-    <span class="keyword">if</span> (position % <span class="number">2</span> == <span class="number">1</span>) {
+    if (position % 2 == 1) {
         artistImage.setImageResource(R.drawable.adele);
-    } <span class="keyword">else</span> {
+    } else {
         artistImage.setImageResource(R.drawable.bxbxbai);
     }
  }
 
-  <span class="annotation">@Override</span>
-  <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getPageWidth</span><span class="params">(<span class="keyword">int</span> position)</span> </span>{
-    <span class="keyword">return</span> <span class="number">1.0f</span>;
+  @Override
+  public float getPageWidth(int position) {
+    return 1.0f;
   }
 
-  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setAnimator</span><span class="params">(View view)</span> </span>{
-    ObjectAnimator animator = ObjectAnimator.ofFloat(view.findViewById(R.id.iv_artist_cover), <span class="string">"rotation"</span>, <span class="number">0f</span>, <span class="number">360f</span>);
+  public static void setAnimator(View view) {
+    ObjectAnimator animator = ObjectAnimator.ofFloat(view.findViewById(R.id.iv_artist_cover), &quot;rotation&quot;, 0f, 360f);
     animator.setRepeatCount(Integer.MAX_VALUE);
     animator.setDuration(ANIMATOR_DURATION);
-    animator.setInterpolator(<span class="keyword">new</span> LinearInterpolator());
+    animator.setInterpolator(new LinearInterpolator());
 
     view.setTag(R.id.tag_animator, animator);
   }
 }
-</code></pre><p>##优化PagerAdapter</p>
-<p><code>PagerAdapter</code>和Android中<code>ListView</code>的<code>Adapter</code>类似，但是一个主要的不同就是<code>PagerAdapter</code>提供了一个回调方法来让我们处理销毁的Item。</p>
+</code></pre><h2 id="优化PagerAdapter"><a href="#优化PagerAdapter" class="headerlink" title="优化PagerAdapter"></a>优化PagerAdapter</h2><p><code>PagerAdapter</code>和Android中<code>ListView</code>的<code>Adapter</code>类似，但是一个主要的不同就是<code>PagerAdapter</code>提供了一个回调方法来让我们处理销毁的Item。</p>
 <p>一个<code>ViewPager</code>默认的<code>offScreenPageLimit</code>为1，也就是说当一个<code>ViewPager</code>当前显示页为<code>2</code>，那么<code>PagerAdapter</code>中还存在左右两个Pager，也就是<code>1</code>和<code>3</code>。此时，如果我们将<code>ViewPager</code>滑向<code>3</code>，那么<code>PagerAdapter</code>首先会通过<code>public void destroyItem(ViewGroup container, int position, Object object)</code>方法销毁第<code>1</code>个Item，然后通过<code>public Object instantiateItem(ViewGroup container, int position)</code>生成第<code>4</code>的Item，并且显示当前的Item（为<code>3</code>）。此时，<code>PagerAdapter</code>中存在的Item为<code>2</code>和<code>4</code></p>
 <p>从这个思路出发，我也就可以在<code>destroyItem</code>方法中保存这个object，然后在<code>instantiateItem</code>中使用。</p>
-<p>###看上面的代码</p>
-<p>我写了一个<code>Queue&lt;View&gt; mReusableViews;</code>在<code>destroyItem</code>中保存被销毁的Item，然后在<code>instantiateItem</code>方法中首先去<code>mReusableViews</code>中获取。</p>
+<h3 id="看上面的代码"><a href="#看上面的代码" class="headerlink" title="看上面的代码"></a>看上面的代码</h3><p>我写了一个<code>Queue&lt;View&gt; mReusableViews;</code>在<code>destroyItem</code>中保存被销毁的Item，然后在<code>instantiateItem</code>方法中首先去<code>mReusableViews</code>中获取。</p>
 <p>如果存在可以重用的Item，那么就不用inflate一个View了，直接绑定数据就可以。否则就创建一个新的View来使用</p>
 <p>在实验过程中发现，如果<code>ViewPager</code>的<code>offScreenPageLimit</code>为1，那么只需要创建3个View，其他的View都可以重复使用，这样就可以提升性能了</p>
 <p>##如何让ImageView转起来</p>
 <p>在<code>View</code>绑定数据的时候通过一个工具方法，为每个<code>View</code>都设置一个<code>ObjectAnimator</code>属性动画。然后我为这个<code>ViewPager</code>专门写了一个<code>ViewPager.PageTransformer</code>类</p>
 <p>其实代码也很简单，就是当某一个page完全显示的时候（position为0），开始动画，否则停止动画</p>
 <p>如果你需要在<code>ViewPager</code>上添加一些其他特效，那么可以通过<code>addTransformer</code>方法添加PageTransformer</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
  * 播放条的PagerTransformer
  *
  * @author bxbxbai
- */</span>
+ */
 public class PlaybarPagerTransformer implements ViewPager.PageTransformer {
 
-  private List&lt;ViewPager.PageTransformer&gt; mTransformers = new ArrayList&lt;&gt;<span class="params">()</span>;
+  private List&lt;ViewPager.PageTransformer&gt; mTransformers = new ArrayList&lt;&gt;();
 
   @Override
-  public void transformPage<span class="params">(View page, float position)</span> {
-    <span class="keyword">for</span> <span class="params">(ViewPager.PageTransformer transformer : mTransformers)</span> {
-        transformer.transformPage<span class="params">(page, position)</span>;
+  public void transformPage(View page, float position) {
+    for (ViewPager.PageTransformer transformer : mTransformers) {
+        transformer.transformPage(page, position);
     }
 
-    <span class="comment">//处理图片旋转</span>
+    //处理图片旋转
 
-    StopWatch.<span class="built_in">log</span><span class="params">(<span class="string">"page: "</span> + page + <span class="string">", pos: "</span> + position)</span>;
+    StopWatch.log(&quot;page: &quot; + page + &quot;, pos: &quot; + position);
 
-    <span class="keyword">if</span> <span class="params">(position == <span class="number">0</span>)</span> {
-        ObjectAnimator animator = <span class="params">(ObjectAnimator)</span> page.getTag<span class="params">(R.id.tag_animator)</span>;
-        <span class="keyword">if</span> <span class="params">(animator != null)</span> {
-            animator.start<span class="params">()</span>;
+    if (position == 0) {
+        ObjectAnimator animator = (ObjectAnimator) page.getTag(R.id.tag_animator);
+        if (animator != null) {
+            animator.start();
         }
-    } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(position == -<span class="number">1</span> || position == -<span class="number">2</span> || position == <span class="number">1</span>)</span> {
-        ObjectAnimator animator = <span class="params">(ObjectAnimator)</span> page.getTag<span class="params">(R.id.tag_animator)</span>;
-        <span class="keyword">if</span> <span class="params">(animator != null)</span> {
-            animator.end<span class="params">()</span>;
+    } else if (position == -1 || position == -2 || position == 1) {
+        ObjectAnimator animator = (ObjectAnimator) page.getTag(R.id.tag_animator);
+        if (animator != null) {
+            animator.end();
         }
     }
   }
 
 
-  public void addTransformer<span class="params">(ViewPager.PageTransformer transformer)</span> {
-    <span class="keyword">if</span> <span class="params">(transformer != null)</span> {
-        mTransformers.add<span class="params">(transformer)</span>;
+  public void addTransformer(ViewPager.PageTransformer transformer) {
+    if (transformer != null) {
+        mTransformers.add(transformer);
     }
   }
 }
-</code></pre><h2 id="Dependency_-_依赖">Dependency - 依赖</h2><ul>
+</code></pre><h2 id="Dependency-依赖"><a href="#Dependency-依赖" class="headerlink" title="Dependency - 依赖"></a>Dependency - 依赖</h2><ul>
 <li>Java Development Kit (JDK) 7 +</li>
 <li>com.android.tools.build:gradle:1.0.0</li>
 <li>Android SDK<ul>
@@ -326,7 +315,7 @@ public class PlaybarPagerTransformer implements ViewPager.PageTransformer {
 </ul>
 </li>
 </ul>
-<h2 id="Build_-_构建">Build - 构建</h2><pre><code>git clone <span class="string">https:</span><span class="comment">//github.com/bxbxbai/SwipePlaybarDemo.git</span>
+<h2 id="Build-构建"><a href="#Build-构建" class="headerlink" title="Build - 构建"></a>Build - 构建</h2><pre><code>git clone https://github.com/bxbxbai/SwipePlaybarDemo.git
 </code></pre><p>用最新的IntelliJ IDE导入工程（Import Project），然后等待IDE下载gradle和依赖包即可</p>
 
       
@@ -402,7 +391,7 @@ public class PlaybarPagerTransformer implements ViewPager.PageTransformer {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

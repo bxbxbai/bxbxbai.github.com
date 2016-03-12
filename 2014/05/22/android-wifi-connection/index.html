@@ -65,13 +65,9 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -125,13 +121,9 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -183,7 +175,7 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 <p>B手机创建热点是一个自动的过程，A手机去连接B手机的热点也是一个自动的过程，此时手机B充当路由器的角色。</p>
 <a id="more"></a>
 <p>自动连接Wifi功能，就像我们通过系统设置WLAN里面，选择一个Wifi并且输入密码（如果有密码）的过程一样，只不过App知道了这个Wifi（带某个前缀）的密码，然后通过相关设置，可以自动去连接。</p>
-<h2 id="Android应用如何自动链接Wifi">Android应用如何自动链接Wifi</h2><p>Android开发里操作Wifi功能的api就在<code>android.net.wifi.WifiManager</code>这个类中，包括：</p>
+<h2 id="Android应用如何自动链接Wifi"><a href="#Android应用如何自动链接Wifi" class="headerlink" title="Android应用如何自动链接Wifi"></a>Android应用如何自动链接Wifi</h2><p>Android开发里操作Wifi功能的api就在<code>android.net.wifi.WifiManager</code>这个类中，包括：</p>
 <ul>
 <li><code>getConnectionInfo()</code> 获取当前Wifi连接信息，返回<code>WifiInfo</code>对象，包括<code>SSID</code>，<code>BSSID</code>，<code>networkId</code>，<code>ipAddress</code>，<code>macAddress</code>等信息</li>
 <li><code>disableNetwork(int netId)</code>  禁用这个network（即使Wifi扫描到这个热点也不会主动去连接），参数<code>netId</code>就是<code>WifiInfo</code>中的<code>networkId</code>值</li>
@@ -195,7 +187,7 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 <li><code>saveConfiguration()</code>; 部分手机的连接失败</li>
 <li><code>reconnect()</code>;</li>
 </ul>
-<h2 id="Android应用如何创建一个热点">Android应用如何创建一个热点</h2><p>Android开发中，创建热点的方法也是在<code>WifiManager</code>类中，不过都已经被Google <code>@hide</code>了。</p>
+<h2 id="Android应用如何创建一个热点"><a href="#Android应用如何创建一个热点" class="headerlink" title="Android应用如何创建一个热点"></a>Android应用如何创建一个热点</h2><p>Android开发中，创建热点的方法也是在<code>WifiManager</code>类中，不过都已经被Google <code>@hide</code>了。</p>
 <blockquote>
 <p><code>@hide</code> annotation就是Google隐藏了不稳定的方法，当稳定之后，自然会公开，如果我们现在要用这些方法，那么必须通过Java反射来调用</p>
 </blockquote>
@@ -213,10 +205,10 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 </ul>
 <p>启动热点也需要通过Java反射调用<code>WifiManager</code>类中的<code>setWifiApEnabled(WifiConfiguration wifiConfig, boolean enabled)</code>方法，第一个参数就是前面配置的<code>WifiConfiguration</code>对象，第二个参数<code>true</code>表示打开，<code>false</code>表示关闭热点。</p>
 <p>当时连接wifi的主要的代码就是，先配置好<code>WifiConfiguration</code>对象，然后就是添加向添加一个<code>WifiConfiguration</code>，这样就会返回这个Wifi配置的<code>id</code>，然后就<code>enable</code>这个Wifi配置，到此为止，一般的手机都可以连接成功</p>
-<pre><code><span class="keyword">int</span> networkId = mWifiManager.addNetwork(wifiConfig);
+<pre><code>int networkId = mWifiManager.addNetwork(wifiConfig);
 
-<span class="keyword">boolean</span> enabled = mWifiManager.enableNetwork(networkId, <span class="keyword">true</span>);
-</code></pre><h2 id="我遇到的第一个问题：">我遇到的第一个问题：</h2><p>手机A不能自动的去连接手机B创建的热点，那么问题是手机B创建的热点有问题还是手机A连接热点的配置信息有问题？但是手机C又可以去连接手机B的热点，那么是否说明手机B的热点创建就没问题了呢？</p>
+boolean enabled = mWifiManager.enableNetwork(networkId, true);
+</code></pre><h2 id="我遇到的第一个问题："><a href="#我遇到的第一个问题：" class="headerlink" title="我遇到的第一个问题："></a>我遇到的第一个问题：</h2><p>手机A不能自动的去连接手机B创建的热点，那么问题是手机B创建的热点有问题还是手机A连接热点的配置信息有问题？但是手机C又可以去连接手机B的热点，那么是否说明手机B的热点创建就没问题了呢？</p>
 <p>试了很多手机之后，发现都可以连接到手机B的热点，那么我们初步判定就是手机A 的连接Wifi配置信息有问题！后来，我就用手机A系统设置里的Wifi连接功能去连接手机B的热点，可以连接！那么问题就是手机A 连接热点的配置有问题！</p>
 <p>问题又来了：</p>
 <p>同样的Wifi配置信息，为什么大部分手机都可以连接热点成功，而一些手机就不可以呢？而连接Wifi的方法都是在<code>WifiMnager</code>类中<br>我看到了一个方法<code>public void connect(WifiConfiguration config, ActionListener listener)</code>方法，看文档就是用来连接Wifi的！！！！但不幸的是，这个方法被<code>@hide</code>了！！！！肯跌啊@_@还好，在文档中可以看到：</p>
@@ -224,17 +216,17 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
 <p>For a new network, this function is used instead of a sequence of <code>addNetwork()</code>, <code>enableNetwork()</code>, <code>saveConfiguration()</code> and <code>reconnect()</code></p>
 </blockquote>
 <p>而这4个方法是pulic并且没有<code>@hide</code>的！！然后按照文档写的，再添加两行代码：</p>
-<pre><code>非常关键的两行代码，有些手机必须要在<span class="tag">saveConfiguration</span>操作之后才能成功连接热点
+<pre><code>非常关键的两行代码，有些手机必须要在saveConfiguration操作之后才能成功连接热点
 
-<span class="tag">mWifiManager</span><span class="class">.saveConfiguration</span>();
-<span class="tag">mWifiManager</span><span class="class">.reconnect</span>();
+mWifiManager.saveConfiguration();
+mWifiManager.reconnect();
 </code></pre><p>手机A就可以连接成功了！！</p>
-<h2 id="我遇到的第二个问题：">我遇到的第二个问题：</h2><p>HTC手机创建热点时热点的配置信息中的热点名字不起作用！HTC手机可以成功自动连接Wifi，也可以创建热点，但是不能改热点的名字！！这就导致了其他所有手机都不能自动连HTC手机的热点！那么问题显而易见就是创建热点的时候信息配置有问题！！那么为什么配置有问题呢？其他手机不是都可以的吗？</p>
+<h2 id="我遇到的第二个问题："><a href="#我遇到的第二个问题：" class="headerlink" title="我遇到的第二个问题："></a>我遇到的第二个问题：</h2><p>HTC手机创建热点时热点的配置信息中的热点名字不起作用！HTC手机可以成功自动连接Wifi，也可以创建热点，但是不能改热点的名字！！这就导致了其他所有手机都不能自动连HTC手机的热点！那么问题显而易见就是创建热点的时候信息配置有问题！！那么为什么配置有问题呢？其他手机不是都可以的吗？</p>
 <p>问题大致已经找到了，但是为什么这样呢？必须求助强大的Google了~~~经过一番搜索之后重要找到了！！！</p>
 <p><a href="http://blog.sina.com.cn/s/blog_53dd443a010109i8.html" target="_blank" rel="external">WIFI热点设置,htc setWifiApEnabled Wificonfiguration</a><br><a href="http://www.cnblogs.com/shangdawei/archive/2013/03/22/2974682.html" target="_blank" rel="external">HTC 通过 WifiConfiguration 修改 SSID</a></p>
 <p>原因就在于: <strong>HTC就喜欢自己去改一些Android系统的api</strong>，导致很多手机都可以正常运行的功能，到了HTC手机上就不能正常运行了！！！这不是肯跌吗？(╯‵□′)╯︵┻━┻</p>
 <p>找到原因也找到了解决办法，这个bug就这么愉快的解决了~真的多谢强大的Google啊~~</p>
-<h2 id="说到最后">说到最后</h2><p>我们做事情过程中，一定会遇到很多各种各样的问题，</p>
+<h2 id="说到最后"><a href="#说到最后" class="headerlink" title="说到最后"></a>说到最后</h2><p>我们做事情过程中，一定会遇到很多各种各样的问题，</p>
 <blockquote>
 <p>找到问题的原因（为什么会这样）比怎样去解决重要的多<br>怎样把大象放进冰箱呢？ 打开冰箱，然后把大象放进去！</p>
 </blockquote>
@@ -315,7 +307,7 @@ B手机创建热点是一个自动的过程，A手机去连接B手机的热点�
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

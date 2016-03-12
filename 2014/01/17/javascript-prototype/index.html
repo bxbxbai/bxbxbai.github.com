@@ -80,13 +80,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -140,13 +136,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -195,13 +187,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>原文：<a href="http://javascript.info/tutorial/inheritance" target="_blank" rel="external">JavaSccript Prototype</a></p>
-<pre><code><span class="bullet">1. </span>Inheritance, the <span class="strong">__proto__</span>
-<span class="bullet">2. </span>Object.create, Object.getPrototypeOf
-<span class="bullet">3. </span>The prototype
-<span class="bullet">4. </span>Crossbrowser Object.create(proto)
-<span class="bullet">5. </span>hasOwnProperty
-<span class="bullet">6. </span>Looping with/without inherited properties
-<span class="bullet">7. </span>Summary
+<pre><code>1. Inheritance, the __proto__
+2. Object.create, Object.getPrototypeOf
+3. The prototype
+4. Crossbrowser Object.create(proto)
+5. hasOwnProperty
+6. Looping with/without inherited properties
+7. Summary
 </code></pre><blockquote>
 <p>在JavaScript中，“一切都是对象，函数是第一型”，Function和Object都是函数的实例。其实整个Javascript的核心体系结构都是围绕着这两个构造函数来构建的。</p>
 </blockquote>
@@ -210,25 +202,25 @@
 <p><strong>1. 继承, the <strong>proto</strong></strong></p>
 <p>在JavaScript中，当一个对象rabbit继承另一了对象<code>animal</code>时，这意味着<code>rabbit</code>对象中将会有一个特殊的属性：<code>rabbit.__proto__ = animal;</code></p>
 <p>当访问<code>rabbit</code>对象时，如果解释器在<code>rabbit</code>中不能找到属性，那么它会顺着<code>__proto__</code>链往上在<code>animal</code>对象中寻找<br>栗子中的<code>__proto__</code>属性仅在Chrome和FireFox中可以访问，请看一个栗子：</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 var rabbit = { jumps: true }
 
-rabbit.__proto__ = <span class="keyword">animal</span>  // inherit
+rabbit.__proto__ = animal  // inherit
 
 alert(rabbit.eats) // true
 </code></pre><p><code>eats</code>属性是从<code>animal</code>对象中访问的。</p>
 <p>如果在rabbit对象中已经发现了属性，那么就不会去检查<strong>proto</strong>属性啦。</p>
 <p>再来一个栗子，当子类中也有<code>eats</code>属性时，父类中的就不会访问了。</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 var fedUpRabbit = { eats: false}
 
-fedUpRabbit.__proto__ = <span class="keyword">animal</span> 
+fedUpRabbit.__proto__ = animal 
 
 alert(fedUpRabbit.eats) // false
 </code></pre><p>你也可以在<code>animal</code>中添加一个函数，那么在<code>rabbit</code>中也可以访问了。</p>
-<pre><code>var <span class="keyword">animal</span> = {
+<pre><code>var animal = {
   eat: function() {
-    alert( <span class="string">"I'm full"</span> )
+    alert( &quot;I&apos;m full&quot; )
     this.full = true
   }
 }
@@ -238,7 +230,7 @@ var rabbit = {
   jump: function() { /* something */ }
 }
 
-rabbit.__proto__ = <span class="keyword">animal</span> 
+rabbit.__proto__ = animal 
 
 rabbit.eat() 
 </code></pre><p><code>rabbit.eat()</code>函数以如下两步执行：</p>
@@ -257,139 +249,139 @@ rabbit.eat()
 <p><code>__proto__</code>是一个非标准的属性，由Chrome/FireFox提供访问，在其他的浏览器中保持不可见。</p>
 <p>所有的现代浏览器除了Opera（IE &gt; 9）支持两个标准的函数来处理原型问题：</p>
 <p>Object.ceate(prop[,props])<br>用给定了<strong>proto</strong>创建一个空对象：</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 
-rabbit = Object.create(<span class="keyword">animal</span>)
+rabbit = Object.create(animal)
 
 alert(rabbit.eats) // true
 </code></pre><p>上面代码创建了一个空<code>rabbit</code>对象，并且原型设置为<code>animal</code></p>
 <p><code>rabbit</code>对象创建好以后，我们可以往里添加属性了：</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 
-rabbit = Object.create(<span class="keyword">animal</span>)
+rabbit = Object.create(animal)
 rabbit.jumps = true
 </code></pre><p><code>Object.creat</code>函数的第二个参数<code>props</code>是可选的，它允许像新对象设置属性。这里就省略了，因为我们关系的继承。</p>
 <p><strong>Object.getPrototypeOf(obj)</strong><br>返回<code>obj.__proto__</code>的值。这个函数是标准的，可以在不能直接访问<code>__proto__</code>属性的浏览器中使用了。</p>
-<pre><code>var <span class="keyword">animal</span> = {
+<pre><code>var animal = {
   eats: true
 }
 
-rabbit = Object.create(<span class="keyword">animal</span>)
+rabbit = Object.create(animal)
 
-alert( Object.getPrototypeOf(rabbit) === <span class="keyword">animal</span> ) // true
+alert( Object.getPrototypeOf(rabbit) === animal ) // true
 </code></pre><p>现代浏览器允许读取<code>__proto__</code>属性值，但是不能设置。</p>
 <p><strong>3. The prototype</strong><br>有一些好的跨浏览器的方式设置<code>__proto__</code>属性，这将会使用构造器函数（constructor functions）。记住！任何函数创建一个对象都是通过<code>new</code>关键字的。</p>
 <p>一个栗子：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
-  <span class="keyword">this</span>.name = name
+<pre><code>function Rabbit(name) {
+  this.name = name
 }
 
-<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+var rabbit = new Rabbit(&apos;John&apos;)
 
-alert(rabbit.name) <span class="comment">// John</span>
+alert(rabbit.name) // John
 </code></pre><p><code>new</code>操作将原型的属性设置到<code>rabbit</code>对象的的<code>__proto__</code>属性中了。<br>让我们来看看它的原理，例如，<code>new Rabbit</code> 对象，而<code>Rabbit</code>是继承<code>animal</code> 的。</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 
 function Rabbit(name) {
   this.name = name
 }
 
-Rabbit.prototype = <span class="keyword">animal</span>
+Rabbit.prototype = animal
 
-var rabbit = new Rabbit('John')
+var rabbit = new Rabbit(&apos;John&apos;)
 
-alert( rabbit.eats ) // true, because rabbit.__proto__ == <span class="keyword">animal</span>
+alert( rabbit.eats ) // true, because rabbit.__proto__ == animal
 </code></pre><p><code>Rabbit.prototype = animal</code> 字面量意味着：对所有由<code>new Rabbit</code>创建的对象设<code>__proto__ = animal</code> </p>
 <p><strong>4。 跨浏览器 <code>Object.create(proto)</code></strong><br><code>Object.create(prop)</code>函数功能的强大的，因为它允许从给定的对象直接继承。它可以由如下代码模拟：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
-  <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}
+<pre><code>function inherit(proto) {
+  function F() {}
   F.prototype = proto
-  <span class="keyword">return</span> <span class="keyword">new</span> F
+  return new F
 }
 </code></pre><p><code>inherit(animal</code>) 与<code>Object.create(animal)</code>是完全等同的，返回一个空的对象，并且<code>object.__proto__ = animal</code>。</p>
 <p>一个栗子：</p>
-<pre><code>var <span class="keyword">animal</span> = { eats: true }
+<pre><code>var animal = { eats: true }
 
-var rabbit = inherit(<span class="keyword">animal</span>)
+var rabbit = inherit(animal)
 
 alert(rabbit.eats) // true
-alert(rabbit.hasOwnProperty('eats')) // false, from prototype
+alert(rabbit.hasOwnProperty(&apos;eats&apos;)) // false, from prototype
 </code></pre><p>来看一下它的原理是什么：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span>(<span class="params">proto</span>) </span>{
-  <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>{}     <span class="comment">// (1)</span>
-  F.prototype = proto <span class="comment">// (2)</span>
-  <span class="keyword">return</span> <span class="keyword">new</span> F()      <span class="comment">// (3)</span>
+<pre><code>function inherit(proto) {
+  function F() {}     // (1)
+  F.prototype = proto // (2)
+  return new F()      // (3)
 }
 
-<span class="number">1.</span> 创建了一个新函数，函数没有向<span class="keyword">this</span>设置任何属性，以此<span class="string">`new F`</span> 会创建一个空对象。
-<span class="number">2.</span> <span class="string">`F.prototype`</span>被设置为proto
-<span class="number">3.</span> <span class="string">`new`</span> F创建了一个空对象，对象的<span class="string">`__proto__ = F.prototype`</span> 
-<span class="number">4.</span> Bingo! 我们得到了一个继承<span class="string">`proto`</span>的空对象
+1. 创建了一个新函数，函数没有向this设置任何属性，以此`new F` 会创建一个空对象。
+2. `F.prototype`被设置为proto
+3. `new` F创建了一个空对象，对象的`__proto__ = F.prototype` 
+4. Bingo! 我们得到了一个继承`proto`的空对象
 </code></pre><p> 这个函数广泛适用于各种库和框架之中。</p>
 <p>你的函数接受了一个带有options 的对象</p>
-<pre><code><span class="comment">/* options contains menu settings: width, height etc */</span>
-<span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
-  <span class="comment">// ...</span>
+<pre><code>/* options contains menu settings: width, height etc */
+function Menu(options) {
+  // ...
 }
 </code></pre><p>你想设置某些options</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
-  options.width = options.width || <span class="number">300</span> <span class="comment">// set default value</span>
-  <span class="comment">// ...</span>
+<pre><code>function Menu(options) {
+  options.width = options.width || 300 // set default value
+  // ...
 }
 </code></pre><p>。。。但是改变参数值可能会产生一些错误的结果，因为options可能会在外部代码中使用。一个解决办法就是克隆options对象，复制所有的属性到一个新的对象中，在新对象中修改，</p>
 <p>怎样用继承来解决这个问题呢？ P.S. options可以添加设设置，但是不能被删除。</p>
 <p>Solution<br>你可以继承options，并且在它的子类的中修改或者添加新的属性。</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
-  <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}
+<pre><code>function inherit(proto) {
+  function F() {}
   F.prototype = proto
-  <span class="keyword">return</span> <span class="keyword">new</span> F
+  return new F
 }
 
-<span class="function"><span class="keyword">function</span> <span class="title">Menu</span><span class="params">(options)</span> </span>{
-  <span class="keyword">var</span> opts = inherit(options)
-  opts.width = opts.width || <span class="number">300</span>
-  <span class="comment">// ...</span>
+function Menu(options) {
+  var opts = inherit(options)
+  opts.width = opts.width || 300
+  // ...
 }
 </code></pre><p>所有的操作只在子对象中有效，当Menu方法结束时，外部代码仍然可以使用没有修改的过的options对象。<code>delete</code>操作在这里非常重要，如果width是一个prototype中的属性，<code>delete opts.width</code>不会产生任何作用</p>
 <p><strong>5. hasOwnProperty</strong></p>
 <p>所有的对象都有<code>hasOwnProperty</code>函数，它可以用来检测一个属性是否对象自身还是属于原型</p>
 <p>一个栗子：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
-  <span class="keyword">this</span>.name = name
+<pre><code>function Rabbit(name) {
+  this.name = name
 }
 
-Rabbit.prototype = { eats: <span class="literal">true</span> }
+Rabbit.prototype = { eats: true }
 
-<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+var rabbit = new Rabbit(&apos;John&apos;)
 
-alert( rabbit.hasOwnProperty(<span class="string">'eats'</span>) ) <span class="comment">// false, in prototype</span>
+alert( rabbit.hasOwnProperty(&apos;eats&apos;) ) // false, in prototype
 
-alert( rabbit.hasOwnProperty(<span class="string">'name'</span>) ) <span class="comment">// true, in object</span>
+alert( rabbit.hasOwnProperty(&apos;name&apos;) ) // true, in object
 </code></pre><p><strong>6. Looping with/without inherited properties</strong></p>
 <p><code>for..in</code>循环输出一个对象的所有属性，包括自身的和原型的。</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
-  <span class="keyword">this</span>.name = name
+<pre><code>function Rabbit(name) {
+  this.name = name
 }
 
-Rabbit.prototype = { eats: <span class="literal">true</span> }
+Rabbit.prototype = { eats: true }
 
-<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+var rabbit = new Rabbit(&apos;John&apos;)
 
-<span class="keyword">for</span>(<span class="keyword">var</span> p <span class="keyword">in</span> rabbit) {
-  alert (p + <span class="string">" = "</span> + rabbit[p]) <span class="comment">// outputs both "name" and "eats"</span>
+for(var p in rabbit) {
+  alert (p + &quot; = &quot; + rabbit[p]) // outputs both &quot;name&quot; and &quot;eats&quot;
 }
 </code></pre><p>用<code>hasOwnProperty</code>可以过滤得到属于对象自己的属性：</p>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span><span class="params">(name)</span> </span>{
-  <span class="keyword">this</span>.name = name
+<pre><code>function Rabbit(name) {
+  this.name = name
 }
 
-Rabbit.prototype = { eats: <span class="literal">true</span> }
+Rabbit.prototype = { eats: true }
 
-<span class="keyword">var</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">'John'</span>)
+var rabbit = new Rabbit(&apos;John&apos;)
 
-<span class="keyword">for</span>(<span class="keyword">var</span> p <span class="keyword">in</span> rabbit) {
-  <span class="keyword">if</span> (!rabbit.hasOwnProperty(p)) <span class="keyword">continue</span> <span class="comment">// filter out "eats"</span>
-  alert (p + <span class="string">" = "</span> + rabbit[p]) <span class="comment">// outputs only "name"</span>
+for(var p in rabbit) {
+  if (!rabbit.hasOwnProperty(p)) continue // filter out &quot;eats&quot;
+  alert (p + &quot; = &quot; + rabbit[p]) // outputs only &quot;name&quot;
 }
 </code></pre><p><strong>7. Summary</strong></p>
 <p><strong>JavaScript是通过一个特殊的属性<strong>proto</strong>来实现继承的</strong></p>
@@ -400,10 +392,10 @@ Rabbit.prototype = { eats: <span class="literal">true</span> }
 <ul>
 <li>Chrome和FireFox可以直接访问对象的<code>__proto__</code>属性，大多数现代浏览器支持用<code>Object.getPrototypeOf(obj)</code>只读访问。<br><code>Object.create(proto)</code> 可以用给定的<code>proto</code>生成空的子对象，或者通过如下代码达到相同的功能：</li>
 </ul>
-<pre><code><span class="function"><span class="keyword">function</span> <span class="title">inherit</span><span class="params">(proto)</span> </span>{
-     <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}     
+<pre><code>function inherit(proto) {
+     function F() {}     
      F.prototype = proto
-     <span class="keyword">return</span> <span class="keyword">new</span> F()    
+     return new F()    
    }
 </code></pre><p><strong>其他方法：</strong></p>
 <ul>
@@ -479,7 +471,7 @@ Rabbit.prototype = { eats: <span class="literal">true</span> }
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

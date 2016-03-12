@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://i3.tietuku.com/5664961aea30a6e4.png">
 <meta property="og:image" content="http://i3.tietuku.com/54a6e2b531d34aca.png">
 <meta property="og:image" content="http://i3.tietuku.com/85e99608e72b54e0.png">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2016-03-12T06:57:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开发笔记0">
 <meta name="twitter:description" content="记录一些好用的开发技巧">
@@ -67,13 +67,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -127,13 +123,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -179,178 +171,175 @@
       
         <p>记录一些好用的开发技巧</p>
 <a id="more"></a>
-<p>#0. 自定义一个View</p>
-<p>现在的音乐播放器，比如天天动听或网易云音乐中都会将推荐页面中的内容进行分块，比如热门推荐、个性化推荐、最新音乐等等。每个区块前面都会有一个标题，如下图：</p>
+<h1 id="0-自定义一个View"><a href="#0-自定义一个View" class="headerlink" title="0. 自定义一个View"></a>0. 自定义一个View</h1><p>现在的音乐播放器，比如天天动听或网易云音乐中都会将推荐页面中的内容进行分块，比如热门推荐、个性化推荐、最新音乐等等。每个区块前面都会有一个标题，如下图：</p>
 <p><img src="http://i2.tietuku.com/4ee54aa7c8091807.png" alt="云音乐"></p>
 <p><img src="http://i2.tietuku.com/c9eee15f9b35fb2c.png" alt="虾米"></p>
 <p>可能很多人还在重用布局文件（layout文件）来做这些功能，但是如果你现在又需要在另一个（或多个）页面中使用这个标题，那么你就必须把标题的布局文件include进来，然后在代码里面<code>findViewById</code>来获取标题，还要设置标题<code>TextView</code>和标题前面小圆圈的主题什么的。<strong>这样你需要在每个使用这个标题的页面中都重复写这些代码</strong></p>
 <p><strong>这样太麻烦了，你可以直接把它写成一个View，然后在布局文件中直接使用这个View</strong></p>
-<pre><code><span class="comment">/**
+<pre><code>/**
  * 
- * <span class="doctag">@author</span> bxbxbai
- * <span class="doctag">@version</span> 1.0.0
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndicatorView</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span> </span>{
+ * @author bxbxbai
+ * @version 1.0.0
+ */
+public class IndicatorView extends LinearLayout {
 
     TextView mTitle;
 
-    <span class="function"><span class="keyword">public</span> <span class="title">IndicatorView</span><span class="params">(Context context)</span> </span>{
-        <span class="keyword">super</span>(context);
+    public IndicatorView(Context context) {
+        super(context);
         init();
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">IndicatorView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>{
-        <span class="keyword">super</span>(context, attrs);
+    public IndicatorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         init();
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">IndicatorView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>{
-        <span class="keyword">super</span>(context, attrs, defStyleAttr);
+    public IndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         init();
     }
 
-    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>{
-        View view = View.inflate(getContext(), R.layout.find_song_title_bar, <span class="keyword">this</span>);
+    private void init() {
+        View view = View.inflate(getContext(), R.layout.find_song_title_bar, this);
         mTitle = (TextView) view.findViewById(R.id.id_text_title);
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span> </span>{
+    public void setTitle(String title) {
         mTitle.setText(title);
     }
 }
-</code></pre><p>#1. 正方形的Layout<br>有很多情况会出现正方形的View，如下图：<br><img src="http://i3.tietuku.com/5664961aea30a6e4.png" alt="Square Post"></p>
+</code></pre><h1 id="1-正方形的Layout"><a href="#1-正方形的Layout" class="headerlink" title="1. 正方形的Layout"></a>1. 正方形的Layout</h1><p>有很多情况会出现正方形的View，如下图：<br><img src="http://i3.tietuku.com/5664961aea30a6e4.png" alt="Square Post"></p>
 <p>这样的布局一般会是最外面一个<code>LinearLayout</code>，包含一个<code>RelativeLayout</code>和一个<code>TextView</code>，这个<code>RelativeLayout</code>中包含了一个<code>ImageView</code>和两个<code>TextView</code>。如果把<code>ImageView</code>的<code>layout_height</code>设置成<code>wrap_content</code>，这样肯定会有问题，有的时候图片不是正方形的，就会有各种奇形怪状。</p>
 <p>你也可以在加载图片的时候将Bitmap的高剪成和宽一致，但是这样太麻烦了。你也可以写一个<code>SqaureImageView</code>，但是我觉得这样的重用性不好。</p>
 <p>其实，最好的方式还是将这个<code>RelativeLayout</code>换成<code>SquareLayout</code>，这是一个正方形的<code>RelativeLayout</code>。然后将<code>ImageView</code>的<code>layout_height</code>和<code>layout_width</code>设置成<code>match_parent</code>就可以了，图片自动设置为正方形，再按照需求设置<code>ImageView</code>的<code>scaleType</code></p>
 <p>代码很少，如下：</p>
-<pre><code><span class="comment">/**
+<pre><code>/**
  * Created by baia on 14/10/27.
- * <span class="doctag">@author</span> bxbxbai
- * <span class="doctag">@version</span> 1.0.0
- */</span>
-<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SquareLayout</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> </span>{
+ * @author bxbxbai
+ * @version 1.0.0
+ */
+public class SquareLayout extends RelativeLayout {
 
-    <span class="function"><span class="keyword">public</span> <span class="title">SquareLayout</span><span class="params">(Context context)</span> </span>{
-        <span class="keyword">super</span>(context);
+    public SquareLayout(Context context) {
+        super(context);
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">SquareLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>{
-        <span class="keyword">super</span>(context, attrs);
+    public SquareLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">SquareLayout</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>{
-        <span class="keyword">super</span>(context, attrs, defStyle);
+    public SquareLayout(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>{
-        setMeasuredDimension(getDefaultSize(<span class="number">0</span>, widthMeasureSpec), getDefaultSize(<span class="number">0</span>, heightMeasureSpec));
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
 
-        <span class="comment">//children are just made to fill our space</span>
-        <span class="keyword">int</span> childWithSize = getMeasuredWidth();
+        //children are just made to fill our space
+        int childWithSize = getMeasuredWidth();
 
-        <span class="comment">//height is set to be same as width</span>
+        //height is set to be same as width
         heightMeasureSpec = widthMeasureSpec =
                 MeasureSpec.makeMeasureSpec(childWithSize, MeasureSpec.EXACTLY);
 
-        <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }
-</code></pre><p>#2. LinearLayout 的divider<br>先来看一张图：<br><img src="http://i3.tietuku.com/54a6e2b531d34aca.png" alt="LinearLayout 的divider"></p>
+</code></pre><h1 id="2-LinearLayout-的divider"><a href="#2-LinearLayout-的divider" class="headerlink" title="2. LinearLayout 的divider"></a>2. LinearLayout 的divider</h1><p>先来看一张图：<br><img src="http://i3.tietuku.com/54a6e2b531d34aca.png" alt="LinearLayout 的divider"></p>
 <p>如果要写上面图片中的布局，整体的布局肯定是两个<code>LinearLayout</code>，然后设置margin值让各个子View之间留出空隙。如果你设置了button_2隐藏了，然后你就看到了：</p>
 <p><img src="http://i3.tietuku.com/85e99608e72b54e0.png" alt="此处输入图片的描述"></p>
 <p><strong>图片中button_1右边留出了一个margin值</strong></p>
 <p>如果你使用<code>LinearLayout</code>的<code>android:divider</code>属性就会极大的方便你的代码。<code>android:divider</code>的值是一个<code>drawable</code>，你可以定义一个如下drawable文件</p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="tag">&lt;<span class="title">shape</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/ 
-    android:shape="</span><span class="value">rectangle"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">size</span>
-        <span class="attribute">android:width</span>=<span class="value">"10dp"</span>
-        <span class="attribute">android:height</span>=<span class="value">"10dp"</span> /&gt;</span>
-    <span class="tag">&lt;<span class="title">solid</span> <span class="attribute">android:color</span>=<span class="value">"@android:color/transparent"</span> /&gt;</span>
-<span class="tag">&lt;/<span class="title">shape</span>&gt;</span>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/ 
+    android:shape=&quot;rectangle&quot;&gt;
+    &lt;size
+        android:width=&quot;10dp&quot;
+        android:height=&quot;10dp&quot; /&gt;
+    &lt;solid android:color=&quot;@android:color/transparent&quot; /&gt;
+&lt;/shape&gt;
 </code></pre><p>其中，下面3个按钮的布局文件为：</p>
 <pre><code>&lt;LinearLayout
-    android:<span class="property">id</span>=<span class="string">"@+id/buttons_container"</span>
-    android:layout_width=<span class="string">"match_parent"</span>
-    android:divider=<span class="string">"@drawable/drawable_divider"</span>
-    android:showDividers=<span class="string">"middle"</span>
-    android:layout_height=<span class="string">"wrap_content"</span>
-    android:orientation=<span class="string">"horizontal"</span>&gt;
+    android:id=&quot;@+id/buttons_container&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:divider=&quot;@drawable/drawable_divider&quot;
+    android:showDividers=&quot;middle&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:orientation=&quot;horizontal&quot;&gt;
 
     &lt;Button
-        android:<span class="property">id</span>=<span class="string">"@+id/btn_0"</span>
-        style=<span class="string">"@style/ButtonStyle"</span>
-        android:background=<span class="string">"@android:color/holo_purple"</span>
-        android:<span class="type">text</span>=<span class="string">"button_0"</span> /&gt;
+        android:id=&quot;@+id/btn_0&quot;
+        style=&quot;@style/ButtonStyle&quot;
+        android:background=&quot;@android:color/holo_purple&quot;
+        android:text=&quot;button_0&quot; /&gt;
 
     &lt;Button
-        android:<span class="property">id</span>=<span class="string">"@+id/btn_1"</span>
-        style=<span class="string">"@style/ButtonStyle"</span>
-        android:background=<span class="string">"@android:color/darker_gray"</span>
-        android:<span class="type">text</span>=<span class="string">"button_1"</span> /&gt;
+        android:id=&quot;@+id/btn_1&quot;
+        style=&quot;@style/ButtonStyle&quot;
+        android:background=&quot;@android:color/darker_gray&quot;
+        android:text=&quot;button_1&quot; /&gt;
 
     &lt;Button
-        android:<span class="property">id</span>=<span class="string">"@+id/btn_3"</span>
-        style=<span class="string">"@style/ButtonStyle"</span>
-        android:background=<span class="string">"@android:color/holo_blue_dark"</span>
-        android:<span class="type">text</span>=<span class="string">"button_2"</span> /&gt;
+        android:id=&quot;@+id/btn_3&quot;
+        style=&quot;@style/ButtonStyle&quot;
+        android:background=&quot;@android:color/holo_blue_dark&quot;
+        android:text=&quot;button_2&quot; /&gt;
 &lt;/LinearLayout&gt;
 </code></pre><p>比较重要的两句代码就是：</p>
-<pre><code><span class="label">android:</span>divider=<span class="string">"@drawable/drawable_divider"</span>
-<span class="label">android:</span>showDividers=<span class="string">"middle"</span>
+<pre><code>android:divider=&quot;@drawable/drawable_divider&quot;
+android:showDividers=&quot;middle&quot;
 </code></pre><p>这个<code>@drawable/drawable_divider</code>就是上面写的drawable文件，<code>showDividers</code>的值可以选择<code>beginning</code>, <code>middle</code>, <code>end</code>, <code>none</code>，什么意思一看就明白。</p>
 <p><strong><code>LinearLayout</code>的<code>android:divider</code>是一个非常好用而且强大的功能噢～</strong></p>
-<p>#3. 更加方便的启动Fragment或Activity</p>
-<p>启动Activity的一个非常普遍的方法就是</p>
-<pre><code><span class="type">Intent</span> <span class="type">intent</span> = new <span class="type">Intent</span>(MainActivity.this, AlbumActivity.<span class="keyword">class</span>);
-<span class="type">intent</span>.putExtra(ALBUM_ID, 00L);
-startActivity(<span class="type">intent</span>);
+<h1 id="3-更加方便的启动Fragment或Activity"><a href="#3-更加方便的启动Fragment或Activity" class="headerlink" title="3. 更加方便的启动Fragment或Activity"></a>3. 更加方便的启动Fragment或Activity</h1><p>启动Activity的一个非常普遍的方法就是</p>
+<pre><code>Intent intent = new Intent(MainActivity.this, AlbumActivity.class);
+intent.putExtra(ALBUM_ID, 100L);
+startActivity(intent);
 </code></pre><p>如果app中有很多地方会启动<code>AlbumActivity</code>，那么这样的话你就需要在很多地方重复上面的代码，这不是在<strong>Repeat Yourself</strong>了吗。不光如此，如果一个Activity需要很多值，那么你就需要一个一个的设置，非常麻烦。</p>
 <p>换个思路，你可以这样写：</p>
-<pre><code>public <span class="class"><span class="keyword">class</span> <span class="title">AlbumActivity</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Activity</span> {</span>
-    <span class="comment">//....</span>
+<pre><code>public class AlbumActivity extends Activity {
+    //....
 
-    <span class="comment">/**
+    /**
      * launch activity
      * @param context Context
      * @param albumId id
-    */</span>
-    public static void launch(<span class="type">Context</span> context, long albumId) {
-        <span class="type">Intent</span> intent = <span class="keyword">new</span> <span class="type">Intent</span>(context, <span class="type">AlbumActivity</span>.<span class="keyword">class</span>);
-        intent.putExtra(<span class="type">ALBUM_ID</span>, albumId);
+    */
+    public static void launch(Context context, long albumId) {
+        Intent intent = new Intent(context, AlbumActivity.class);
+        intent.putExtra(ALBUM_ID, albumId);
         context.startActivity(intent);
     }
 
-    <span class="comment">//...</span>
+    //...
 }
 </code></pre><p>然后你就可以直接这样启动<code>AlbumActivity</code>：</p>
-<pre><code>AlbumActivity.launch(MainActivity.<span class="keyword">this</span>, <span class="number">100L</span>);
+<pre><code>AlbumActivity.launch(MainActivity.this, 100L);
 </code></pre><p>其实启动Fragment也可以使用这样的方法，超级方便。</p>
 <p><strong>我一直觉得，我写一个Fragment或Activity是希望别人以更加方便的方式去调用，而不是别人要用我的组件的时候先要看半天代码，这样很浪费时间</strong></p>
-<p>#4. ListView的layout_height属性</p>
-<p>ListView的<code>layout_height</code>属性一般情况下不允许设置为<code>wrap_content</code>，这样会在ListView滚动的时候非常浪费性能（getView方法会多次调用）</p>
-<p>#5. Singleton模板<br>在看Android源码的时候发现这么一个类：</p>
-<pre><code><span class="keyword">package</span> android.util;
+<h1 id="4-ListView的layout-height属性"><a href="#4-ListView的layout-height属性" class="headerlink" title="4. ListView的layout_height属性"></a>4. ListView的layout_height属性</h1><p>ListView的<code>layout_height</code>属性一般情况下不允许设置为<code>wrap_content</code>，这样会在ListView滚动的时候非常浪费性能（getView方法会多次调用）</p>
+<h1 id="5-Singleton模板"><a href="#5-Singleton模板" class="headerlink" title="5. Singleton模板"></a>5. Singleton模板</h1><p>在看Android源码的时候发现这么一个类：</p>
+<pre><code>package android.util;
 
-<span class="comment">/**
+/**
  * Singleton helper class for lazily initialization.
  *
  * Modeled after frameworks/base/include/utils/Singleton.h
  *
- * <span class="doctag">@hide</span>
- */</span>
-<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span>&lt;<span class="title">T</span>&gt; </span>{
-    <span class="keyword">private</span> T mInstance;
+ * @hide
+ */
+public abstract class Singleton&lt;T&gt; {
+    private T mInstance;
 
-    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> T <span class="title">create</span><span class="params">()</span></span>;
+    protected abstract T create();
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> T <span class="title">get</span><span class="params">()</span> </span>{
-        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) {
-            <span class="keyword">if</span> (mInstance == <span class="keyword">null</span>) {
+    public final T get() {
+        synchronized (this) {
+            if (mInstance == null) {
                 mInstance = create();
             }
-            <span class="keyword">return</span> mInstance;
+            return mInstance;
         }
     }
 }
@@ -431,7 +420,7 @@ startActivity(<span class="type">intent</span>);
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

@@ -65,13 +65,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -125,13 +121,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -179,117 +171,117 @@
 <p>对象序列化可以有好多种方法，一般最简单的就是实现<code>Serializable</code>接口，通过<code>ObjectOutputStream</code>写到SD卡中；还有可以将Java对象序列化到数据库中；还可以将Java对象转成一个字符串，把这个字符串写到SD卡中，反序列化时读取这个字符串，并且转成一个Java对象。</p>
 <p>如果只保存一个Java对象，你应该不会把它写到数据库中的，一般会使用另外两种方法，但是那种方法好呢？</p>
 <a id="more"></a>
-<h2 id="方法0：实现Serializable接口">方法0：实现Serializable接口</h2><p>写上两段代码</p>
-<pre><code><span class="comment">//将Object写入SD卡</span>
-<span class="keyword">private</span> <span class="keyword">void</span> writeObject(Object result) {
-    ObjectOutputStream oos = <span class="keyword">null</span>;
-    FileOutputStream fileOutputStream = <span class="keyword">null</span>;
-    <span class="keyword">try</span> {
-        <span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(Config.getCachePath() + <span class="string">"bxbxbai"</span>);
-        fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">file</span>);
-        oos = <span class="keyword">new</span> ObjectOutputStream(fileOutputStream);
+<h2 id="方法0：实现Serializable接口"><a href="#方法0：实现Serializable接口" class="headerlink" title="方法0：实现Serializable接口"></a>方法0：实现Serializable接口</h2><p>写上两段代码</p>
+<pre><code>//将Object写入SD卡
+private void writeObject(Object result) {
+    ObjectOutputStream oos = null;
+    FileOutputStream fileOutputStream = null;
+    try {
+        File file = new File(Config.getCachePath() + &quot;bxbxbai&quot;);
+        fileOutputStream = new FileOutputStream(file);
+        oos = new ObjectOutputStream(fileOutputStream);
         oos.writeObject(result);
-    } <span class="keyword">catch</span> (Exception e) {
+    } catch (Exception e) {
         e.printStackTrace();
-    } <span class="keyword">finally</span> {
-        <span class="keyword">try</span> {
+    } finally {
+        try {
             fileOutputStream.close();
             oos.close();
-        } <span class="keyword">catch</span> (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
 
-<span class="comment">//读取Object</span>
-<span class="keyword">private</span> Object readObject() {
-    Object object = <span class="keyword">null</span>;
-    <span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(Config.getCachePath() + <span class="string">"bxbxbai"</span>);
-    <span class="keyword">if</span> (<span class="keyword">file</span>.isFile()) {
-        ObjectInputStream ois = <span class="keyword">null</span>;
-        FileInputStream fileInputStream = <span class="keyword">null</span>;
-        <span class="keyword">try</span> {
-            fileInputStream = <span class="keyword">new</span> FileInputStream(<span class="keyword">file</span>);
-            ois = <span class="keyword">new</span> ObjectInputStream(fileInputStream);
+//读取Object
+private Object readObject() {
+    Object object = null;
+    File file = new File(Config.getCachePath() + &quot;bxbxbai&quot;);
+    if (file.isFile()) {
+        ObjectInputStream ois = null;
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+            ois = new ObjectInputStream(fileInputStream);
             object = ois.readObject();
-        } <span class="keyword">catch</span> (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } <span class="keyword">finally</span> {
-            <span class="keyword">try</span> {
+        } finally {
+            try {
                 fileInputStream.close();
                 ois.close();
-            } <span class="keyword">catch</span> (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        <span class="keyword">return</span> object;
+        return object;
     }
-    <span class="keyword">return</span> <span class="keyword">null</span>;
+    return null;
 }
 </code></pre><p>##方法1：将对象转换成String序列化</p>
-<pre><code><span class="comment">//先用Gson将对象转换成String，然后把String写入SD卡</span>
-<span class="keyword">private</span> <span class="keyword">void</span> writeObjectString(Object result) {
-    String s = <span class="keyword">new</span> Gson().toJson(result);
-    FileOutputStream fileOutputStream = <span class="keyword">null</span>;
-    <span class="keyword">try</span> {
-        <span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(Config.getCachePath() + <span class="string">"bxbxbai_string"</span>);
-        fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">file</span>);
-        BufferedWriter writer = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(fileOutputStream));
-        writer.<span class="keyword">write</span>(s);
+<pre><code>//先用Gson将对象转换成String，然后把String写入SD卡
+private void writeObjectString(Object result) {
+    String s = new Gson().toJson(result);
+    FileOutputStream fileOutputStream = null;
+    try {
+        File file = new File(Config.getCachePath() + &quot;bxbxbai_string&quot;);
+        fileOutputStream = new FileOutputStream(file);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
+        writer.write(s);
         writer.flush();
         writer.close();
-    } <span class="keyword">catch</span> (Exception e) {
+    } catch (Exception e) {
         e.printStackTrace();
-    } <span class="keyword">finally</span> {
-        <span class="keyword">try</span> {
+    } finally {
+        try {
             fileOutputStream.close();
-        } <span class="keyword">catch</span> (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
 
-<span class="comment">//先读取String，然后转成Java对象</span>
-<span class="keyword">private</span> Object readObjectString() {
-    <span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(Config.getCachePath() + <span class="string">"bxbxbai_string"</span>);
-    <span class="keyword">if</span> (<span class="keyword">file</span>.isFile()) {
-        <span class="keyword">try</span> {
-            Scanner scanner = <span class="keyword">new</span> Scanner(<span class="keyword">file</span>);
-            StringBuilder json = <span class="keyword">new</span> StringBuilder();
-            <span class="keyword">while</span> (scanner.hasNext()) {
-                json.<span class="keyword">append</span>(scanner.nextLine());
+//先读取String，然后转成Java对象
+private Object readObjectString() {
+    File file = new File(Config.getCachePath() + &quot;bxbxbai_string&quot;);
+    if (file.isFile()) {
+        try {
+            Scanner scanner = new Scanner(file);
+            StringBuilder json = new StringBuilder();
+            while (scanner.hasNext()) {
+                json.append(scanner.nextLine());
             }
             scanner.close();
-            <span class="keyword">return</span> <span class="keyword">new</span> Gson.fromJson(json.toString(), SerializeStringResult.<span class="keyword">class</span>);
-        } <span class="keyword">catch</span> (Exception e) {
+            return new Gson.fromJson(json.toString(), SerializeStringResult.class);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    <span class="keyword">return</span> <span class="keyword">null</span>;
+    return null;
 }
 </code></pre><p>##测试</p>
 <p>基本的功能代码已经都贴了，下面是测试代码：</p>
-<pre><code>private void test<span class="params">()</span> {
+<pre><code>private void test() {
     try {
-        <span class="comment">//省略创建object代码，result0 和result1 完全一样</span>
-        StopWatch.begin<span class="params">(<span class="string">"writeObject"</span>)</span>;
-        writeObject<span class="params">(result0)</span>;
-        StopWatch.end<span class="params">(<span class="string">"writeObject"</span>)</span>;
+        //省略创建object代码，result0 和result1 完全一样
+        StopWatch.begin(&quot;writeObject&quot;);
+        writeObject(result0);
+        StopWatch.end(&quot;writeObject&quot;);
 
-        StopWatch.begin<span class="params">(<span class="string">"readObject"</span>)</span>;
-        Object o1 = readObject<span class="params">()</span>;
-        StopWatch.end<span class="params">(<span class="string">"readObject"</span>)</span>;
+        StopWatch.begin(&quot;readObject&quot;);
+        Object o1 = readObject();
+        StopWatch.end(&quot;readObject&quot;);
 
-        <span class="comment">//写String</span>
-        StopWatch.begin<span class="params">(<span class="string">"writeObjectString"</span>)</span>;
-        writeObjectString<span class="params">(result1)</span>;
-        StopWatch.end<span class="params">(<span class="string">"writeObjectString"</span>)</span>;
+        //写String
+        StopWatch.begin(&quot;writeObjectString&quot;);
+        writeObjectString(result1);
+        StopWatch.end(&quot;writeObjectString&quot;);
 
-        StopWatch.begin<span class="params">(<span class="string">"readObjectString"</span>)</span>;
-        Object o2 = readObjectString<span class="params">()</span>;
-        StopWatch.end<span class="params">(<span class="string">"readObjectString"</span>)</span>;
-    } catch <span class="params">(Exception e)</span> {
-        e.printStackTrace<span class="params">()</span>;
+        StopWatch.begin(&quot;readObjectString&quot;);
+        Object o2 = readObjectString();
+        StopWatch.end(&quot;readObjectString&quot;);
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 }
 </code></pre><p>测试数据是地址：<a href="http://bxbxbai.gitcafe.io/img/data.txt">地址</a>，测试手机使用LG-D858</p>
@@ -399,7 +391,7 @@
 <p>##总结</p>
 <p>从测试结果中可以看到，将Java对象转换成String，然后在把String序列化可以节省大量的时间。不仅如此，<code>Object{Input,Output}Stream</code>序列化方法严重依赖Java反射机制，在序列化过程中会产生大量的临时对象，会更加频繁的触发GC操作</p>
 <p>所以，我觉得还是把Java对象转成String再序列化吧，可以提升不少性能呢 ：）</p>
-<h2 id="2015-05-07_更新">2015.05.07 更新</h2><p>我这个是测试这两个序列化方法的性能。注意一下，Gson库将一个Java对象转成字符串也是使用Java反射的，如果某些场景需要更高的性能，那么需要自己写序列化方法。</p>
+<h2 id="2015-05-07-更新"><a href="#2015-05-07-更新" class="headerlink" title="2015.05.07 更新"></a>2015.05.07 更新</h2><p>我这个是测试这两个序列化方法的性能。注意一下，Gson库将一个Java对象转成字符串也是使用Java反射的，如果某些场景需要更高的性能，那么需要自己写序列化方法。</p>
 <p>比如，参考<code>Parcelable</code>接口，我们自己写代码，将对象转换成字符串（而不是依赖Gson库来转成字符串）序列化，以及相应的反序列化。或许你还想到了其他更好的方法，希望你能和我分享讨论~ ：）</p>
 
       
@@ -475,7 +467,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

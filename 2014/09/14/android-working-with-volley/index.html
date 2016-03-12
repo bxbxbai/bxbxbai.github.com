@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Android Notes">
 <meta property="og:description" content="Android Volley 是Google开发的一个网络lib，可以让你更加简单并且快速的访问网络数据。Volley库的网络请求都是异步的，你不必担心异步处理问题。">
 <meta property="og:image" content="http://bxbxbai.github.io/img/volley.png">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2016-03-12T07:01:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android库Volley的使用介绍">
 <meta name="twitter:description" content="Android Volley 是Google开发的一个网络lib，可以让你更加简单并且快速的访问网络数据。Volley库的网络请求都是异步的，你不必担心异步处理问题。">
@@ -63,13 +63,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -123,13 +119,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -186,8 +178,7 @@
 <li>扩展性性强</li>
 <li>可以取消请求</li>
 </ol>
-<p>##下载和编译volley.jar</p>
-<ul>
+<h2 id="下载和编译volley-jar"><a href="#下载和编译volley-jar" class="headerlink" title="下载和编译volley.jar"></a>下载和编译volley.jar</h2><ul>
 <li>需要安装git，ant，android sdk</li>
 </ul>
 <p>clone代码：<br><code>git clone https://android.googlesource.com/platform/frameworks/volley</code></p>
@@ -200,325 +191,320 @@ ant jar</code></li>
 <p><strong><em>不过已经有人将volley的代码放到github上了：</em></strong><br><a href="https://github.com/mcxiaoke/android-volley" target="_blank" rel="external">https://github.com/mcxiaoke/android-volley</a>，你可以使用更加简单的方式来使用volley：</p>
 </li>
 </ul>
-<p>###Maven</p>
-<p>format: jar</p>
-<pre><code><span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.mcxiaoke.volley<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>library<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0.6<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+<h3 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h3><p>format: jar</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.mcxiaoke.volley&lt;/groupId&gt;
+    &lt;artifactId&gt;library&lt;/artifactId&gt;
+    &lt;version&gt;1.0.6&lt;/version&gt;
+&lt;/dependency&gt;
 </code></pre><hr>
-<p>###Gradle</p>
-<p>format: jar</p>
+<h3 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h3><p>format: jar</p>
 <p><code>compile &#39;com.mcxiaoke.volley:library:1.0.6&#39;</code></p>
-<p>##Volley工作原理图<br><img src="http://bxbxbai.github.io/img/volley.png" alt="Volley"></p>
-<p>##创建Volley 单例<br>使用volley时，必须要创建一个请求队列<code>RequestQueue</code>，使用请求队列的最佳方式就是将它做成一个单例，整个app使用这么一个请求队列。</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppController</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>{
+<h2 id="Volley工作原理图"><a href="#Volley工作原理图" class="headerlink" title="Volley工作原理图"></a>Volley工作原理图</h2><p><img src="http://bxbxbai.github.io/img/volley.png" alt="Volley"></p>
+<h2 id="创建Volley-单例"><a href="#创建Volley-单例" class="headerlink" title="创建Volley 单例"></a>创建Volley 单例</h2><p>使用volley时，必须要创建一个请求队列<code>RequestQueue</code>，使用请求队列的最佳方式就是将它做成一个单例，整个app使用这么一个请求队列。</p>
+<pre><code>public class AppController extends Application {
 
-<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = AppController.class
+public static final String TAG = AppController.class
         .getSimpleName();
 
-<span class="keyword">private</span> RequestQueue mRequestQueue;
-<span class="keyword">private</span> ImageLoader mImageLoader;
+private RequestQueue mRequestQueue;
+private ImageLoader mImageLoader;
 
-<span class="keyword">private</span> <span class="keyword">static</span> AppController mInstance;
+private static AppController mInstance;
 
-<span class="annotation">@Override</span>
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>{
-    <span class="keyword">super</span>.onCreate();
-    mInstance = <span class="keyword">this</span>;
+@Override
+public void onCreate() {
+    super.onCreate();
+    mInstance = this;
 }
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> AppController <span class="title">getInstance</span><span class="params">()</span> </span>{
-    <span class="keyword">return</span> mInstance;
+public static synchronized AppController getInstance() {
+    return mInstance;
 }
 
-<span class="function"><span class="keyword">public</span> RequestQueue <span class="title">getRequestQueue</span><span class="params">()</span> </span>{
-    <span class="keyword">if</span> (mRequestQueue == <span class="keyword">null</span>) {
+public RequestQueue getRequestQueue() {
+    if (mRequestQueue == null) {
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
     }
 
-    <span class="keyword">return</span> mRequestQueue;
+    return mRequestQueue;
 }
 
-<span class="function"><span class="keyword">public</span> ImageLoader <span class="title">getImageLoader</span><span class="params">()</span> </span>{
+public ImageLoader getImageLoader() {
     getRequestQueue();
-    <span class="keyword">if</span> (mImageLoader == <span class="keyword">null</span>) {
-        mImageLoader = <span class="keyword">new</span> ImageLoader(<span class="keyword">this</span>.mRequestQueue,
-                <span class="keyword">new</span> LruBitmapCache());
+    if (mImageLoader == null) {
+        mImageLoader = new ImageLoader(this.mRequestQueue,
+                new LruBitmapCache());
     }
-    <span class="keyword">return</span> <span class="keyword">this</span>.mImageLoader;
+    return this.mImageLoader;
 }
 
-<span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">addToRequestQueue</span><span class="params">(Request&lt;T&gt; req, String tag)</span> </span>{
-    <span class="comment">// set the default tag if tag is empty</span>
+public &lt;T&gt; void addToRequestQueue(Request&lt;T&gt; req, String tag) {
+    // set the default tag if tag is empty
     req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
     getRequestQueue().add(req);
 }
 
-<span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">addToRequestQueue</span><span class="params">(Request&lt;T&gt; req)</span> </span>{
+public &lt;T&gt; void addToRequestQueue(Request&lt;T&gt; req) {
     req.setTag(TAG);
     getRequestQueue().add(req);
 }
 
-<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelPendingRequests</span><span class="params">(Object tag)</span> </span>{
-    <span class="keyword">if</span> (mRequestQueue != <span class="keyword">null</span>) {
+public void cancelPendingRequests(Object tag) {
+    if (mRequestQueue != null) {
         mRequestQueue.cancelAll(tag);
     }
 }
 }
 </code></pre><p>另外，你还需要一个Cache来存放请求的图片：</p>
-<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LruBitmapCache</span> <span class="keyword">extends</span> <span class="title">LruCache</span>&lt;<span class="title">String</span>, <span class="title">Bitmap</span>&gt; <span class="title">implement</span> <span class="title">ImageCache</span> </span>{
-    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">int</span> <span class="title">getDefaultLruCacheSize</span><span class="params">()</span> </span>{
-        <span class="keyword">final</span> <span class="keyword">int</span> maxMemory = (<span class="keyword">int</span>) (Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);
-        <span class="keyword">final</span> <span class="keyword">int</span> cacheSize = maxMemory / <span class="number">8</span>;
+<pre><code>public class LruBitmapCache extends LruCache&lt;String, Bitmap&gt; implement ImageCache {
+    public static int getDefaultLruCacheSize() {
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 8;
 
-        <span class="keyword">return</span> cacheSize;
+        return cacheSize;
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">LruBitmapCache</span><span class="params">()</span> </span>{
-        <span class="keyword">this</span>(getDefaultLruCacheSize());
+    public LruBitmapCache() {
+        this(getDefaultLruCacheSize());
     }
 
-    <span class="function"><span class="keyword">public</span> <span class="title">LruBitmapCache</span><span class="params">(<span class="keyword">int</span> sizeInKiloBytes)</span> </span>{
-        <span class="keyword">super</span>(sizeInKiloBytes);
+    public LruBitmapCache(int sizeInKiloBytes) {
+        super(sizeInKiloBytes);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">protected</span> <span class="function"><span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>{
-        <span class="keyword">return</span> value.getRowBytes() * value.getHeight() / <span class="number">1024</span>;
+    @Override
+    protected int sizeOf(String key, Bitmap value) {
+        return value.getRowBytes() * value.getHeight() / 1024;
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function">Bitmap <span class="title">getBitmap</span><span class="params">(String url)</span> </span>{
-        <span class="function"><span class="keyword">return</span> <span class="title">get</span><span class="params">(url)</span></span>;
+    @Override
+    public Bitmap getBitmap(String url) {
+        return get(url);
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">putBitmap</span><span class="params">(String url, Bitmap bitmap)</span> </span>{
+    @Override
+    public void putBitmap(String url, Bitmap bitmap) {
         put(url, bitmap);
     }
 }
 </code></pre><p>别忘记在<code>AndroidManifest.xml</code>文件中添加<code>android.permission.INTERNET</code>权限。</p>
-<p>##创建Json请求<br>volley自带了<code>JsonObjectRequest</code>和<code>JsonArrayRequest</code>分别来处理Json对象请求和Json数据请求（但是voley没有使用gson库写一个GsonRequest，发送一个request，volley直接返回一个java对象，不过我们可以自己写）。</p>
-<p>###创建json object请求<br>发送一个请求只要这么简单，创建一个<code>JsonRequest</code>对象，写好response回调接口，并把这个请求放到请求队列中就可以了。<code>JsonArrayRequest</code>也类似。</p>
-<pre><code><span class="comment">// Tag used to cancel the request</span>
-String tag_json_obj = <span class="string">"json_obj_req"</span>;
-String url = <span class="string">"http://api.androidhive.info/volley/person_object.json"</span>;
+<h2 id="创建Json请求"><a href="#创建Json请求" class="headerlink" title="创建Json请求"></a>创建Json请求</h2><p>volley自带了<code>JsonObjectRequest</code>和<code>JsonArrayRequest</code>分别来处理Json对象请求和Json数据请求（但是voley没有使用gson库写一个GsonRequest，发送一个request，volley直接返回一个java对象，不过我们可以自己写）。</p>
+<h3 id="创建json-object请求"><a href="#创建json-object请求" class="headerlink" title="创建json object请求"></a>创建json object请求</h3><p>发送一个请求只要这么简单，创建一个<code>JsonRequest</code>对象，写好response回调接口，并把这个请求放到请求队列中就可以了。<code>JsonArrayRequest</code>也类似。</p>
+<pre><code>// Tag used to cancel the request
+String tag_json_obj = &quot;json_obj_req&quot;;
+String url = &quot;http://api.androidhive.info/volley/person_object.json&quot;;
 
-JsonObjectRequest jsonObjReq = <span class="keyword">new</span> JsonObjectRequest(Method.GET,url, <span class="keyword">null</span>,
-            <span class="keyword">new</span> Response.Listener&lt;JSONObject&gt;() {
+JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,url, null,
+            new Response.Listener&lt;JSONObject&gt;() {
 
-                <span class="annotation">@Override</span>
-                <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(JSONObject response)</span> </span>{
+                @Override
+                public void onResponse(JSONObject response) {
                     Log.d(TAG, response.toString());
                 }
-            }, <span class="keyword">new</span> Response.ErrorListener() {
+            }, new Response.ErrorListener() {
 
-                <span class="annotation">@Override</span>
-                <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onErrorResponse</span><span class="params">(VolleyError <span class="keyword">error</span>)</span> </span>{
-                    VolleyLog.d(TAG, <span class="string">"Error: "</span> + <span class="keyword">error</span>.getMessage());
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, &quot;Error: &quot; + error.getMessage());
                 }
             });
 
-<span class="comment">// Adding request to request queue</span>
+// Adding request to request queue
 AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-</code></pre><h2 id="创建String请求">创建String请求</h2><p><code>StringRequest</code>可以用来请求任何string类型的数据：json，xml，文本等等。</p>
-<pre><code><span class="comment">// Tag used to cancel the request</span>
-String  tag_string_req = <span class="string">"string_req"</span>;
+</code></pre><h2 id="创建String请求"><a href="#创建String请求" class="headerlink" title="创建String请求"></a>创建String请求</h2><p><code>StringRequest</code>可以用来请求任何string类型的数据：json，xml，文本等等。</p>
+<pre><code>// Tag used to cancel the request
+String  tag_string_req = &quot;string_req&quot;;
 
-String url = <span class="string">"http://api.androidhive.info/volley/string_response.html"</span>;
+String url = &quot;http://api.androidhive.info/volley/string_response.html&quot;;
 
-ProgressDialog pDialog = new ProgressDialog<span class="params">(this)</span>;
-pDialog.setMessage<span class="params">(<span class="string">"Loading..."</span>)</span>;
-pDialog.show<span class="params">()</span>;     
+ProgressDialog pDialog = new ProgressDialog(this);
+pDialog.setMessage(&quot;Loading...&quot;);
+pDialog.show();     
 
-StringRequest strReq = new StringRequest<span class="params">(Method.GET,
-            url, new Response.Listener&lt;String&gt;<span class="params">()</span> {
+StringRequest strReq = new StringRequest(Method.GET,
+            url, new Response.Listener&lt;String&gt;() {
 
                 @Override
-                public void onResponse<span class="params">(String response)</span> {
-                    Log.d<span class="params">(TAG, response.toString<span class="params">()</span>)</span>;
-                    pDialog.hide<span class="params">()</span>;
+                public void onResponse(String response) {
+                    Log.d(TAG, response.toString());
+                    pDialog.hide();
 
                 }
-            }, new Response.ErrorListener<span class="params">()</span> {
+            }, new Response.ErrorListener() {
 
                 @Override
-                public void onErrorResponse<span class="params">(VolleyError error)</span> {
-                    VolleyLog.d<span class="params">(TAG, <span class="string">"Error: "</span> + error.getMessage<span class="params">()</span>)</span>;
-                    pDialog.hide<span class="params">()</span>;
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, &quot;Error: &quot; + error.getMessage());
+                    pDialog.hide();
                 }
-            })</span>;
+            });
 
-<span class="comment">// Adding request to request queue</span>
-AppController.getInstance<span class="params">()</span>.addToRequestQueue<span class="params">(strReq, tag_string_req)</span>;
-</code></pre><h2 id="创建POST请求">创建POST请求</h2><p>上面说的都是GET请求，下面来说一下POST请求，与GET请求不同的是，只要在创建请求的时候将请求类型改为POST请求，并且override <code>Request</code>的getParams方法即可。</p>
-<pre><code><span class="comment">// Tag used to cancel the request</span>
-<span class="built_in">String</span> tag_json_obj = <span class="string">"json_obj_req"</span>;
+// Adding request to request queue
+AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+</code></pre><h2 id="创建POST请求"><a href="#创建POST请求" class="headerlink" title="创建POST请求"></a>创建POST请求</h2><p>上面说的都是GET请求，下面来说一下POST请求，与GET请求不同的是，只要在创建请求的时候将请求类型改为POST请求，并且override <code>Request</code>的getParams方法即可。</p>
+<pre><code>// Tag used to cancel the request
+String tag_json_obj = &quot;json_obj_req&quot;;
 
-<span class="built_in">String</span> url = <span class="string">"http://api.androidhive.info/volley/person_object.json"</span>;
-ProgressDialog pDialog = <span class="literal">new</span> ProgressDialog(this);
-pDialog<span class="built_in">.</span>setMessage(<span class="string">"Loading..."</span>);
-pDialog<span class="built_in">.</span>show();     
+String url = &quot;http://api.androidhive.info/volley/person_object.json&quot;;
+ProgressDialog pDialog = new ProgressDialog(this);
+pDialog.setMessage(&quot;Loading...&quot;);
+pDialog.show();     
 
-    JsonObjectRequest jsonObjReq = <span class="literal">new</span> JsonObjectRequest(Method<span class="built_in">.</span>POST,
-            url, <span class="built_in">null</span>,
-            <span class="literal">new</span> Response<span class="built_in">.</span>Listener&lt;JSONObject&gt;() {
+    JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
+            url, null,
+            new Response.Listener&lt;JSONObject&gt;() {
 
                 @Override
-                <span class="keyword">public</span> <span class="literal">void</span> onResponse(JSONObject response) {
-                    <span class="keyword">Log</span><span class="built_in">.</span>d(<span class="built_in">TAG</span>, response<span class="built_in">.</span>toString());
-                    pDialog<span class="built_in">.</span>hide();
+                public void onResponse(JSONObject response) {
+                    Log.d(TAG, response.toString());
+                    pDialog.hide();
                 }
-            }, <span class="literal">new</span> Response<span class="built_in">.</span>ErrorListener() {
+            }, new Response.ErrorListener() {
 
                 @Override
-                <span class="keyword">public</span> <span class="literal">void</span> onErrorResponse(VolleyErr<span class="subst">or</span> err<span class="subst">or</span>) {
-                    VolleyLog<span class="built_in">.</span>d(<span class="built_in">TAG</span>, <span class="string">"Error: "</span> + err<span class="subst">or</span><span class="built_in">.</span>getMessage());
-                    pDialog<span class="built_in">.</span>hide();
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, &quot;Error: &quot; + error.getMessage());
+                    pDialog.hide();
                 }
             }) {
 
         @Override
-        <span class="keyword">protected</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; getParams() {
-            <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; <span class="keyword">params</span> = <span class="literal">new</span> HashMap&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;();
-            <span class="keyword">params</span><span class="built_in">.</span>put(<span class="string">"name"</span>, <span class="string">"Androidhive"</span>);
-            <span class="keyword">params</span><span class="built_in">.</span>put(<span class="string">"email"</span>, <span class="string">"abc@androidhive.info"</span>);
-            <span class="keyword">params</span><span class="built_in">.</span>put(<span class="string">"password"</span>, <span class="string">"password123"</span>);
+        protected Map&lt;String, String&gt; getParams() {
+            Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();
+            params.put(&quot;name&quot;, &quot;Androidhive&quot;);
+            params.put(&quot;email&quot;, &quot;abc@androidhive.info&quot;);
+            params.put(&quot;password&quot;, &quot;password123&quot;);
 
-            <span class="keyword">return</span> <span class="keyword">params</span>;
+            return params;
         }
 
     };
 
-<span class="comment">// Adding request to request queue</span>
-AppController<span class="built_in">.</span>getInstance()<span class="built_in">.</span>addToRequestQueue(jsonObjReq, tag_json_obj);
-</code></pre><p>##添加请求头部信息</p>
-<pre><code><span class="comment">// Tag used to cancel the request</span>
-<span class="keyword">String</span> tag_json_obj = <span class="string">"json_obj_req"</span>;
+// Adding request to request queue
+AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+</code></pre><h2 id="添加请求头部信息"><a href="#添加请求头部信息" class="headerlink" title="添加请求头部信息"></a>添加请求头部信息</h2><pre><code>// Tag used to cancel the request
+String tag_json_obj = &quot;json_obj_req&quot;;
 
-<span class="keyword">String</span> url = <span class="string">"http://api.androidhive.info/volley/person_object.json"</span>;
+String url = &quot;http://api.androidhive.info/volley/person_object.json&quot;;
 
-ProgressDialog pDialog = <span class="keyword">new</span> ProgressDialog(<span class="keyword">this</span>);
-pDialog.setMessage(<span class="string">"Loading..."</span>);
+ProgressDialog pDialog = new ProgressDialog(this);
+pDialog.setMessage(&quot;Loading...&quot;);
 pDialog.show();     
 
-JsonObjectRequest jsonObjReq = <span class="keyword">new</span> JsonObjectRequest(Method.POST,url, <span class="keyword">null</span>,<span class="keyword">new</span> Response.Listener&lt;<span class="keyword">JSONObject</span>&gt;() {
+JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,url, null,new Response.Listener&lt;JSONObject&gt;() {
     @Override
-    <span class="keyword">public</span> <span class="keyword">void</span> onResponse(<span class="keyword">JSONObject</span> response) {
+    public void onResponse(JSONObject response) {
         Log.d(TAG, response.toString());
         pDialog.hide();
     }
-}, <span class="keyword">new</span> Response.ErrorListener() {
+}, new Response.ErrorListener() {
     @Override
-    <span class="keyword">public</span> <span class="keyword">void</span> onErrorResponse(VolleyError error) {
-        VolleyLog.d(TAG, <span class="string">"Error: "</span> + error.getMessage());
+    public void onErrorResponse(VolleyError error) {
+        VolleyLog.d(TAG, &quot;Error: &quot; + error.getMessage());
         pDialog.hide();
     }
 }) {
 
-<span class="comment">/**
+/**
 * Passing some request headers
-* */</span>
+* */
 @Override
-<span class="keyword">public</span> Map&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; getHeaders() <span class="keyword">throws</span> AuthFailureError {
-    <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; headers = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt;();
-    headers.put(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>);
-    headers.put(<span class="string">"apiKey"</span>, <span class="string">"xxxxxxxxxxxxxxx"</span>);
-    <span class="keyword">return</span> headers;
+public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+    HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();
+    headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+    headers.put(&quot;apiKey&quot;, &quot;xxxxxxxxxxxxxxx&quot;);
+    return headers;
 }
 };
-<span class="comment">// Adding request to request queue</span>
+// Adding request to request queue
 AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-</code></pre><p>##创建Image请求<br>Volley库中自带了<code>NetworkImageView</code>类，这个<code>ImageView</code>可以自动使用volley下载图片</p>
-<p>###用<code>NetworkImageView</code>加载图片<br>首先，说明一下，加载图片的原理：</p>
+</code></pre><h2 id="创建Image请求"><a href="#创建Image请求" class="headerlink" title="创建Image请求"></a>创建Image请求</h2><p>Volley库中自带了<code>NetworkImageView</code>类，这个<code>ImageView</code>可以自动使用volley下载图片</p>
+<h3 id="用NetworkImageView加载图片"><a href="#用NetworkImageView加载图片" class="headerlink" title="用NetworkImageView加载图片"></a>用<code>NetworkImageView</code>加载图片</h3><p>首先，说明一下，加载图片的原理：</p>
 <p><code>NetworkImageView</code>加载图片需要一个ImageLoader和一个图片URL，这个ImageLoader对象需要一个请求队列对象和ImageCahe对象。调用<code>NetworkImageView</code>的setUrl方法后，首先会判断当前ImageView的URL和新传入的URL是否一致，如果相同，就不用再发送http请求了，如果不同，那么就使用ImageLoader对象来发送http请求获取图片。</p>
-<pre><code>ImageLoader imageLoader = AppController.getInstance<span class="params">()</span>.getImageLoader<span class="params">()</span>;
-<span class="comment">// If you are using NetworkImageView</span>
-imgNetWorkView.setImageUrl<span class="params">(Const.URL_IMAGE, imageLoader)</span>;
+<pre><code>ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+// If you are using NetworkImageView
+imgNetWorkView.setImageUrl(Const.URL_IMAGE, imageLoader);
 </code></pre><p>加载一个图片只要这么简单~~~</p>
-<p>###用ImageView来加载图片<br>这个过程和<code>NetworkImageView</code>类似</p>
+<h3 id="用ImageView来加载图片"><a href="#用ImageView来加载图片" class="headerlink" title="用ImageView来加载图片"></a>用ImageView来加载图片</h3><p>这个过程和<code>NetworkImageView</code>类似</p>
 <pre><code>ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-<span class="comment">// If you are using normal ImageView</span>
-imageLoader.get(Const.URL_IMAGE, <span class="keyword">new</span> ImageListener() {
+// If you are using normal ImageView
+imageLoader.get(Const.URL_IMAGE, new ImageListener() {
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onErrorResponse</span><span class="params">(VolleyError <span class="keyword">error</span>)</span> </span>{
-        Log.e(TAG, <span class="string">"Image Load Error: "</span> + <span class="keyword">error</span>.getMessage());
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Log.e(TAG, &quot;Image Load Error: &quot; + error.getMessage());
     }
 
-    <span class="annotation">@Override</span>
-    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(ImageContainer response, <span class="keyword">boolean</span> arg1)</span> </span>{
-        <span class="keyword">if</span> (response.getBitmap() != <span class="keyword">null</span>) {
-            <span class="comment">// load image into imageview</span>
+    @Override
+    public void onResponse(ImageContainer response, boolean arg1) {
+        if (response.getBitmap() != null) {
+            // load image into imageview
             imageView.setImageBitmap(response.getBitmap());
         }
     }
 });
 </code></pre><p>可以再简单一点：</p>
-<pre><code>// Loading image <span class="keyword">with</span> placeholder <span class="literal">and</span> error image
-imageLoader.get(<span class="keyword">Const</span>.URL_IMAGE, ImageLoader.getImageListener(imageView, R.drawable.ico_loading, R.drawable.ico_error))<span class="comment">;</span>
+<pre><code>// Loading image with placeholder and error image
+imageLoader.get(Const.URL_IMAGE, ImageLoader.getImageListener(imageView, R.drawable.ico_loading, R.drawable.ico_error));
 </code></pre><p><code>ImageLoader.getImageListener</code>方法中已经写了一个默认的<code>ImageListener</code>了</p>
-<p>##Volley Cache<br>volley中自带了强大的cache机制来管理请求cache，这会减少网络请求次数和用户等待时间。</p>
-<p>###从请求Cache中加载请求</p>
-<pre><code><span class="keyword">Cache</span> <span class="keyword">cache</span> = AppController<span class="built_in">.</span>getInstance()<span class="built_in">.</span>getRequestQueue()<span class="built_in">.</span>getCache();
-Entry entry = <span class="keyword">cache</span><span class="built_in">.</span>get(url);
-<span class="keyword">if</span>(entry != <span class="built_in">null</span>){
+<h2 id="Volley-Cache"><a href="#Volley-Cache" class="headerlink" title="Volley Cache"></a>Volley Cache</h2><p>volley中自带了强大的cache机制来管理请求cache，这会减少网络请求次数和用户等待时间。</p>
+<h3 id="从请求Cache中加载请求"><a href="#从请求Cache中加载请求" class="headerlink" title="从请求Cache中加载请求"></a>从请求Cache中加载请求</h3><pre><code>Cache cache = AppController.getInstance().getRequestQueue().getCache();
+Entry entry = cache.get(url);
+if(entry != null){
     try {
-        <span class="built_in">String</span> <span class="built_in">data</span> = <span class="literal">new</span> <span class="built_in">String</span>(entry<span class="built_in">.</span><span class="built_in">data</span>, <span class="string">"UTF-8"</span>);
-        <span class="comment">// handle data, like converting it to xml, json, bitmap etc.,</span>
+        String data = new String(entry.data, &quot;UTF-8&quot;);
+        // handle data, like converting it to xml, json, bitmap etc.,
     } catch (UnsupportedEncodingException e) {      
-        e<span class="built_in">.</span>printStackTrace();
+        e.printStackTrace();
         }
     }
-}<span class="keyword">else</span>{
-    <span class="comment">// Cached response doesn't exists. Make network call here</span>
+}else{
+    // Cached response doesn&apos;t exists. Make network call here
 }
-</code></pre><p>###使请求缓存失效<br>失效并不意味这删除，Volley还会继续使用缓存的对象直到从服务器上获取到了新的数据，新的数据会覆盖旧的数据。</p>
-<pre><code>AppController.getInstance<span class="params">()</span>.getRequestQueue<span class="params">()</span>.getCache<span class="params">()</span>.invalidate<span class="params">(url, <span class="literal">true</span>)</span>;
-</code></pre><p>###关闭Cache<br>如果你想将某一个请求的Cache功能关闭，直接调用<code>Request</code>的setShouldCache()方法就可以：</p>
-<pre><code><span class="comment">// String request</span>
-StringRequest stringReq = <span class="literal">new</span> StringRequest(<span class="attribute">...</span><span class="built_in">.</span>);
+</code></pre><h3 id="使请求缓存失效"><a href="#使请求缓存失效" class="headerlink" title="使请求缓存失效"></a>使请求缓存失效</h3><p>失效并不意味这删除，Volley还会继续使用缓存的对象直到从服务器上获取到了新的数据，新的数据会覆盖旧的数据。</p>
+<pre><code>AppController.getInstance().getRequestQueue().getCache().invalidate(url, true);
+</code></pre><h3 id="关闭Cache"><a href="#关闭Cache" class="headerlink" title="关闭Cache"></a>关闭Cache</h3><p>如果你想将某一个请求的Cache功能关闭，直接调用<code>Request</code>的setShouldCache()方法就可以：</p>
+<pre><code>// String request
+StringRequest stringReq = new StringRequest(....);
 
-<span class="comment">// disable cache</span>
-stringReq<span class="built_in">.</span>setShouldCache(<span class="literal">false</span>);
-</code></pre><p>###将某一URL的Cache删除<br>调用<code>Cache</code>的<code>remove</code>方法可以删除这个URL的cache:</p>
-<pre><code><span class="tag">AppController</span><span class="class">.getInstance</span>()<span class="class">.getRequestQueue</span>()<span class="class">.getCache</span>()<span class="class">.remove</span>(<span class="tag">url</span>);
-</code></pre><p>###删除所有的Cache</p>
-<pre><code><span class="tag">AppController</span><span class="class">.getInstance</span>()<span class="class">.getRequestQueue</span>()<span class="class">.getCache</span>()<span class="class">.clear</span>();
-</code></pre><p>##取消请求<br>在你添加一个请求到请求队列中的时候，你可以发现，<code>addToRequestQueue(request, tag)</code>方法还接受一个tag参数，这个tag就是用来标记某一类请求的，这样就可以取消这个tag的所有请求了：</p>
-<pre><code>String tag_json_arry = <span class="string">"json_req"</span>;
-ApplicationController.getInstance<span class="params">()</span>.getRequestQueue<span class="params">()</span>.cancelAll<span class="params">(<span class="string">"feed_request"</span>)</span>;
-</code></pre><p>##请求优先级<br>在创建一个request的时候可以Override <code>Request</code>方法的<code>getPriority</code>方法返回一个优先级，优先级分为：Normal, Low, Immediate, High</p>
-<pre><code><span class="keyword">private</span> Priority priority = Priority.HIGH;
+// disable cache
+stringReq.setShouldCache(false);
+</code></pre><h3 id="将某一URL的Cache删除"><a href="#将某一URL的Cache删除" class="headerlink" title="将某一URL的Cache删除"></a>将某一URL的Cache删除</h3><p>调用<code>Cache</code>的<code>remove</code>方法可以删除这个URL的cache:</p>
+<pre><code>AppController.getInstance().getRequestQueue().getCache().remove(url);
+</code></pre><h3 id="删除所有的Cache"><a href="#删除所有的Cache" class="headerlink" title="删除所有的Cache"></a>删除所有的Cache</h3><pre><code>AppController.getInstance().getRequestQueue().getCache().clear();
+</code></pre><h2 id="取消请求"><a href="#取消请求" class="headerlink" title="取消请求"></a>取消请求</h2><p>在你添加一个请求到请求队列中的时候，你可以发现，<code>addToRequestQueue(request, tag)</code>方法还接受一个tag参数，这个tag就是用来标记某一类请求的，这样就可以取消这个tag的所有请求了：</p>
+<pre><code>String tag_json_arry = &quot;json_req&quot;;
+ApplicationController.getInstance().getRequestQueue().cancelAll(&quot;feed_request&quot;);
+</code></pre><h2 id="请求优先级"><a href="#请求优先级" class="headerlink" title="请求优先级"></a>请求优先级</h2><p>在创建一个request的时候可以Override <code>Request</code>方法的<code>getPriority</code>方法返回一个优先级，优先级分为：Normal, Low, Immediate, High</p>
+<pre><code>private Priority priority = Priority.HIGH;
 
-StringRequest strReq = <span class="keyword">new</span> StringRequest(Method.<span class="keyword">GET</span>,
-            <span class="keyword">Const</span>.URL_STRING_REQ, <span class="keyword">new</span> <span class="built_in">Response</span>.Listener&lt;<span class="built_in">String</span>&gt;() {
+StringRequest strReq = new StringRequest(Method.GET,
+            Const.URL_STRING_REQ, new Response.Listener&lt;String&gt;() {
 
                 @Override
-                <span class="keyword">public</span> void onResponse(<span class="built_in">String</span> <span class="built_in">response</span>) {
-                    <span class="built_in">Log</span>.d(TAG, <span class="built_in">response</span>.toString());
-                    msgResponse.setText(<span class="built_in">response</span>.toString());
+                public void onResponse(String response) {
+                    Log.d(TAG, response.toString());
+                    msgResponse.setText(response.toString());
                     hideProgressDialog();
 
                 }
-            }, <span class="keyword">new</span> <span class="built_in">Response</span>.ErrorListener() {
+            }, new Response.ErrorListener() {
 
                 @Override
-                <span class="keyword">public</span> void onErrorResponse(VolleyError <span class="keyword">error</span>) {
-                    VolleyLog.d(TAG, <span class="string">"Error: "</span> + <span class="keyword">error</span>.getMessage());
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, &quot;Error: &quot; + error.getMessage());
                     hideProgressDialog();
                 }
             }) {
         @Override
-        <span class="keyword">public</span> Priority getPriority() {
+        public Priority getPriority() {
             return priority;
         }
 
     };
-</code></pre><p>##Missing! 创建xml请求<br>就像创建Gson请求一样，你可以自定义一个<code>XMLRequest</code>类来请求xml数据</p>
+</code></pre><h2 id="Missing-创建xml请求"><a href="#Missing-创建xml请求" class="headerlink" title="Missing! 创建xml请求"></a>Missing! 创建xml请求</h2><p>就像创建Gson请求一样，你可以自定义一个<code>XMLRequest</code>类来请求xml数据</p>
 
       
     </div>
@@ -593,7 +579,7 @@ StringRequest strReq = <span class="keyword">new</span> StringRequest(Method.<sp
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Android Notes">
 <meta property="og:description" content="在面试中我们经常被问到：Java中抽象类和接口的区别是什么？">
 <meta property="og:image" content="http://bxbxbai.github.io/img/full_container_taxonomy.png">
-<meta property="og:updated_time" content="2015-09-12T07:01:41.000Z">
+<meta property="og:updated_time" content="2016-03-12T06:59:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我如何理解Java中抽象类和接口">
 <meta name="twitter:description" content="在面试中我们经常被问到：Java中抽象类和接口的区别是什么？">
@@ -63,13 +63,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -123,13 +119,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -177,17 +169,16 @@
 <a id="more"></a>
 <p>然后，我们就大说一通抽象类可以有方法，接口不能有实际的方法啦；一个类只能继承一个抽象类，却可以继承多个接口啦，balabala一大堆，就好像把标准答案熟练的说出来一样。</p>
 <p><a href="http://www.importnew.com/12399.html" target="_blank" rel="external">抽象类和接口</a>这篇文章讲到了他们的区别和联系，它们确实有很多相似的地方，但是从本质上看，或从语言的设计角度来看，这不是它们最本质的区别。</p>
-<p>##不卖关子，我个人对这两个的理解：</p>
-<blockquote>
+<h2 id="不卖关子，我个人对这两个的理解："><a href="#不卖关子，我个人对这两个的理解：" class="headerlink" title="不卖关子，我个人对这两个的理解："></a>不卖关子，我个人对这两个的理解：</h2><blockquote>
 <p>类是具体实例的抽象，比如一个json字符串的抽象；而抽象类就是类的抽象；接口就是抽象类的抽象，<strong>接口更像是一种协议</strong></p>
 </blockquote>
 <p>听我慢慢道来~</p>
-<p>##吐槽<br>首先，我必须吐槽一下这种面试，我认为面试官凡事问出这种类似“说说抽象类和接口的区别”，“说说进程和线程的区别”等等问题，都是不负责的表现。</p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>首先，我必须吐槽一下这种面试，我认为面试官凡事问出这种类似“说说抽象类和接口的区别”，“说说进程和线程的区别”等等问题，都是不负责的表现。</p>
 <p>为什么呢？</p>
 <p>一个原因就是，面试官对想要招的人完全没有自己的评价标准，另一个原因就是对面试者不负责。这种问题根本不能考验面试者的水平。</p>
 <p>那么，如果我来面试别人，我会问：<strong>请你说说你怎么理解抽象类和接口；如果要你向你外婆解释进程和线程的区别，你会怎么解释？</strong></p>
 <p>我觉得这可以考验面试者对问题的理解程度，我想微软的面试题（你如何向你奶奶解释Excel）一样，考验一个人对某一事物的理解程度（虽然，至今我还不能很好的想明白这个问题 -。-）</p>
-<p>##抽象类和接口的区别<br>说到抽象类和接口，就必须要说到类。</p>
+<h2 id="抽象类和接口的区别"><a href="#抽象类和接口的区别" class="headerlink" title="抽象类和接口的区别"></a>抽象类和接口的区别</h2><p>说到抽象类和接口，就必须要说到类。</p>
 <p><strong>一个类就是对现实事物的抽象。</strong></p>
 <p>比如定义一个BenzCar类，就需要对现实的奔驰汽车有很好的抽象（当然奔驰汽车有好多系列，这里不钻牛角尖）。也就是说如果你要造一辆奔驰汽车，就需要BenzCar这个类（这辆奔驰汽车就是内存中的一个Instance）。</p>
 <p><strong>那么抽象类就是对类的抽象。</strong></p>
@@ -196,41 +187,39 @@
 <p>这只是我个人的理解。</p>
 <p>在我们日常生活中可以看到各种“接口”，电源插座就是一种。开始我是看到耗子叔的博客在开始理解“控制翻转”这个概念的——<a href="http://coolshell.cn/articles/9949.html" target="_blank" rel="external">IoC/DIP其实是一种管理思想| 酷壳- CoolShell.cn</a>。后来我就想，这个东西其实无处不在，制造电源插座的厂和制造电器的厂只要约定一种“接口”——两口插座或三口插座，当然每个国家的接口都不一样，不同接口之间的转换就需要用适配器了。</p>
 <p>其实程序中也一样，比如所有的交通工具可以抽象为一个接口<code>Drivable</code>（<em>可能由于经验原因，我考虑的不是很完善</em>），表示实现这个接口的类创建的对象（比如：汽车，飞机，轮船等等）都是可以驾驶的</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">Drivable</span>{
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span>(<span class="params"></span>)</span>;
+<pre><code>public interface Drivable{
+    public void drive();
 }
 </code></pre><p>然后，我们就可以创建一个<code>AbstractCar</code>类，表示这个对所有汽车类的一个抽象，所有可以驾驶的汽车都必须继承这个类，这个抽象类中规定了一些抽象方法，比如<code>getEngine()</code>方法，这说明每种汽车的引擎都不太一样，需要在子类中自定义（<em>当然，你也可以继承<code>AbstractCar</code>类，对所有可能具有相同引擎的汽车进行一层抽象</em>）。</p>
 <p>为什么对<code>Drivable</code>的<code>drive()</code>方法进行了默认实现，但是默认实现中却直接抛出了异常呢？</p>
 <p>其实这是一种实现接口的方法，还有一种方法就是将<code>drive()</code>设为abstract。这两种实现方式，我觉得从功能上讲是一样的，但是从类设计上讲是不同的。</p>
 <p>下面代码中的实现，我是参考了<code>java.util.AbstractList&lt;E&gt;</code>中<code>add(int location, E object)</code>方法的设计，它的文档中写到：</p>
 <blockquote>
-<pre><code>* <span class="property">@throws</span> UnsupportedOperationException
-*                <span class="keyword">if</span> adding <span class="keyword">to</span> <span class="keyword">this</span> List <span class="keyword">is</span> <span class="keyword">not</span> supported.
+<pre><code>* @throws UnsupportedOperationException
+*                if adding to this List is not supported.
 </code></pre></blockquote>
-<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractCar</span> <span class="keyword">implements</span> <span class="title">Drivable</span> </span>{
-    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Engine <span class="title">getEngine</span><span class="params">()</span></span>;
+<pre><code>public abstract class AbstractCar implements Drivable {
+    public abstract Engine getEngine();
 
-    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Wheel <span class="title">getWheel</span><span class="params">()</span></span>;
+    public abstract Wheel getWheel();
 
-    <span class="annotation">@Override</span>
-    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>{
-        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException();
+    @Override
+    public void drive(){
+        throw new UnsupportedOperationException();
     }
-    <span class="comment">// 省略其他方法和属性</span>
+    // 省略其他方法和属性
 }
 </code></pre><p>那么上面这段代码中的<code>drive()</code>可以理解为：</p>
 <blockquote>
 <p>默认情况下“汽车”是不能开的，你实现了一个汽车类后，需要Override这个方法，实现自己的<code>drive</code>方法</p>
 </blockquote>
-<p>##以java容器中的List举例</p>
-<p><img src="http://bxbxbai.github.io/img/full_container_taxonomy.png" alt="Full Container Taxonomy" title="Full Container Taxonomy"></p>
+<h2 id="以java容器中的List举例"><a href="#以java容器中的List举例" class="headerlink" title="以java容器中的List举例"></a>以java容器中的List举例</h2><p><img src="http://bxbxbai.github.io/img/full_container_taxonomy.png" alt="Full Container Taxonomy" title="Full Container Taxonomy"></p>
 <p>到源码里面找，你就会发现<code>List&lt;E&gt;</code>的继承关系最顶层的就是<code>Iterable</code>，就表示说List是可以<strong>遍历</strong>的，而且它还会产生一个<code>Iterator</code>接口对象。这表示一个列表可以通过这个<strong>迭代器</strong>来遍历。</p>
 <p>这就像上面说的，所有的交通工具都是可以<strong>驾驶</strong>的一样，所有的列表都是可以遍历的。</p>
 <p>一层一层往下，类就变得更加具体。</p>
-<p>##最后</p>
-<p>为什么接口可以继承？</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>为什么接口可以继承？</p>
 <p>其实这个原理很简单。因为总有一个最本质的<strong>协议</strong>来约束大家，比如所有的交通工具都是可以驾驶的，所有的容易都是可以遍历的。然后<strong>协议</strong>会渐渐变得更加具体：</p>
-<pre><code><span class="type">Iterable</span> &lt;- <span class="type">Collection</span> &lt;- <span class="type">List</span> &lt;- <span class="type">AbstractList</span> &lt;- <span class="type">List</span>
+<pre><code>Iterable &lt;- Collection &lt;- List &lt;- AbstractList &lt;- List
 </code></pre><p><strong>从下往上看，就是一层比一层抽象。</strong></p>
 <p>就像我在文章开头说的，</p>
 <ul>
@@ -240,7 +229,7 @@
 <li><code>Collection</code>就是对所有单一元素的容器的抽象</li>
 <li><code>Iterable</code>就是一个最高层次的抽象了，表示所有的容器都是可以遍历的</li>
 </ul>
-<p>###注：<br>应该有很多我考虑不周全的地方，欢迎大家指正并且讨论</p>
+<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><p>应该有很多我考虑不周全的地方，欢迎大家指正并且讨论</p>
 
       
     </div>
@@ -315,7 +304,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

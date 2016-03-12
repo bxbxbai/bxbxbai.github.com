@@ -62,13 +62,9 @@
 					<nav class="header-nav">
 						<div class="social">
 							
-								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-					        
 								<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 					        
 								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-					        
-								<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 					        
 						</div>
 					</nav>
@@ -122,13 +118,9 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
-			        
 						<a class="github" target="_blank" href="https://github.com/bxbxbai" title="github">github</a>
 			        
 						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/bxbxbai" title="zhihu">zhihu</a>
-			        
-						<a class="instagram" target="_blank" href="https://www.instagram.com/bxbxbai/" title="instagram">instagram</a>
 			        
 				</div>
 			</nav>
@@ -177,18 +169,18 @@
 <p>一个很好的办法就是使用DDMS的Method Profiling功能，它可以生成一个表格来显示app中所有执行的方法的执行时间，占cpu运行的百分比，还有图形化的显示。功能很强大！</p>
 <p>但是，有的时候是跨线程工作的，比如，我获得要发送一个http请求到http请求返回时的时间，这个它就无能为力了（或许可能我没有发现这个功能）；还比如，我要获得从sd卡上读一个文件所需的时间。</p>
 <p>一个最原始的方法就是</p>
-<pre><code>long <span class="operator"><span class="keyword">start</span> = SystemClock.uptimeMillis();</span>
-//<span class="operator"><span class="keyword">do</span> something
-<span class="keyword">Log</span>.<span class="keyword">i</span>(TAG, <span class="string">"time: "</span> + (SystemClock.uptimeMillis() - <span class="keyword">start</span>));</span>
+<pre><code>long start = SystemClock.uptimeMillis();
+//do something
+Log.i(TAG, &quot;time: &quot; + (SystemClock.uptimeMillis() - start));
 </code></pre><p>这样就可以获得这段代码的运行时间了，我发现在测试Adapter的<code>getView</code>方法性能时很管用。因为ListView快速滑动时卡顿最主要的原因就是<code>getView</code>方法执行时间过长，我的测试过程中发现<code>getView</code>方法的执行时间不能超过10ms（当然这个在不同手机上运行时间不一样）。也就是如果在一个手机上<code>getView</code>方法执行时间超过10ms，这个列表快速滑动时就会产生卡顿现象。</p>
 <p>但是Adapter中可能有很多方法，我要在每个方法中都像上面那样写么？我不要烦死了？</p>
 <p>然后，我就从秒表中获得启发，我可不可以也像秒表一样写一个类来对每个方法测试它的运行时间呢？</p>
 <p>下面这个类就诞生了，其实这个类很简单，你只需要在你需要测试时间的方法A前写一句：</p>
-<pre><code>StopWatch.<span class="keyword">begin</span>(<span class="variable">"bxbxbai"</span>);
+<pre><code>StopWatch.begin(&quot;bxbxbai&quot;);
 </code></pre><p>这就相当于按了一下秒表（StopWatch工具就是在HashMap中添加了一条记录），然后在方法A后面写一句：</p>
-<pre><code>StopWatch.<span class="keyword">end</span>(<span class="string">"bxbxbai"</span>);
+<pre><code>StopWatch.end(&quot;bxbxbai&quot;);
 </code></pre><p>这就相当于按了一下秒表，系统在Log中输出了方法A的的运行时间，并且把tag删除。</p>
-<pre><code>StopWatch.lap<span class="params">(<span class="string">"bxbxbai"</span>)</span>;
+<pre><code>StopWatch.lap(&quot;bxbxbai&quot;);
 </code></pre><p>这个方法不会删除tag，它会输出当前时间到打tag的时候的时间间隔，就是秒表的计次功能。</p>
 <p>不光如此，这个类还支持跨进程，比如，我在A线程中执行begin方法，我可以在一个Callback中执行end方法，输出总共的执行时间。</p>
 <script src="https://gist.github.com/bxbxbai/6278750.js"></script>
@@ -267,7 +259,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 bxbxbai
+    		&copy; 2016 bxbxbai
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
