@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="bxbxbai Android Notes">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="bxbxbai">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="关于Android 6.0 运行时权限"/>
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="Android Notes"/>
+
+    <!--Page Cover-->
+    
+        <meta property="og:image" content="undefined"/>
+    
+
+    <!-- Title -->
+    
+    <title>关于Android 6.0 运行时权限 - Android Notes</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-51089251-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Android Notes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">Archives</a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>关于Android 6.0 运行时权限</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        May 27 2016
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Android/">#Android</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>Android 6.0 （API level 23） 已经发布很长一段时间了，其中一个很大的改进就是<strong>运行时权限</strong>。我之前就在知乎回答过一个问题<a href="https://www.zhihu.com/question/37259597/answer/73552786" target="_blank" rel="external">iPhone 到底爽在哪里？</a></p>
+<p>我说，iPhone上的App都是默认下载安装的，然后运行App时需要什么权限就弹窗向我申请，这对用户来说就非常好。因为我不想给App权限就不给，而Android 6.0以前是这样的，我下载了一个App安装，系统就弹出这个App需要使用的全部的权限，就给我看一下，我需要这个App 的话，只能同意所有的权限都给这个App，要么我不安装这个App</p>
+<p>Android 6.0以前的权限管理应该是我对Android最不满的功能，6.0中 Google终于来解决这个问题了。</p>
+<p>下面我就来好好聊聊这个运行时权限管理是怎么回事</p>
+<h2 id="权限分类"><a href="#权限分类" class="headerlink" title="权限分类"></a>权限分类</h2><p>在6.0中Android把所有的权限从<strong>逻辑上</strong>分成了两类：<a href="http://developer.android.com/intl/zh-cn/guide/topics/security/permissions.html#normal-dangerous" target="_blank" rel="external">常规（normal）和危险（dangerous）</a></p>
+<ul>
+<li><strong>常规权限</strong>指的是那些不会直接获取你隐私的权限，如果你在AndroidManifest.xml文件中列出了这些权限的话，系统会自动授权给你。<a href="http://developer.android.com/intl/zh-cn/guide/topics/security/normal-permissions.html" target="_blank" rel="external">这里是normal权限列表</a>，有很多</li>
+<li><strong>危险权限</strong>就是那些能获取你隐私信息，或者可能会影响你的文件等的操作。比如读取你的联系人、使用你的摄像头和读取你的日历等等</li>
+</ul>
+<h3 id="权限组"><a href="#权限组" class="headerlink" title="权限组"></a>权限组</h3><p>这里是危险权限列表：<br><img src="/img/dangerous_permission.png" alt="此处输入图片的描述"></p>
+<p>从上图中我们可以看到，Android系统把危险权限分了9大组，这样也是为了简化权限的申请机制。如果你申请了<code>android.permission.READ_CONTACTS</code>读取联系人的权限，<strong>那么6.0 系统就会把这一组中其他的权限也打包给你</strong>。我觉得这个和iOS的隐私管理机制非常相似，在iOS系统设置的“<strong>隐私-&gt;通讯录</strong>”中可以看到，如果你给一个App通讯录的权限，那么这个App既可以读也可以写的</p>
+<p><strong>Android 6.0里面只有危险权限才需要运行时获取的</strong></p>
+<h2 id="申请权限"><a href="#申请权限" class="headerlink" title="申请权限"></a>申请权限</h2><h3 id="tartgetSdkVersion"><a href="#tartgetSdkVersion" class="headerlink" title="tartgetSdkVersion"></a>tartgetSdkVersion</h3><p>说到申请权限，先要说一下<code>targetSdkVersion</code>这个字段，这个字段一般定义在build.gradle文件中的。这个对App来说很重要！但是是什么意思呢？</p>
+<p>假如说<code>targetSdkVersion 22</code>，安装好以后Android系统就知道了这个App在系统API 22以下都测试过了并且能正确运行的，但是在23以上并不可以正确运行的，假如说这个App运行在了Android 6.0系统上，那么Android就会对这个App很“照顾”，兼容它正确运行。比如，6.0系统会把App申请的所有权限都默认给这个App，处理的逻辑和6.0一下的系统是一样的</p>
+<h3 id="ActivityCompat"><a href="#ActivityCompat" class="headerlink" title="ActivityCompat"></a>ActivityCompat</h3><p><code>android.support.v4.app.ActivityCompat</code>这个类是App 向系统申请权限主要的工具，而且兼容了各种系统版本</p>
+<ul>
+<li><code>ActivityCompat.requestPermissions</code>向系统申请一个或一组权限</li>
+<li><code>ActivityCompat.checkSelfPermission</code>App检查自己是否有某个权限</li>
+<li><code>ActivityCompat.shouldShowRequestPermissionRationale</code>判断弹出对话框中是否含有“不再询问”的选择框</li>
+</ul>
+<p><img src="/img/request_permission.png" title="undefined" style="
+    width: 70%;
+"></p>
+<p>申请权限的步骤：</p>
+<ol>
+<li>你要有一个运行Android 6.0系统的设备</li>
+<li>将App的<code>targetSdkVersion</code>设置为23</li>
+<li>把<code>AndroidManifest.xml</code>中申请的并且是危险的所有权限都列出来，用<code>ActivityCompat.requestPermissions</code>方法向系统申请权限</li>
+<li>在所在的Activity中Override<code>onRequestPermissionsResult</code>方法接受系统权限申请的回调</li>
+<li>处理回调，比如用户拒绝了某个权限，这时App可以弹出一个对话框描述一下App为何需要这个权限等等</li>
+</ol>
+<h3 id="targetSdkVersion-小于23"><a href="#targetSdkVersion-小于23" class="headerlink" title="targetSdkVersion 小于23"></a>targetSdkVersion 小于23</h3><p>假如你的App的<code>targetSdkVersion</code>小于23，但是安装到了Android 6.0系统上了，会怎么样呢？会崩溃吗？</p>
+<p>别担心，Android开发团队已经考虑到这一点了，如果<code>targetSdkVersion</code>小于23的话，就表示你的App并没有在新的运行时权限系统上测试过，<strong>此时Android系统会把你申请的全部权限都给你</strong>。</p>
+<p><strong>但是！！！用户依然可以进入App的设置界面把权限关闭！！</strong></p>
+<p><img src="/img/cancel_permission_22.png" alt="cancel permission"></p>
+<p>此时你还能用这个权限么？经过我的测试，是不可以了。</p>
+<p>所以，如果App的<code>targetSdkVersion</code>小于23并且运行在Android 6.0系统上，怎么去检测用户关闭了权限呢？伟大的stackoverflow告诉我们：<code>android.support.v4.content.PermissionChecker</code>可以帮我们解决这个问题。这个类的文档中有这个一段：</p>
+<blockquote>
+<p>For apps targeting API lower than <code>android.os.Build.VERSION_CODES.M</code> these permissions are always granted as such apps do not expect permission revocations and would crash. Therefore, when the user disables a permission for a legacy app in the UI the platform disables the APIs guarded by this permission making them a no-op which is doing nothing or returning an empty result or default error.</p>
+</blockquote>
+<p><code>PermissionChecker.checkSelfPermission</code>方法就是用于检查App自身有没有某一个权限，这个方法的返回结果只有三种：</p>
+<ul>
+<li><code>PERMISSION_GRANTED</code>: 已授权</li>
+<li><code>PERMISSION_DENIED</code>: 没有被授权</li>
+<li><code>PERMISSION_DENIED_APP_OP</code>: 没有被授权</li>
+</ul>
+<p><code>PERMISSION_DENIED</code>和<code>PERMISSION_DENIED_APP_OP</code>都表示没有被授权，但是它们的区别就在于<code>targetSdkVersion</code>的值，如果<code>targetSdkVersion</code>小于23，就返回<code>PERMISSION_DENIED_APP_OP</code>，否则就返回<code>PERMISSION_DENIED</code></p>
+<p>因此，如果你的App的<code>targetSdkVersion</code>小于23，但是运行在Android 6.0及以后的系统上，你可以用<code>PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker. PERMISSION_DENIED_APP_OP</code>来检查App是否有某一个权限</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果App的<code>targetSdkVersion</code>小于23（Android 6.0以前），那么<code>ContextCompat#checkSelfPermission</code>和     <code>Context#checkSelfPermission</code>方法的返回结果都是错误的，因为它们总是返回0（<a href="http://developer.android.com/reference/android/content/pm/PackageManager.html#PERMISSION_GRANTED" target="_blank" rel="external">PERMISSION_GRANTED</a>）。即使App运行在Android 6.0上并且用户在设置中关闭了App的权限，上面两个方法返回的结果也是0</p>
+<p>上面也说到，Android 6.0系统上，用户是可以关闭App权限的，所以并不是说App的<code>targetSdkVersion</code>小于23就可以不用关心权限问题了：</p>
+<ul>
+<li>Android &lt; 6.0：系统会给App所有的权限</li>
+<li>Android &gt;= 6.0 &amp;&amp; targetSdkVersion &lt; 23：系统会默认给予App所有的权限，但是用户可以去设置中关闭权限。这时你需要使用<code>PermissionChecker.checkSelfPermission</code>来检测App是否有某一个权限</li>
+</ul>
+<pre><code>public boolean selfPermissionGranted(Context context, String permission) {
+    // Android 6.0 以前，全部默认授权
+    boolean result = true;
+
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {
+       if (targetSdkVersion &gt;= Build.VERSION_CODES.M) {
+            // targetSdkVersion &gt;= 23, 使用Context#checkSelfPermission
+            result = context.checkSelfPermission(permission)
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            // targetSdkVersion &lt; 23, 需要使用 PermissionChecker
+            result = PermissionChecker.checkSelfPermission(context, permission)
+                    == PermissionChecker.PERMISSION_GRANTED;
+        }
+    }
+    return result;
+}
+</code></pre><p>获取App的targetSdkVersion值：</p>
+<pre><code> try {
+    final PackageInfo info = context.getPackageManager().getPackageInfo(
+        context.getPackageName(), 0);
+    targetSdkVersion = info.applicationInfo.targetSdkVersion;
+} catch (PackageManager.NameNotFoundException e) {
+    e.printStackTrace();
+}
+</code></pre><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>不得不说，慢慢的从Android 5.0开始，Google慢慢的缩减了Android开放策略，以前的Android真的是可以为所欲为，监听系统各种变化，甚至一个App被切换到后台，它任然可以获取到当前正在运行的App（用户正在使用的），这个Api可以轻松的获取用户的隐私信息啊，太可怕了。</p>
+<p>从Android 6.0开始，运行时权限、Doze模式以及App Standby，Android 7.0中对Doze模式加强，以及取消了很多比如<code>CONNTENCTIVITY_ACTION</code>、<code>ACTION_NEW_PICTURE</code>和<code>ACTION_NEW_VIDEO</code>广播</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://developer.android.com/intl/zh-cn/training/permissions/requesting.html" target="_blank" rel="external">Requesting Permissions at Run Time</a></li>
+<li><a href="http://inthecheesefactory.com/blog/things-you-need-to-know-about-android-m-permission-developer-edition" target="_blank" rel="external">Everything every Android Developer must know about new Android’s Runtime Permission</a></li>
+<li><a href="http://stackoverflow.com/questions/33407250/checkselfpermission-method-is-not-working-in-targetsdkversion-22" target="_blank" rel="external">checkSelfPermission method is not working in targetSdkVersion 22</a></li>
+<li><a href="https://mssun.me/blog/android-4-3-app-ops-analysis.html" target="_blank" rel="external">Android 4.3 隐藏功能 App Ops 分析</a></li>
+</ul>
+
+            </div>
+
+            <!-- Comments -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+
+
+            </div>
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   <!-- 
+                    <li>
+                        <a href="" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    -->
+                    <li>
+                        <a href="https://github.com/bxbxbai" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">© bxbxbai</p>
+
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+
+<!-- Bootstrap -->
+<script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Gallery -->
+<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+
+</html>

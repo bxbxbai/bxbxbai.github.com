@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2016-03-12T08:59:20.000Z</updated>
+  <updated>2016-08-02T14:31:53.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -16,11 +16,148 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>最新ButterKnife框架原理</title>
+    <title>自动检查Android项目dependencies的更新</title>
+    <link href="http://bxbxbai.gitcafe.io/2016/08/02/auto-detect-gradle-library/"/>
+    <id>http://bxbxbai.gitcafe.io/2016/08/02/auto-detect-gradle-library/</id>
+    <published>2016-08-02T09:39:47.000Z</published>
+    <updated>2016-08-02T14:31:53.000Z</updated>
+    
+    <content type="html">&lt;p&gt;使用Gradle编译的Android项目中，&lt;code&gt;build.gradle&lt;/code&gt;中总会依赖很多第三方库，比如：&lt;code&gt;compile &amp;#39;com.google.code.gson:gson:2.6.2&amp;#39;&lt;/code&gt;。而这些第三方库一般的都是在JCenter或MavenCentral上，比如Gson库的网络地址就是：&lt;a href=&quot;http://jcenter.bintray.com/com/google/code/gson/gson/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://jcenter.bintray.com/com/google/code/gson/gson/&lt;/a&gt;，这个网页上会列出各个可用版本的Gson库。打开那个网页可以发现，最新的可用Gson库是&lt;code&gt;2.7&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;问题来了，如何让Android Studio自动的去检查项目依赖的第三方库是否有更新呢？&lt;/p&gt;
+&lt;h2 id=&quot;方法&quot;&gt;&lt;a href=&quot;#方法&quot; class=&quot;headerlink&quot; title=&quot;方法&quot;&gt;&lt;/a&gt;方法&lt;/h2&gt;&lt;p&gt;方法很简单，就藏在Android Studio里面。首先，打开Android Studio的设置，然后按照下图找到Inspection，选中&lt;strong&gt;Newer Library Version Available&lt;/strong&gt;就可以了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/newer_library.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;然后在Android Studio的菜单&lt;strong&gt;Analyze -&amp;gt; Run Inspections By Name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/enter_inspection.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;然后，选择你要检查的Module，Android Studio就会自动去检查dependencies的更新，最后就会出现下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/inspection_results.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;最后改写lib的版本号，同步gradle就可以了，是不是很方便！！&lt;/p&gt;
+&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;当然有的人会说，&lt;em&gt;“我可以装一个Android Studio插件来完成这个事情啊”&lt;/em&gt;。但是，既然Android Studio中已经存在了这个功能，我为啥还需要一个插件呢？毕竟IDE的插件多了，会影响启动速度的~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用Gradle编译的Android项目中，&lt;code&gt;build.gradle&lt;/code&gt;中总会依赖很多第三方库，比如：&lt;code&gt;compile &amp;#39;com.google.code.gson:gson:2.6.2&amp;#39;&lt;/code&gt;。而这些第三方库一般的都是
+    
+    </summary>
+    
+    
+      <category term="Tips" scheme="http://bxbxbai.gitcafe.io/tags/Tips/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于Android 6.0 运行时权限</title>
+    <link href="http://bxbxbai.gitcafe.io/2016/05/27/android-runtime-permission/"/>
+    <id>http://bxbxbai.gitcafe.io/2016/05/27/android-runtime-permission/</id>
+    <published>2016-05-27T08:24:21.000Z</published>
+    <updated>2016-08-02T10:13:18.000Z</updated>
+    
+    <content type="html">&lt;p&gt;Android 6.0 （API level 23） 已经发布很长一段时间了，其中一个很大的改进就是&lt;strong&gt;运行时权限&lt;/strong&gt;。我之前就在知乎回答过一个问题&lt;a href=&quot;https://www.zhihu.com/question/37259597/answer/73552786&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;iPhone 到底爽在哪里？&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我说，iPhone上的App都是默认下载安装的，然后运行App时需要什么权限就弹窗向我申请，这对用户来说就非常好。因为我不想给App权限就不给，而Android 6.0以前是这样的，我下载了一个App安装，系统就弹出这个App需要使用的全部的权限，就给我看一下，我需要这个App 的话，只能同意所有的权限都给这个App，要么我不安装这个App&lt;/p&gt;
+&lt;p&gt;Android 6.0以前的权限管理应该是我对Android最不满的功能，6.0中 Google终于来解决这个问题了。&lt;/p&gt;
+&lt;p&gt;下面我就来好好聊聊这个运行时权限管理是怎么回事&lt;/p&gt;
+&lt;h2 id=&quot;权限分类&quot;&gt;&lt;a href=&quot;#权限分类&quot; class=&quot;headerlink&quot; title=&quot;权限分类&quot;&gt;&lt;/a&gt;权限分类&lt;/h2&gt;&lt;p&gt;在6.0中Android把所有的权限从&lt;strong&gt;逻辑上&lt;/strong&gt;分成了两类：&lt;a href=&quot;http://developer.android.com/intl/zh-cn/guide/topics/security/permissions.html#normal-dangerous&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;常规（normal）和危险（dangerous）&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;常规权限&lt;/strong&gt;指的是那些不会直接获取你隐私的权限，如果你在AndroidManifest.xml文件中列出了这些权限的话，系统会自动授权给你。&lt;a href=&quot;http://developer.android.com/intl/zh-cn/guide/topics/security/normal-permissions.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里是normal权限列表&lt;/a&gt;，有很多&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;危险权限&lt;/strong&gt;就是那些能获取你隐私信息，或者可能会影响你的文件等的操作。比如读取你的联系人、使用你的摄像头和读取你的日历等等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;权限组&quot;&gt;&lt;a href=&quot;#权限组&quot; class=&quot;headerlink&quot; title=&quot;权限组&quot;&gt;&lt;/a&gt;权限组&lt;/h3&gt;&lt;p&gt;这里是危险权限列表：&lt;br&gt;&lt;img src=&quot;/img/dangerous_permission.png&quot; alt=&quot;此处输入图片的描述&quot;&gt;&lt;/p&gt;
+&lt;p&gt;从上图中我们可以看到，Android系统把危险权限分了9大组，这样也是为了简化权限的申请机制。如果你申请了&lt;code&gt;android.permission.READ_CONTACTS&lt;/code&gt;读取联系人的权限，&lt;strong&gt;那么6.0 系统就会把这一组中其他的权限也打包给你&lt;/strong&gt;。我觉得这个和iOS的隐私管理机制非常相似，在iOS系统设置的“&lt;strong&gt;隐私-&amp;gt;通讯录&lt;/strong&gt;”中可以看到，如果你给一个App通讯录的权限，那么这个App既可以读也可以写的&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Android 6.0里面只有危险权限才需要运行时获取的&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;申请权限&quot;&gt;&lt;a href=&quot;#申请权限&quot; class=&quot;headerlink&quot; title=&quot;申请权限&quot;&gt;&lt;/a&gt;申请权限&lt;/h2&gt;&lt;h3 id=&quot;tartgetSdkVersion&quot;&gt;&lt;a href=&quot;#tartgetSdkVersion&quot; class=&quot;headerlink&quot; title=&quot;tartgetSdkVersion&quot;&gt;&lt;/a&gt;tartgetSdkVersion&lt;/h3&gt;&lt;p&gt;说到申请权限，先要说一下&lt;code&gt;targetSdkVersion&lt;/code&gt;这个字段，这个字段一般定义在build.gradle文件中的。这个对App来说很重要！但是是什么意思呢？&lt;/p&gt;
+&lt;p&gt;假如说&lt;code&gt;targetSdkVersion 22&lt;/code&gt;，安装好以后Android系统就知道了这个App在系统API 22以下都测试过了并且能正确运行的，但是在23以上并不可以正确运行的，假如说这个App运行在了Android 6.0系统上，那么Android就会对这个App很“照顾”，兼容它正确运行。比如，6.0系统会把App申请的所有权限都默认给这个App，处理的逻辑和6.0一下的系统是一样的&lt;/p&gt;
+&lt;h3 id=&quot;ActivityCompat&quot;&gt;&lt;a href=&quot;#ActivityCompat&quot; class=&quot;headerlink&quot; title=&quot;ActivityCompat&quot;&gt;&lt;/a&gt;ActivityCompat&lt;/h3&gt;&lt;p&gt;&lt;code&gt;android.support.v4.app.ActivityCompat&lt;/code&gt;这个类是App 向系统申请权限主要的工具，而且兼容了各种系统版本&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ActivityCompat.requestPermissions&lt;/code&gt;向系统申请一个或一组权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ActivityCompat.checkSelfPermission&lt;/code&gt;App检查自己是否有某个权限&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ActivityCompat.shouldShowRequestPermissionRationale&lt;/code&gt;判断弹出对话框中是否含有“不再询问”的选择框&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;/img/request_permission.png&quot; title=&quot;undefined&quot; style=&quot;
+    width: 70%;
+&quot;&gt;&lt;/p&gt;
+&lt;p&gt;申请权限的步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;你要有一个运行Android 6.0系统的设备&lt;/li&gt;
+&lt;li&gt;将App的&lt;code&gt;targetSdkVersion&lt;/code&gt;设置为23&lt;/li&gt;
+&lt;li&gt;把&lt;code&gt;AndroidManifest.xml&lt;/code&gt;中申请的并且是危险的所有权限都列出来，用&lt;code&gt;ActivityCompat.requestPermissions&lt;/code&gt;方法向系统申请权限&lt;/li&gt;
+&lt;li&gt;在所在的Activity中Override&lt;code&gt;onRequestPermissionsResult&lt;/code&gt;方法接受系统权限申请的回调&lt;/li&gt;
+&lt;li&gt;处理回调，比如用户拒绝了某个权限，这时App可以弹出一个对话框描述一下App为何需要这个权限等等&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;targetSdkVersion-小于23&quot;&gt;&lt;a href=&quot;#targetSdkVersion-小于23&quot; class=&quot;headerlink&quot; title=&quot;targetSdkVersion 小于23&quot;&gt;&lt;/a&gt;targetSdkVersion 小于23&lt;/h3&gt;&lt;p&gt;假如你的App的&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23，但是安装到了Android 6.0系统上了，会怎么样呢？会崩溃吗？&lt;/p&gt;
+&lt;p&gt;别担心，Android开发团队已经考虑到这一点了，如果&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23的话，就表示你的App并没有在新的运行时权限系统上测试过，&lt;strong&gt;此时Android系统会把你申请的全部权限都给你&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是！！！用户依然可以进入App的设置界面把权限关闭！！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/cancel_permission_22.png&quot; alt=&quot;cancel permission&quot;&gt;&lt;/p&gt;
+&lt;p&gt;此时你还能用这个权限么？经过我的测试，是不可以了。&lt;/p&gt;
+&lt;p&gt;所以，如果App的&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23并且运行在Android 6.0系统上，怎么去检测用户关闭了权限呢？伟大的stackoverflow告诉我们：&lt;code&gt;android.support.v4.content.PermissionChecker&lt;/code&gt;可以帮我们解决这个问题。这个类的文档中有这个一段：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For apps targeting API lower than &lt;code&gt;android.os.Build.VERSION_CODES.M&lt;/code&gt; these permissions are always granted as such apps do not expect permission revocations and would crash. Therefore, when the user disables a permission for a legacy app in the UI the platform disables the APIs guarded by this permission making them a no-op which is doing nothing or returning an empty result or default error.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;PermissionChecker.checkSelfPermission&lt;/code&gt;方法就是用于检查App自身有没有某一个权限，这个方法的返回结果只有三种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PERMISSION_GRANTED&lt;/code&gt;: 已授权&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PERMISSION_DENIED&lt;/code&gt;: 没有被授权&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PERMISSION_DENIED_APP_OP&lt;/code&gt;: 没有被授权&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;PERMISSION_DENIED&lt;/code&gt;和&lt;code&gt;PERMISSION_DENIED_APP_OP&lt;/code&gt;都表示没有被授权，但是它们的区别就在于&lt;code&gt;targetSdkVersion&lt;/code&gt;的值，如果&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23，就返回&lt;code&gt;PERMISSION_DENIED_APP_OP&lt;/code&gt;，否则就返回&lt;code&gt;PERMISSION_DENIED&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;因此，如果你的App的&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23，但是运行在Android 6.0及以后的系统上，你可以用&lt;code&gt;PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker. PERMISSION_DENIED_APP_OP&lt;/code&gt;来检查App是否有某一个权限&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;如果App的&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23（Android 6.0以前），那么&lt;code&gt;ContextCompat#checkSelfPermission&lt;/code&gt;和     &lt;code&gt;Context#checkSelfPermission&lt;/code&gt;方法的返回结果都是错误的，因为它们总是返回0（&lt;a href=&quot;http://developer.android.com/reference/android/content/pm/PackageManager.html#PERMISSION_GRANTED&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PERMISSION_GRANTED&lt;/a&gt;）。即使App运行在Android 6.0上并且用户在设置中关闭了App的权限，上面两个方法返回的结果也是0&lt;/p&gt;
+&lt;p&gt;上面也说到，Android 6.0系统上，用户是可以关闭App权限的，所以并不是说App的&lt;code&gt;targetSdkVersion&lt;/code&gt;小于23就可以不用关心权限问题了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Android &amp;lt; 6.0：系统会给App所有的权限&lt;/li&gt;
+&lt;li&gt;Android &amp;gt;= 6.0 &amp;amp;&amp;amp; targetSdkVersion &amp;lt; 23：系统会默认给予App所有的权限，但是用户可以去设置中关闭权限。这时你需要使用&lt;code&gt;PermissionChecker.checkSelfPermission&lt;/code&gt;来检测App是否有某一个权限&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;public boolean selfPermissionGranted(Context context, String permission) {
+    // Android 6.0 以前，全部默认授权
+    boolean result = true;
+
+    if (Build.VERSION.SDK_INT &amp;gt;= Build.VERSION_CODES.M) {
+       if (targetSdkVersion &amp;gt;= Build.VERSION_CODES.M) {
+            // targetSdkVersion &amp;gt;= 23, 使用Context#checkSelfPermission
+            result = context.checkSelfPermission(permission)
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            // targetSdkVersion &amp;lt; 23, 需要使用 PermissionChecker
+            result = PermissionChecker.checkSelfPermission(context, permission)
+                    == PermissionChecker.PERMISSION_GRANTED;
+        }
+    }
+    return result;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;获取App的targetSdkVersion值：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; try {
+    final PackageInfo info = context.getPackageManager().getPackageInfo(
+        context.getPackageName(), 0);
+    targetSdkVersion = info.applicationInfo.targetSdkVersion;
+} catch (PackageManager.NameNotFoundException e) {
+    e.printStackTrace();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;不得不说，慢慢的从Android 5.0开始，Google慢慢的缩减了Android开放策略，以前的Android真的是可以为所欲为，监听系统各种变化，甚至一个App被切换到后台，它任然可以获取到当前正在运行的App（用户正在使用的），这个Api可以轻松的获取用户的隐私信息啊，太可怕了。&lt;/p&gt;
+&lt;p&gt;从Android 6.0开始，运行时权限、Doze模式以及App Standby，Android 7.0中对Doze模式加强，以及取消了很多比如&lt;code&gt;CONNTENCTIVITY_ACTION&lt;/code&gt;、&lt;code&gt;ACTION_NEW_PICTURE&lt;/code&gt;和&lt;code&gt;ACTION_NEW_VIDEO&lt;/code&gt;广播&lt;/p&gt;
+&lt;h2 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://developer.android.com/intl/zh-cn/training/permissions/requesting.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Requesting Permissions at Run Time&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inthecheesefactory.com/blog/things-you-need-to-know-about-android-m-permission-developer-edition&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Everything every Android Developer must know about new Android’s Runtime Permission&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/33407250/checkselfpermission-method-is-not-working-in-targetsdkversion-22&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;checkSelfPermission method is not working in targetSdkVersion 22&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mssun.me/blog/android-4-3-app-ops-analysis.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Android 4.3 隐藏功能 App Ops 分析&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Android 6.0 （API level 23） 已经发布很长一段时间了，其中一个很大的改进就是&lt;strong&gt;运行时权限&lt;/strong&gt;。我之前就在知乎回答过一个问题&lt;a href=&quot;https://www.zhihu.com/question/37259597/a
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://bxbxbai.gitcafe.io/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ButterKnife框架原理</title>
     <link href="http://bxbxbai.gitcafe.io/2016/03/12/how-butterknife-works/"/>
     <id>http://bxbxbai.gitcafe.io/2016/03/12/how-butterknife-works/</id>
     <published>2016-03-12T06:25:46.000Z</published>
-    <updated>2016-03-12T08:59:20.000Z</updated>
+    <updated>2016-03-13T06:17:55.000Z</updated>
     
     <content type="html">&lt;p&gt;大部分Android开发应该都知道&lt;a href=&quot;https://twitter.com/jakewharton&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@JakeWharton&lt;/a&gt; 大神的&lt;strong&gt;ButterKnife&lt;/strong&gt;注解库，使用这个库我们可以不用写很多无聊的&lt;code&gt;findViewById()&lt;/code&gt;和&lt;code&gt;setOnClickListener()&lt;/code&gt;等代码&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -3028,167 +3165,6 @@ public void onCreate(Bundle savedInstanceState) {
       <category term="开发技巧" scheme="http://bxbxbai.gitcafe.io/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/"/>
     
       <category term="翻译" scheme="http://bxbxbai.gitcafe.io/tags/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>防御性编程以及我的一些感想</title>
-    <link href="http://bxbxbai.gitcafe.io/2014/06/11/%E9%98%B2%E5%BE%A1%E6%80%A7%E7%BC%96%E7%A8%8B%E4%BB%A5%E5%8F%8A%E6%88%91%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/"/>
-    <id>http://bxbxbai.gitcafe.io/2014/06/11/防御性编程以及我的一些感想/</id>
-    <published>2014-06-11T12:36:49.000Z</published>
-    <updated>2016-03-12T07:02:09.000Z</updated>
-    
-    <content type="html">&lt;h2 id=&quot;这得从我看到的这篇文章说起&quot;&gt;&lt;a href=&quot;#这得从我看到的这篇文章说起&quot; class=&quot;headerlink&quot; title=&quot;这得从我看到的这篇文章说起~&quot;&gt;&lt;/a&gt;这得从我看到的这篇文章说起~&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://sharecore.net/blog/2014/01/13/defensive-programming/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;防御性编程小例&lt;/a&gt;，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;在公司，我们碰到的很大一部分问题都是&lt;code&gt;NullPointerException&lt;/code&gt;。我常常就想：&lt;strong&gt;这段程序明明在我手机上运行好好的，为什么会出现这种情况呢？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;因为，我们永远都无法预测用户使用App时会发生的各种情况。&lt;/strong&gt;所以防御性编程可以让我们减少很大一部分错误。&lt;/p&gt;
-&lt;h2 id=&quot;先说一个故事&quot;&gt;&lt;a href=&quot;#先说一个故事&quot; class=&quot;headerlink&quot; title=&quot;先说一个故事&quot;&gt;&lt;/a&gt;先说一个故事&lt;/h2&gt;&lt;p&gt;先来说一个我去年面试过的问题，面试官问我：&lt;strong&gt;请你用最熟悉的语言写一个atoi程序。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;我心里一想：这么简单！！我要好好写！不要写出bug！我马上就写好了，并且用“12334”这种简单的字符串试了又试，没问题就交给他看。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public int atoi(String a){
-    int len = a.length();
-    int num = 0;
-    for(int i = len - 1; i &amp;gt;= 0; i--) {
-        num += (a.charAt(i) - &amp;apos;0&amp;apos;) * Math.pow(10, len - i - 1);
-    }
-    return num;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;面试官一看就问我，你找找有什么问题没，我看了好几遍（我都在找bug），说没问题啊！我又仔细一想：如果传进来一个负数怎么办呢？比如“-12333”，这段程序就错了！&lt;/p&gt;
-&lt;p&gt;我就和面试官说了~他说嗯，还有问题吗？我心里想还有啊？想了几遍都想不出！我说：效率问题？他不给面子直接就说：你先别管效率！&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;他说如果我传进来一个&lt;code&gt;null&lt;/code&gt;会怎么样？我恍然大悟！！！我有太多东西没考虑到(我图样图森破啊囧！！)！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;上面就是我的一个真实的故事~不知你看了有什么感想，反正我觉得这次面试可以让我反思很多我存在的问题。&lt;/p&gt;
-&lt;p&gt;自从看了前面提到的那篇文章后，我现在写代码就时刻装着“防御性编程”这5个字。&lt;/p&gt;
-&lt;h2 id=&quot;那么怎么写防御性代码呢？&quot;&gt;&lt;a href=&quot;#那么怎么写防御性代码呢？&quot; class=&quot;headerlink&quot; title=&quot;那么怎么写防御性代码呢？&quot;&gt;&lt;/a&gt;那么怎么写防御性代码呢？&lt;/h2&gt;&lt;p&gt;请看&lt;code&gt;Integer.parseInt(String)&lt;/code&gt;这个方法，好好看！我现在分析一下~JDK的大神们怎么写健壮的代码！（如果有错误请指正~ =.=）&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public static int parseInt(String string, int radix) throws NumberFormatException {
-    if (radix &amp;lt; Character.MIN_RADIX || radix &amp;gt; Character.MAX_RADIX) {
-        throw new NumberFormatException(&amp;quot;Invalid radix: &amp;quot; + radix);
-    }
-    if (string == null) {
-        throw invalidInt(string);
-    }
-    int length = string.length(), i = 0;
-    if (length == 0) {
-        throw invalidInt(string);
-    }
-    boolean negative = string.charAt(i) == &amp;apos;-&amp;apos;;
-    if (negative &amp;amp;&amp;amp; ++i == length) {
-        throw invalidInt(string);
-    }
-
-    return parse(string, i, radix, negative);
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面这段代码出自java 1.7.0_51的&lt;code&gt;java.lang.Integer&lt;/code&gt;类，JDK开发大神是如何写代码的呢？&lt;/p&gt;
-&lt;p&gt;可以看到这段代码最开始的一部分就是在验证每个参数的正确性（代码中radix表示进制数），这里最小的进制就是2，最大进制是36。如果进制数不满足要求，直接抛出异常。&lt;/p&gt;
-&lt;p&gt;然后判断传入字符串是否为&lt;code&gt;null&lt;/code&gt;，如果字符串不为&lt;code&gt;null&lt;/code&gt;，然后可以取字符串的长度。 后面再判断字符串是否一个负数， 当所有参数都验证过了以后再做正事——&lt;strong&gt;将字符串转换成一个数字&lt;/strong&gt;。&lt;/p&gt;
-&lt;h3 id=&quot;我现在得到的一个重要的经验就是：&quot;&gt;&lt;a href=&quot;#我现在得到的一个重要的经验就是：&quot; class=&quot;headerlink&quot; title=&quot;我现在得到的一个重要的经验就是：&quot;&gt;&lt;/a&gt;我现在得到的一个重要的经验就是：&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;当你写一个方法需要对传入的参数进行处理或者计算的时候，你必须要严格验证传入参数的正确性，如果不符合，就应当给出提示！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;上面提到的那篇文章里说到：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;这就是防御性编程的最基本规则：保护程序免遭非法输入数据的破坏。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这些都是我以前编程不会考虑的事情啊！&lt;/p&gt;
-&lt;p&gt;如果你的代码没有防御性措施，那么你一定会遇到各种坑的~只是时候未到~&lt;/p&gt;
-&lt;p&gt;但也不是说所有的程序都应该这么写。&lt;strong&gt;如果你在写一个private方法只供类里面使用，那么我觉得就不必写这种防御性代码了。&lt;/strong&gt;当然没有绝对的事情，如果一个public方法接受外部传入的参数，这个参数又传入这个private方法，那么你在使用这个private方法时候就需要先验证参数的合法性，然后再调用这个private方法。&lt;/p&gt;
-&lt;p&gt;当你在写一个public方法可以接受来自任何地方的参数时，就必须要验证参数的合法性了！&lt;/p&gt;
-&lt;h2 id=&quot;那么为什么要防御性编程&quot;&gt;&lt;a href=&quot;#那么为什么要防御性编程&quot; class=&quot;headerlink&quot; title=&quot;那么为什么要防御性编程&quot;&gt;&lt;/a&gt;那么为什么要防御性编程&lt;/h2&gt;&lt;p&gt;我觉得最终的目的就是为了让你写的代码正确运行，当面对各种各样的参数时，同时要向外部提供参数错误的原因，可以快速找到bug。&lt;/p&gt;
-&lt;p&gt;在Android开发里面，主线程（UI线程）中的一个微小的问题都会导致程序的崩溃，可能是一不小心一个View对象传入某个方法的时候是一个&lt;code&gt;null&lt;/code&gt;，也可能一个方法的返回值是&lt;code&gt;null&lt;/code&gt;等等，各种坑会在隐藏的地方等着你来踩哦~&lt;/p&gt;
-&lt;p&gt;要知道当一个对象为&lt;code&gt;null&lt;/code&gt;的时候（你肯定不知道它为&lt;code&gt;null&lt;/code&gt;），然后调用它的方法时，就会发生程序崩溃，这是应该是程序崩溃最常见的原因之一了~&lt;/p&gt;
-&lt;p&gt;比如在我最开始写的那个atoi程序里，如果别人用我的程序不小心传入一个&lt;code&gt;null&lt;/code&gt;，那么我的程序就崩溃了~&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;这得从我看到的这篇文章说起&quot;&gt;&lt;a href=&quot;#这得从我看到的这篇文章说起&quot; class=&quot;headerlink&quot; title=&quot;这得从我看到的这篇文章说起~&quot;&gt;&lt;/a&gt;这得从我看到的这篇文章说起~&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://sharecore.net/blog/2014/01/13/defensive-programming/&quot;&gt;防御性编程小例&lt;/a&gt;，最开始我是关注了这个人的微信，才看到这篇文章的，最近也工作了一段时间了~对自己以及别人写的代码有了一些新的想法（因为我遇到过很多坑啊囧）。因此，本文来谈谈这个话题。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="经验" scheme="http://bxbxbai.gitcafe.io/tags/%E7%BB%8F%E9%AA%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android应用程序创建热点以及自动链接Wifi，我遇到的问题以及我是怎么解决的</title>
-    <link href="http://bxbxbai.gitcafe.io/2014/05/22/android-wifi-connection/"/>
-    <id>http://bxbxbai.gitcafe.io/2014/05/22/android-wifi-connection/</id>
-    <published>2014-05-22T14:24:02.000Z</published>
-    <updated>2015-09-12T07:01:41.000Z</updated>
-    
-    <content type="html">&lt;p&gt;急速传歌这个功能需要App能够自动去连接另一个手机创建的热点，本文先说Wifi创建热点以及连接Wifi的原理，然后再讲我遇到的问题和我是怎么解决问题的。&lt;/p&gt;
-&lt;p&gt;B手机创建热点是一个自动的过程，A手机去连接B手机的热点也是一个自动的过程，此时手机B充当路由器的角色。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;自动连接Wifi功能，就像我们通过系统设置WLAN里面，选择一个Wifi并且输入密码（如果有密码）的过程一样，只不过App知道了这个Wifi（带某个前缀）的密码，然后通过相关设置，可以自动去连接。&lt;/p&gt;
-&lt;h2 id=&quot;Android应用如何自动链接Wifi&quot;&gt;&lt;a href=&quot;#Android应用如何自动链接Wifi&quot; class=&quot;headerlink&quot; title=&quot;Android应用如何自动链接Wifi&quot;&gt;&lt;/a&gt;Android应用如何自动链接Wifi&lt;/h2&gt;&lt;p&gt;Android开发里操作Wifi功能的api就在&lt;code&gt;android.net.wifi.WifiManager&lt;/code&gt;这个类中，包括：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;getConnectionInfo()&lt;/code&gt; 获取当前Wifi连接信息，返回&lt;code&gt;WifiInfo&lt;/code&gt;对象，包括&lt;code&gt;SSID&lt;/code&gt;，&lt;code&gt;BSSID&lt;/code&gt;，&lt;code&gt;networkId&lt;/code&gt;，&lt;code&gt;ipAddress&lt;/code&gt;，&lt;code&gt;macAddress&lt;/code&gt;等信息&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;disableNetwork(int netId)&lt;/code&gt;  禁用这个network（即使Wifi扫描到这个热点也不会主动去连接），参数&lt;code&gt;netId&lt;/code&gt;就是&lt;code&gt;WifiInfo&lt;/code&gt;中的&lt;code&gt;networkId&lt;/code&gt;值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;disconnect()&lt;/code&gt;  断开当前连接&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;getConfiguredNetworks()&lt;/code&gt; 返回已经保存的Wifi网络列表，返回值是&lt;code&gt;List&amp;lt;WifiConfiguration&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;updateNetwork(WifiConfiguration config)&lt;/code&gt; 更新Wifi配置，比如更新密码或网络的优先级&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;addNetwork(WifiConfiguration config)&lt;/code&gt; 添加一个新的Wifi配置，当我们在&lt;strong&gt;设置-&amp;gt;WLAN&lt;/strong&gt;中选择一个网络并输入密码连接后，系统会自动帮我们记住这个网络，这个方法返回&lt;code&gt;int&lt;/code&gt;，是&lt;code&gt;networkId&lt;/code&gt;值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;enableNetwork(int netId, boolean disableOthers)&lt;/code&gt;  调用这个方法后，一般手机会去自动去连接这个wifi网络，但是部分手机会连接失败&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;saveConfiguration()&lt;/code&gt;; 部分手机的连接失败&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;reconnect()&lt;/code&gt;;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;Android应用如何创建一个热点&quot;&gt;&lt;a href=&quot;#Android应用如何创建一个热点&quot; class=&quot;headerlink&quot; title=&quot;Android应用如何创建一个热点&quot;&gt;&lt;/a&gt;Android应用如何创建一个热点&lt;/h2&gt;&lt;p&gt;Android开发中，创建热点的方法也是在&lt;code&gt;WifiManager&lt;/code&gt;类中，不过都已经被Google &lt;code&gt;@hide&lt;/code&gt;了。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;@hide&lt;/code&gt; annotation就是Google隐藏了不稳定的方法，当稳定之后，自然会公开，如果我们现在要用这些方法，那么必须通过Java反射来调用&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;创建一个热点最重要的就是：配置一个&lt;code&gt;WifiConfiguration&lt;/code&gt; 对象，通过配置&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;SSID&lt;/code&gt;: 热点的名字 &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;preSharedKey&lt;/code&gt;  热点密码 &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hiddenSSID&lt;/code&gt;： 是否隐藏SSID&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;status&lt;/code&gt;：是否启用这个热点配置&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;allowedAuthAlgorithms&lt;/code&gt;：IEEE 802.11认证算法 OPEN&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;allowedGroupCiphers&lt;/code&gt; ：组秘钥TKIP+CCMP&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;allowedPairwiseCiphers&lt;/code&gt;：对称秘钥TKIP+CCMP&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;allowedKeyManagement&lt;/code&gt;：秘钥管理WPA_PSK&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;allowedProtocols&lt;/code&gt;：加密协议WPA+RSN&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;启动热点也需要通过Java反射调用&lt;code&gt;WifiManager&lt;/code&gt;类中的&lt;code&gt;setWifiApEnabled(WifiConfiguration wifiConfig, boolean enabled)&lt;/code&gt;方法，第一个参数就是前面配置的&lt;code&gt;WifiConfiguration&lt;/code&gt;对象，第二个参数&lt;code&gt;true&lt;/code&gt;表示打开，&lt;code&gt;false&lt;/code&gt;表示关闭热点。&lt;/p&gt;
-&lt;p&gt;当时连接wifi的主要的代码就是，先配置好&lt;code&gt;WifiConfiguration&lt;/code&gt;对象，然后就是添加向添加一个&lt;code&gt;WifiConfiguration&lt;/code&gt;，这样就会返回这个Wifi配置的&lt;code&gt;id&lt;/code&gt;，然后就&lt;code&gt;enable&lt;/code&gt;这个Wifi配置，到此为止，一般的手机都可以连接成功&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;int networkId = mWifiManager.addNetwork(wifiConfig);
-
-boolean enabled = mWifiManager.enableNetwork(networkId, true);
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;我遇到的第一个问题：&quot;&gt;&lt;a href=&quot;#我遇到的第一个问题：&quot; class=&quot;headerlink&quot; title=&quot;我遇到的第一个问题：&quot;&gt;&lt;/a&gt;我遇到的第一个问题：&lt;/h2&gt;&lt;p&gt;手机A不能自动的去连接手机B创建的热点，那么问题是手机B创建的热点有问题还是手机A连接热点的配置信息有问题？但是手机C又可以去连接手机B的热点，那么是否说明手机B的热点创建就没问题了呢？&lt;/p&gt;
-&lt;p&gt;试了很多手机之后，发现都可以连接到手机B的热点，那么我们初步判定就是手机A 的连接Wifi配置信息有问题！后来，我就用手机A系统设置里的Wifi连接功能去连接手机B的热点，可以连接！那么问题就是手机A 连接热点的配置有问题！&lt;/p&gt;
-&lt;p&gt;问题又来了：&lt;/p&gt;
-&lt;p&gt;同样的Wifi配置信息，为什么大部分手机都可以连接热点成功，而一些手机就不可以呢？而连接Wifi的方法都是在&lt;code&gt;WifiMnager&lt;/code&gt;类中&lt;br&gt;我看到了一个方法&lt;code&gt;public void connect(WifiConfiguration config, ActionListener listener)&lt;/code&gt;方法，看文档就是用来连接Wifi的！！！！但不幸的是，这个方法被&lt;code&gt;@hide&lt;/code&gt;了！！！！肯跌啊@_@还好，在文档中可以看到：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;For a new network, this function is used instead of a sequence of &lt;code&gt;addNetwork()&lt;/code&gt;, &lt;code&gt;enableNetwork()&lt;/code&gt;, &lt;code&gt;saveConfiguration()&lt;/code&gt; and &lt;code&gt;reconnect()&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;而这4个方法是pulic并且没有&lt;code&gt;@hide&lt;/code&gt;的！！然后按照文档写的，再添加两行代码：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;非常关键的两行代码，有些手机必须要在saveConfiguration操作之后才能成功连接热点
-
-mWifiManager.saveConfiguration();
-mWifiManager.reconnect();
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;手机A就可以连接成功了！！&lt;/p&gt;
-&lt;h2 id=&quot;我遇到的第二个问题：&quot;&gt;&lt;a href=&quot;#我遇到的第二个问题：&quot; class=&quot;headerlink&quot; title=&quot;我遇到的第二个问题：&quot;&gt;&lt;/a&gt;我遇到的第二个问题：&lt;/h2&gt;&lt;p&gt;HTC手机创建热点时热点的配置信息中的热点名字不起作用！HTC手机可以成功自动连接Wifi，也可以创建热点，但是不能改热点的名字！！这就导致了其他所有手机都不能自动连HTC手机的热点！那么问题显而易见就是创建热点的时候信息配置有问题！！那么为什么配置有问题呢？其他手机不是都可以的吗？&lt;/p&gt;
-&lt;p&gt;问题大致已经找到了，但是为什么这样呢？必须求助强大的Google了~~~经过一番搜索之后重要找到了！！！&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://blog.sina.com.cn/s/blog_53dd443a010109i8.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WIFI热点设置,htc setWifiApEnabled Wificonfiguration&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;http://www.cnblogs.com/shangdawei/archive/2013/03/22/2974682.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HTC 通过 WifiConfiguration 修改 SSID&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;原因就在于: &lt;strong&gt;HTC就喜欢自己去改一些Android系统的api&lt;/strong&gt;，导致很多手机都可以正常运行的功能，到了HTC手机上就不能正常运行了！！！这不是肯跌吗？(╯‵□′)╯︵┻━┻&lt;/p&gt;
-&lt;p&gt;找到原因也找到了解决办法，这个bug就这么愉快的解决了~真的多谢强大的Google啊~~&lt;/p&gt;
-&lt;h2 id=&quot;说到最后&quot;&gt;&lt;a href=&quot;#说到最后&quot; class=&quot;headerlink&quot; title=&quot;说到最后&quot;&gt;&lt;/a&gt;说到最后&lt;/h2&gt;&lt;p&gt;我们做事情过程中，一定会遇到很多各种各样的问题，&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;找到问题的原因（为什么会这样）比怎样去解决重要的多&lt;br&gt;怎样把大象放进冰箱呢？ 打开冰箱，然后把大象放进去！&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;怎么解决问题呢？&lt;/strong&gt;&lt;br&gt;先找到问题的原因，然后在找解决问题的办法&lt;/p&gt;
-&lt;p&gt;还是那句话，找到问题的原因比找到解决问题的办法更重要.&lt;/p&gt;
-&lt;p&gt;找到问题所在的原因，如果你不能解决，那么你可以求助于其他人，而当你不知道问题的原因的时候，你去求助别人的时候，别人还有帮你去找问题的原因，这肯定会浪费很多时间的。先不要找解决问题的办法，先找问题的原因~&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;急速传歌这个功能需要App能够自动去连接另一个手机创建的热点，本文先说Wifi创建热点以及连接Wifi的原理，然后再讲我遇到的问题和我是怎么解决问题的。&lt;/p&gt;
-&lt;p&gt;B手机创建热点是一个自动的过程，A手机去连接B手机的热点也是一个自动的过程，此时手机B充当路由器的角色。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="技术" scheme="http://bxbxbai.gitcafe.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Android" scheme="http://bxbxbai.gitcafe.io/tags/Android/"/>
-    
-      <category term="开发技巧" scheme="http://bxbxbai.gitcafe.io/tags/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/"/>
     
   </entry>
   
