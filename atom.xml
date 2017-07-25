@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://bxbxbai.gitcafe.io/"/>
-  <updated>2017-07-17T04:30:28.000Z</updated>
+  <updated>2017-07-24T10:27:07.000Z</updated>
   <id>http://bxbxbai.gitcafe.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://bxbxbai.gitcafe.io/2017/05/07/talk-about-redux/"/>
     <id>http://bxbxbai.gitcafe.io/2017/05/07/talk-about-redux/</id>
     <published>2017-05-07T06:47:14.000Z</published>
-    <updated>2017-07-17T04:30:28.000Z</updated>
+    <updated>2017-07-24T10:27:07.000Z</updated>
     
     <content type="html"><![CDATA[<p>React Native 我觉得是一个非常不错的框架，我学习和使用React Native已经有一段时间了，我最大的一个感受就是，用React Native 开发App的速度非常快，一方面npmjs上已经有非常多的开源库，而且在开发上ES6的各种扩展也大大的简便了我们的开发。React Native的开发过程中可以使用npmjs上几乎所有的lib和框架，Redux就是其中一个</p>
 <a id="more"></a>
@@ -58,6 +58,10 @@
 </ul>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const mapStateToProps = (state, props) =&gt; (&#123;</div><div class="line">  loginState: state.loginState,</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="builtin-name">export</span><span class="built_in"> default </span>connect(mapStateToProps)(DailyList);</div></pre></td></tr></table></figure>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对Redux来说，最主要的功能就是帮我们开发JavaScript程序的时候去统一的管理状态（state），提供了流式的状态管理理念，状态（state）被Redux统一保持在一个Store的容器中，如果你要修改Store中的状态，那么你只能通过Store的<code>dispatch</code>函数发送一个Action来修改或更新状态，保证了<strong>单向数据流</strong>。这篇文章主要是将我理解的最本质的Redux用我自己的话描述出来，可能有些地方不一定正确，如果想完整的了解Redux，可以阅读Redux的中文文档：<a href="http://cn.redux.js.org/docs/introduction/CoreConcepts.html" target="_blank" rel="external">http://cn.redux.js.org/docs/introduction/CoreConcepts.html</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="http://www.sohamkamani.com/blog/2017/03/31/react-redux-connect-explained/" target="_blank" rel="external">http://www.sohamkamani.com/blog/2017/03/31/react-redux-connect-explained/</a></li>
+<li><a href="http://cn.redux.js.org/docs/introduction/CoreConcepts.html" target="_blank" rel="external">http://cn.redux.js.org/docs/introduction/CoreConcepts.html</a></li>
+</ol>
 ]]></content>
     
     <summary type="html">
